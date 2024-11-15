@@ -738,7 +738,6 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         if (filter.evaluate(this)) {
 
             double prob;
-            if (model.getCountry().equals(Country.UK)) {
 
                 if (getDag() <= 29 && getLes_c4().equals(Les_c4.Student) && !isLeftEducation()) {
                     //If age below or equal to 29 and in continuous education follow process F1a
@@ -749,11 +748,6 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
                     double score = Parameters.getRegFertilityF1b().getScore(this, Person.DoublesVariables.class);
                     prob = Parameters.getRegFertilityF1b().getProbability(score + probitAdjustment);
                 }
-            } else if (model.getCountry().equals(Country.IT)) {
-
-                prob = Parameters.getRegFertilityF1().getProbability(this, Person.DoublesVariables.class);
-            } else
-                throw new RuntimeException("Country not recognised when evaluating fertility status");
 
             if (innovations.getDoubleDraw(29)<prob)
                 toGiveBirth = true;
@@ -1228,7 +1222,6 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         if (dag >= Parameters.MIN_AGE_COHABITATION) {
             // cohabitation possible
 
-            if (model.getCountry() == Country.UK) {
 
                 double prob;
                 if (partner == null) {
@@ -1255,24 +1248,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
                         leavePartner = true;
                     }
                 }
-            } else if (model.getCountry() == Country.IT) {
 
-                if (partner == null) {
-                    if ((les_c4 == Les_c4.Student && leftEducation) || !les_c4.equals(Les_c4.Student)) {
-
-                        double prob = Parameters.getRegPartnershipITU1().getProbability(this, Person.DoublesVariables.class);
-                        toBePartnered = (cohabitInnov < prob);
-                        if (toBePartnered)
-                            model.getPersonsToMatch().get(dgn).get(getRegion()).add(this);
-                    }
-                } else if (partner != null && dgn == Gender.Female && ((les_c4 == Les_c4.Student && leftEducation) || !les_c4.equals(Les_c4.Student))) {
-
-                    double prob = Parameters.getRegPartnershipITU2().getProbability(this, Person.DoublesVariables.class);
-                    if (cohabitInnov < prob) {
-                        leavePartner = true;
-                    }
-                }
-            }
         }
     }
 
@@ -2147,8 +2123,6 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Dnc_L1, 						//Lag(1) of number of children of all ages in the benefitUnit
         Dnc02_L1, 						//Lag(1) of number of children aged 0-2 in the benefitUnit
         Dnc017, 						//Number of children aged 0-17 in the benefitUnit
-        EduHighIT,
-        EduMediumIT,
         EmployedToUnemployed,
         Employmentsonflexiblefurlough,
         Employmentsonfullfurlough,
@@ -2164,15 +2138,12 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         ITG,
         ITH,
         ITI,
-        LactiveIT,
         L1_hourly_wage,
         L1_log_hourly_wage,
         L1_log_hourly_wage_sq,
         Ld_children_2under,
         Ld_children_3under,
-        Ld_children_3underIT,
         Ld_children_4_12,
-        Ld_children_4_12IT,
         Lemployed,
         Lhw_L1,
         Les_c3_Employed_L1,
@@ -2191,7 +2162,6 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Lnonwork,
         Lstudent,
         Lunion,
-        LunionIT,
         NeedCare_L1,
         NonPovertyToPoverty,
         NotEmployed_L1,
@@ -2907,22 +2877,6 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             case Yplgrs_dv_L3 -> {
                 return yplgrs_dv_lag3;
             }
-            case Ld_children_3underIT -> {
-                return model.getCountry().equals(Country.IT) ? benefitUnit.getIndicatorChildren03_lag1().ordinal() : 0.;
-            }
-            case Ld_children_4_12IT -> {
-                return model.getCountry().equals(Country.IT) ? benefitUnit.getIndicatorChildren412_lag1().ordinal() : 0.;
-            }
-            case LunionIT -> {
-                return (household_status_lag.equals(HouseholdStatus.Couple) && (getRegion().toString().startsWith(Country.IT.toString()))) ? 1. : 0.;
-            }
-            case EduMediumIT -> {
-                return (deh_c3.equals(Education.Medium) && (getRegion().toString().startsWith(Country.IT.toString()))) ? 1. : 0.;
-            }
-            case EduHighIT -> {
-                return (deh_c3.equals(Education.High) && (getRegion().toString().startsWith(Country.IT.toString()))) ? 1. : 0.;
-            }
-
             case Reached_Retirement_Age -> {
                 int retirementAge;
                 if (dgn.equals(Gender.Female)) {

@@ -1213,12 +1213,9 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 			//INCOME CHARTS - GROSS WAGES BY REGION AND EDUCATION LEVEL
 		    if(grossEarningsByRegionAndEducation) {
 		    	IndividualBarSimulationPlotter earningsPlotter;
-		    	if (model.getCountry().equals(Country.UK)) {
-					earningsPlotter = new IndividualBarSimulationPlotter("Yearly Gross Earnings by Education and Region (excludes non-workers)", "£");
-				}
-		    	else {
+
 					earningsPlotter = new IndividualBarSimulationPlotter("Yearly Gross Earnings by Education and Region (excludes non-workers)", "Euro");
-				}
+
 
 				for(Region region: Parameters.getCountryRegions()) {
 		    		for(Education edu: Education.values()) {
@@ -1237,12 +1234,8 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 			if (grossEarningsByRegionAndEducation) {
 				TimeSeriesSimulationPlotter grossEarningsByGenderAndEducationPlotter;
 				int colorCounter = 0;
-				if (model.getCountry().equals(Country.UK)) {
-					grossEarningsByGenderAndEducationPlotter = new TimeSeriesSimulationPlotter("Yearly Gross Earnings by Gender And Education", "£");
-				}
-				else {
-					grossEarningsByGenderAndEducationPlotter = new TimeSeriesSimulationPlotter("Yearly Gross Earnings by Gender And Education", "Euro");
-				}
+				grossEarningsByGenderAndEducationPlotter = new TimeSeriesSimulationPlotter("Yearly Gross Earnings by Gender And Education", "Euro");
+
 				for(Education edu: Education.values()) {
 					for (Gender gender : Gender.values()) {
 						GenderEducationWorkingCSfilter genderEducationWorkingFilter = new GenderEducationWorkingCSfilter(gender, edu);
@@ -1261,12 +1254,8 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 			if (grossEarningsByRegionAndEducation) {
 				TimeSeriesSimulationPlotter hourlyWagesByGenderAndEducationPlotter;
 				int colorCounter = 0;
-				if (model.getCountry().equals(Country.UK)) {
-					hourlyWagesByGenderAndEducationPlotter = new TimeSeriesSimulationPlotter("Hourly Wages by Gender And Education", "£");
-				}
-				else {
-					hourlyWagesByGenderAndEducationPlotter = new TimeSeriesSimulationPlotter("Hourly Wages by Gender And Education", "Euro");
-				}
+				hourlyWagesByGenderAndEducationPlotter = new TimeSeriesSimulationPlotter("Hourly Wages by Gender And Education", "Euro");
+
 				for(Education edu: Education.values()) {
 					for (Gender gender : Gender.values()) {
 						GenderEducationWorkingCSfilter genderEducationWorkingFilter = new GenderEducationWorkingCSfilter(gender, edu);
@@ -1395,12 +1384,8 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 			if (incomeHistograms) {
 				TimeSeriesSimulationPlotter EDIByGenderAndEducationPlotter;
 				int colorCounter = 0;
-				if (model.getCountry().equals(Country.UK)) {
-					EDIByGenderAndEducationPlotter = new TimeSeriesSimulationPlotter("EDI by Gender And Education", "£");
-				}
-				else {
-					EDIByGenderAndEducationPlotter = new TimeSeriesSimulationPlotter("EDI by Gender And Education", "Euro");
-				}
+				EDIByGenderAndEducationPlotter = new TimeSeriesSimulationPlotter("EDI by Gender And Education", "Euro");
+
 				for(Education edu: Education.values()) {
 					for (Gender gender : Gender.values()) {
 						GenderEducationWorkingCSfilter genderEducationWorkingFilter = new GenderEducationWorkingCSfilter(gender, edu);
@@ -1424,12 +1409,8 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 			if (incomeHistograms) {
 				TimeSeriesSimulationPlotter DispIncByGenderAndEducationPlotter;
 				int colorCounter = 0;
-				if (model.getCountry().equals(Country.UK)) {
-					DispIncByGenderAndEducationPlotter = new TimeSeriesSimulationPlotter("Disp income by Gender And Education", "£");
-				}
-				else {
-					DispIncByGenderAndEducationPlotter = new TimeSeriesSimulationPlotter("Disp income by Gender And Education", "Euro");
-				}
+				DispIncByGenderAndEducationPlotter = new TimeSeriesSimulationPlotter("Disp income by Gender And Education", "Euro");
+
 				for(Education edu: Education.values()) {
 					for (Gender gender : Gender.values()) {
 						GenderEducationWorkingCSfilter genderEducationWorkingFilter = new GenderEducationWorkingCSfilter(gender, edu);

@@ -811,7 +811,7 @@ public class Parameters {
         instantiateAlignmentMaps();
 
         // scenario parameters
-        if (country.equals(Country.IT)) {
+        if (country.equals(Country.HU)) {
             SAVINGS_RATE = 0.056;
         } else {
             SAVINGS_RATE = 0.056;
@@ -997,60 +997,7 @@ public class Parameters {
         int columnsValidationHomeownership = -1;
         int columnsValidationByGenderAndEducation = -1;
         int columnsValidationLabourSupplyByEducation = -1;
-        if(country.equals(Country.IT)) {
-            columnsWagesMales = 11;
-            columnsWagesFemales = 11;
-            columnsEmploymentSelectionMales = 14;
-            columnsEmploymentSelectionFemales = 14;
-            columnsLabourSupplyUtilityMales = 11;
-            columnsLabourSupplyUtilityFemales = 11;
-            columnsLabourSupplyUtilityMalesWithDependent = 10;
-            columnsLabourSupplyUtilityFemalesWithDependent = 9;
-            columnsLabourSupplyUtilityACMales = 12;
-            columnsLabourSupplyUtilityACFemales = 9;
-            columnsLabourSupplyUtilityCouples = 17;
-            columnsHealthH1a = 15; //1 for coeffs + 15 for var-cov matrix
-            columnsHealthH1b = 22;
-            columnsHealthH2b = 24;
-            columnsHealthHM1 = 6;
-            columnsHealthHM2Males = 9;
-            columnsHealthHM2Females = 9;
-            columnsEducationE1a = 14;
-            columnsEducationE1b = 19;
-            columnsEducationE2a = 22;
-            columnsPartnershipU1 = 21;
-            columnsPartnershipU2 = 27;
-            columnsFertilityF1 = 22;
-            columnsIncomeI1a = 13;
-            columnsIncomeI1b = 22;
-            columnsIncomeI3a = 13;
-            columnsIncomeI3b = 22;
-            columnsIncomeI3c = 23;
-            columnsIncomeI3a_selection = 13;
-            columnsIncomeI3b_selection = 22;
-            columnsLeaveHomeP1a = 19;
-            columnsHomeownership = 32;
-            columnsRetirementR1a = 19;
-            columnsRetirementR1b = 24;
-            columnsChildcareC1a = 37;
-            columnsChildcareC1b = 37;
-            columnsValidationStudentsByAge = 10;
-            columnsValidationStudentsByRegion = 6;
-            columnsValidationEducationLevel = 3;
-            columnsValidationEducationLevelByAge = 24;
-            columnsValidationEducationLevelByRegion = 15;
-            columnsValidationPartneredBUShareByRegion = 6;
-            columnsValidationDisabledByGender = 6;
-            columnsValidationDisabledByAgeGroup = 2;
-            columnsValidationHealthByAgeGroup = 6;
-            columnsValidationEmploymentByGender = 2;
-            columnsValidationEmploymentByGenderAndAge = 18;
-            columnsValidationEmploymentByMaternity = 3;
-            columnsValidationEmploymentByGenderAndRegion = 10;
-            columnsValidationActivityStatus = 3;
-            columnsValidationLabourSupplyByEducation = 3;
-        }
-        else if(country.equals(Country.UK)) {
+        if(country.equals(Country.HU)) {
             columnsWagesMalesNE = 30;
             columnsWagesMalesE = 31;
             columnsWagesFemalesNE = 30;
@@ -1282,27 +1229,19 @@ public class Parameters {
         coeffCovarianceEducationE2a = ExcelAssistant.loadCoefficientMap("input/reg_education.xlsx", countryString + "_E2a", 1, columnsEducationE2a);
 
         //Partnership
-        if (country.equals(Country.UK)) {
-            coeffCovariancePartnershipU1a = ExcelAssistant.loadCoefficientMap("input/reg_partnership.xlsx", countryString + "_U1a", 1, columnsPartnershipU1a);
-            coeffCovariancePartnershipU1b = ExcelAssistant.loadCoefficientMap("input/reg_partnership.xlsx", countryString + "_U1b", 1, columnsPartnershipU1b);
-            coeffCovariancePartnershipU2b = ExcelAssistant.loadCoefficientMap("input/reg_partnership.xlsx", countryString + "_U2b", 1, columnsPartnershipU2b);
-        }
-        else if (country.equals(Country.IT)) {
-            coeffCovariancePartnershipITU1 = ExcelAssistant.loadCoefficientMap("input/reg_partnership.xlsx", countryString + "_U1", 1, columnsPartnershipU1);
-            coeffCovariancePartnershipITU2 = ExcelAssistant.loadCoefficientMap("input/reg_partnership.xlsx", countryString + "_U2", 1, columnsPartnershipU2);
-        }
+        coeffCovariancePartnershipU1a = ExcelAssistant.loadCoefficientMap("input/reg_partnership.xlsx", countryString + "_U1a", 1, columnsPartnershipU1a);
+        coeffCovariancePartnershipU1b = ExcelAssistant.loadCoefficientMap("input/reg_partnership.xlsx", countryString + "_U1b", 1, columnsPartnershipU1b);
+        coeffCovariancePartnershipU2b = ExcelAssistant.loadCoefficientMap("input/reg_partnership.xlsx", countryString + "_U2b", 1, columnsPartnershipU2b);
+
 
         //Partnership - parameters for matching based on wage and age differential
         meanCovarianceParametricMatching = ExcelAssistant.loadCoefficientMap("input/scenario_parametricMatching.xlsx", countryString, 1, 1);
 
         //Fertility
-        if (country.equals(Country.UK)) {
-            coeffCovarianceFertilityF1a = ExcelAssistant.loadCoefficientMap("input/reg_fertility.xlsx", countryString + "_F1a", 1, columnsFertilityF1a);
-            coeffCovarianceFertilityF1b = ExcelAssistant.loadCoefficientMap("input/reg_fertility.xlsx", countryString + "_F1b", 1, columnsFertilityF1b);
-        }
-        else if (country.equals(Country.IT)) {
-            coeffCovarianceFertilityF1 = ExcelAssistant.loadCoefficientMap("input/reg_fertility.xlsx", countryString + "_F1", 1, columnsFertilityF1);
-        }
+
+        coeffCovarianceFertilityF1a = ExcelAssistant.loadCoefficientMap("input/reg_fertility.xlsx", countryString + "_F1a", 1, columnsFertilityF1a);
+        coeffCovarianceFertilityF1b = ExcelAssistant.loadCoefficientMap("input/reg_fertility.xlsx", countryString + "_F1b", 1, columnsFertilityF1b);
+
 
         //Income
         coeffCovarianceIncomeI3a = ExcelAssistant.loadCoefficientMap("input/reg_income.xlsx", countryString + "_I3a", 1, columnsIncomeI3a);
@@ -1427,17 +1366,12 @@ public class Parameters {
             coeffCovarianceChildcareC1b = RegressionUtils.bootstrap(coeffCovarianceChildcareC1b);
 
             //Specification of some processes depends on the country:
-            if (country.equals(Country.UK)) {
-                coeffCovariancePartnershipU1a = RegressionUtils.bootstrap(coeffCovariancePartnershipU1a);
-                coeffCovariancePartnershipU1b = RegressionUtils.bootstrap(coeffCovariancePartnershipU1b);
-                coeffCovariancePartnershipU2b = RegressionUtils.bootstrap(coeffCovariancePartnershipU2b);
-                coeffCovarianceFertilityF1a = RegressionUtils.bootstrap(coeffCovarianceFertilityF1a);
-                coeffCovarianceFertilityF1b = RegressionUtils.bootstrap(coeffCovarianceFertilityF1b);
-            } else if (country.equals(Country.IT)) {
-                coeffCovariancePartnershipITU1 = RegressionUtils.bootstrap(coeffCovariancePartnershipITU1);
-                coeffCovariancePartnershipITU2 = RegressionUtils.bootstrap(coeffCovariancePartnershipITU2);
-                coeffCovarianceFertilityF1 = RegressionUtils.bootstrap(coeffCovarianceFertilityF1);
-            }
+            coeffCovariancePartnershipU1a = RegressionUtils.bootstrap(coeffCovariancePartnershipU1a);
+            coeffCovariancePartnershipU1b = RegressionUtils.bootstrap(coeffCovariancePartnershipU1b);
+            coeffCovariancePartnershipU2b = RegressionUtils.bootstrap(coeffCovariancePartnershipU2b);
+            coeffCovarianceFertilityF1a = RegressionUtils.bootstrap(coeffCovarianceFertilityF1a);
+            coeffCovarianceFertilityF1b = RegressionUtils.bootstrap(coeffCovarianceFertilityF1b);
+
         }
 
         //Health
@@ -1490,22 +1424,15 @@ public class Parameters {
         regEducationE2a = new OrderedProbitRegression(coeffCovarianceEducationE2a, Education.class);
 
         //Partnership
-        if (country.equals(Country.UK)) {
-            regPartnershipU1a = new ProbitRegression(coeffCovariancePartnershipU1a);
-            regPartnershipU1b = new ProbitRegression(coeffCovariancePartnershipU1b);
-            regPartnershipU2b = new ProbitRegression(coeffCovariancePartnershipU2b);
-        } else if (country.equals(Country.IT)) {
-            regPartnershipITU1 = new ProbitRegression(coeffCovariancePartnershipITU1);
-            regPartnershipITU2 = new ProbitRegression(coeffCovariancePartnershipITU2);
-        }
+        regPartnershipU1a = new ProbitRegression(coeffCovariancePartnershipU1a);
+        regPartnershipU1b = new ProbitRegression(coeffCovariancePartnershipU1b);
+        regPartnershipU2b = new ProbitRegression(coeffCovariancePartnershipU2b);
+
 
         //Fertility
-        if (country.equals(Country.UK)) {
-            regFertilityF1a = new ProbitRegression(coeffCovarianceFertilityF1a);
-            regFertilityF1b = new ProbitRegression(coeffCovarianceFertilityF1b);
-        } else if (country.equals(Country.IT)) {
-            regFertilityF1 = new ProbitRegression(coeffCovarianceFertilityF1);
-        }
+        regFertilityF1a = new ProbitRegression(coeffCovarianceFertilityF1a);
+        regFertilityF1b = new ProbitRegression(coeffCovarianceFertilityF1b);
+
 
         //Income
         //regIncomeI1a = new LinearRegression(coeffCovarianceIncomeI1a);
