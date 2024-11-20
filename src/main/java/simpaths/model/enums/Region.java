@@ -5,9 +5,9 @@ public enum Region implements IntegerValuedEnum {
 	//Uses NUTS Level 1 system for each country
 
 	//Hungary					//Name										//EUROMOD drgn1 value
-	HU1("Central Hungary", 1),
-	HU2("Transdanubia", 2),
-	HU3("Great Plain and North", 3),
+	HUC("Central Hungary", 1), // HU1
+	HUA("Transdanubia", 2), // HU2
+	HUB("Great Plain and North", 3), // HU3
 
 	//Italy					//Name										//EUROMOD drgn1 value
 	ITC("Nord Ovest", 1),	//Nord Ovest								1

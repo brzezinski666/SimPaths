@@ -1969,7 +1969,7 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
 
         EnumSet<Region> regionEnumSet = null;
         if (country.equals(Country.HU)) {
-            regionEnumSet = EnumSet.of(Region.HU1, Region.HU2, Region.HU3);
+            regionEnumSet = EnumSet.of(Region.HUC, Region.HUA, Region.HUB);
         }
 
         for (Gender gender : Gender.values()) {
