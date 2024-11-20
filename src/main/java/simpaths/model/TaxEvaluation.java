@@ -78,7 +78,7 @@ public class TaxEvaluation {
         double childcareCostPerWeek = childcareCostPerMonth / Parameters.WEEKS_PER_MONTH;
         keyFunction = new KeyFunction(simYear, priceYear, age, numberMembersOver17, numberChildrenUnder5,
                 numberChildren5To9, numberChildren10To17, hoursWorkedPerWeekMan, hoursWorkedPerWeekWoman, disabilityMan,
-                disabilityWoman, careProvision, originalIncomePerWeek, secondIncomePerWeek, childcareCostPerWeek);
+                disabilityWoman, originalIncomePerWeek, secondIncomePerWeek, childcareCostPerWeek);
         keys.evaluate(keyFunction);
         imputedTransfers = new DonorTaxImputation(keys);
         imputedTransfers.evaluate();

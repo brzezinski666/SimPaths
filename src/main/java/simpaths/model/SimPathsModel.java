@@ -55,7 +55,6 @@ import simpaths.model.taxes.DonorTaxUnit;
 import simpaths.model.taxes.DonorTaxUnitPolicy;
 import simpaths.model.taxes.Match;
 import simpaths.model.taxes.Matches;
-import simpaths.model.taxes.database.DatabaseExtension;
 import simpaths.model.taxes.database.TaxDonorDataParser;
 
 
@@ -356,8 +355,6 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
                     responsesToHealth, minAgeForPoorHealth, responsesToDisability, responsesToRegion, responsesToEducation,
                     responsesToPension, responsesToLowWageOffer, responsesToRetirement, saveBehaviour,
                     readGrid, getEngine().getCurrentExperiment().getOutputFolder(), startYear, endYear);
-            //DecisionTests.compareGrids();
-            //DatabaseExtension.extendInputData();
         }
         long elapsedTime1 = System.currentTimeMillis();
         System.out.println("Time to load parameters: " + (elapsedTime1 - elapsedTime0)/1000. + " seconds.");
@@ -566,7 +563,6 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
 
         // at termination of simulation
         int orderEarlier = -1;            //Set less than order so that this is called before the yearlySchedule in the endYear.
-        getEngine().getEventQueue().scheduleOnce(new SingleTargetEvent(this, Processes.CleanUp), endYear+1, orderEarlier);
         SystemEvent end = new SystemEvent(SimulationEngine.getInstance(), SystemEventType.End);
         getEngine().getEventQueue().scheduleOnce(end, endYear+1, orderEarlier);
 
@@ -746,7 +742,6 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
         CheckForEmptyBenefitUnits,
         GarbageCollection,
         CheckForImperfectTaxDBMatches,
-        CleanUp,
     }
 
     @Override
@@ -867,11 +862,6 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
                 if (Parameters.saveImperfectTaxDBMatches) {
                     screenForImperfectTaxDbMatches();
                 }
-            }
-            case CleanUp -> {
-
-                if (Parameters.saveImperfectTaxDBMatches)
-                    DatabaseExtension.extendInputData(getEngine().getCurrentExperiment().getOutputFolder());
             }
             default -> {
                 throw new RuntimeException("failed to identify process type in SimPathsModel.onEvent");

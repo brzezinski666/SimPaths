@@ -65,7 +65,7 @@ public class Parameters {
 		"dwt", 					//household weight
 		"les", 					//labour employment status + health status
 		"lcs", 					//labour civil servant dummy indicator
-        "lcr01",                //carer status for benefits (0 no 1 yes)
+    //    "lcr01",                //carer status for benefits (0 no 1 yes)
 		"lhw", 					//hours worked per week
 		"ddi",					//disability status
         "yem", 					//employment income - used to construct work sector *NOT VALID FOR POLICY ANALYSIS*
@@ -73,7 +73,7 @@ public class Parameters {
     };
 
     public static final String[] DONOR_POLICY_VARIABLES = new String[] {
-        "xcc",                  //childcare costs
+    //    "xcc",                  //childcare costs
         "ils_earns",			//EUROMOD output variable:- total labour earnings (employment + self-employment income + potentially other labour earnings like temporary employment, depending on country classification)
         "ils_origy",			//EUROMOD output variable:- all gross income from labour, private pensions, investment income, property income, private transfers etc.
 		"ils_dispy",			//Disposable income : from EUROMOD output data after tax / benefit transfers (monthly time-scale)
@@ -91,9 +91,6 @@ public class Parameters {
 		"drgn1", 			//region (NUTS1)
 		"ydses_c5",			//household income quantile
 		"dhh_owned",		//flag indicating if benefit unit owns a house
-		"liquid_wealth",	//benefit unit net wealth non-pension non-housing wealth
-        "tot_pen",	        //benefit unit net pension wealth
-        "nvmhome",	        //benefit unit net housing wealth
     };
 
     public static final String[] PERSON_VARIABLES_INITIAL = new String[] {
@@ -110,9 +107,6 @@ public class Parameters {
 		"ded",					//in education dummy
 		"der",					//return to education dummy
 		"dhe",					//health status
-		"dhm",					//mental health status
-		"scghq2_dv",			//mental health status case based
-		"dhm_ghq",				//mental health status case based dummy (1 = psychologically distressed)
 		"dcpyy",				//years in partnership
 		"dcpagdf",				//partners age difference
 		"dnc02",				//number children aged 0-2
@@ -134,15 +128,6 @@ public class Parameters {
 		"dhh_owned",			//flag indicating if individual is a homeowner
 		"potential_earnings_hourly", //initial value of hourly earnings from the data
 		"l1_potential_earnings_hourly", //lag(1) of initial value of hourly earnings from the data
-        "need_socare",          //indicator that the individual needs social care
-        "formal_socare_hrs",    //number of hours of formal care received
-        "formal_socare_cost",   //cost of formal care received
-        "partner_socare_hrs",   //number of hours of informal care received from partner
-        "daughter_socare_hrs",  //number of hours of informal care received from daughter
-        "son_socare_hrs",       //number of hours of informal care received from son
-        "other_socare_hrs",     //number of hours of informal care received from other
-        "aidhrs",               //number of hours of informal care provided (total)
-        "careWho"               //indicator for whom informal care is provided
 		//"yem", 					//employment income
 		//"yse", 					//self-employment income
 
@@ -257,7 +242,7 @@ public class Parameters {
     //public static int MAX_AGE_IN_EDUCATION;// = MAX_AGE;//30;			// Max age a person can stay in education	//Cannot set here, as MAX_AGE is not known yet.  Now set to MAX_AGE in buildObjects in Model class.
     //public static int MAX_AGE_MARRIAGE;// = MAX_AGE;//75;  			// Max age a person can marry		//Cannot set here, as MAX_AGE is not known yet.  Now set to MAX_AGE in buildObjects in Model class.
     private static final int MIN_START_YEAR = 2011; //Minimum allowed starting point. Should correspond to the oldest initial population.
-    private static final int MAX_START_YEAR = 2021; //Maximum allowed starting point. Should correspond to the most recent initial population.
+    private static final int MAX_START_YEAR = 2020; //Maximum allowed starting point. Should correspond to the most recent initial population.
     public static int startYear;
     public static int endYear;
     private static final int MIN_START_YEAR_TRAINING = 2019;
@@ -2385,18 +2370,18 @@ public class Parameters {
     public static void loadTimeSeriesFactorMaps(Country country) {
 
         // load time varying rates
-        priceMapRealSavingReturns = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_saving_returns", 1, 1);
-        priceMapRealDebtCostLow = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_debt_cost_low", 1, 1);
-        priceMapRealDebtCostHigh = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_debt_cost_hi", 1, 1);
+    //    priceMapRealSavingReturns = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_saving_returns", 1, 1);
+    //    priceMapRealDebtCostLow = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_debt_cost_low", 1, 1);
+    //    priceMapRealDebtCostHigh = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_debt_cost_hi", 1, 1);
 
         // load time varying wage rates
-        wageRateFormalSocialCare = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_carer_hourly_wage", 1, 1);
+    //    wageRateFormalSocialCare = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_carer_hourly_wage", 1, 1);
 
         // load time varying indices
         upratingIndexMapRealGDP = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_gdp", 1, 1);
         upratingIndexMapInflation = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_inflation", 1, 1);
         upratingIndexMapRealWageGrowth = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_wage_growth", 1, 1);
-        socialCareProvisionTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_care_adjustment", 1, 1);
+   //     socialCareProvisionTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_care_adjustment", 1, 1);
         partnershipTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_cohabitation_adjustment", 1, 1);
         fertilityTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_fertility_adjustment", 1, 1);
         utilityTimeAdjustmentSingleMales = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_utility_adj_smales", 1, 1);

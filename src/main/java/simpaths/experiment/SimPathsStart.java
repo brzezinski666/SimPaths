@@ -86,7 +86,6 @@ public class SimPathsStart implements ExperimentBuilder {
 		if (lastDatabaseCountryAndYear.keySet().stream().anyMatch(key -> key.toString().equals("MultiKey[HU]"))) {
 			country = Country.HU;
 		} else {
-			country = Country.HU;
 			throw new IllegalArgumentException("Country not recognised. Restart the simulation and choose one of the available countries.");
 		}
 		String valueYear = lastDatabaseCountryAndYear.getValue(country.toString()).toString();

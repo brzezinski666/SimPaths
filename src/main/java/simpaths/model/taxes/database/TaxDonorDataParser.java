@@ -231,10 +231,6 @@ public class TaxDonorDataParser {
                 + "ALTER TABLE " + personTableName + " ALTER COLUMN DDI int;"
                 + "ALTER TABLE " + personTableName + " ALTER COLUMN DDI RENAME TO DLLTSD;"
 
-                //social care provision
-                + "ALTER TABLE " + personTableName + " ALTER COLUMN LCR01 int;"
-                + "ALTER TABLE " + personTableName + " ALTER COLUMN LCR01 RENAME TO CARER;"
-
                 //Labour hours
                 //XXX: Could set " + Parameters.HOURS_WORKED_WEEKLY + ", earnings, labour cost etc. to 0 if retired.
                 // However, the data does not conform - see idperson 101, who is retired pensioner aged 80, but who declares lhw = 40
@@ -691,9 +687,6 @@ public class TaxDonorDataParser {
                                     dlltsd2 = dlltsd;
                                 }
                             }
-                            int cphere = person.getCarer();
-                            if (cphere>careProvision)
-                                careProvision = cphere;
                         } else {
                             ageTest = Math.max(ageTest, agePerson);
                         }
@@ -713,7 +706,7 @@ public class TaxDonorDataParser {
                         DonorKeys keys = new DonorKeys();
                         KeyFunction keyFunction = new KeyFunction(systemYear, systemYear, age, numberMembersOver17, numberChildrenUnder5,
                                 numberChildren5To9, numberChildren10To17, hoursWorkedPerWeek1, hoursWorkedPerWeek2, dlltsd1, dlltsd2,
-                                careProvision, originalIncomePerWeek, secondIncomePerWeek, childcareCostPerWeek);
+                                originalIncomePerWeek, secondIncomePerWeek, childcareCostPerWeek);
                         keys.evaluate(keyFunction);
 
                         // set all taxUnitPolicy attributes

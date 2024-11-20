@@ -22,7 +22,6 @@ public class MatchIndices {
     private int childcare;
     private int dualIncome;
     private int income;
-    private int careProvision;
     private int disability;
     private int employment;
     private int children;
@@ -102,14 +101,6 @@ public class MatchIndices {
         this.income = income;
     }
 
-    public int getCareProvision() {
-        return careProvision;
-    }
-
-    public void setCareProvision(int careProvision) {
-        this.careProvision = careProvision;
-    }
-
     public int getDisability() {
         return disability;
     }
@@ -167,9 +158,6 @@ public class MatchIndices {
             case Disability:
                 setDisability(val);
                 break;
-            case CareProvision:
-                setCareProvision(val);
-                break;
             case Income:
                 setIncome(val);
                 break;
@@ -196,8 +184,6 @@ public class MatchIndices {
                 return String.valueOf(getEmployment());
             case Disability:
                 return String.valueOf(getDisability());
-            case CareProvision:
-                return String.valueOf(getCareProvision());
             case Income:
                 return String.valueOf(getIncome());
             case DualIncome:
