@@ -401,6 +401,9 @@ public class SimPathsMultiRun extends MultiRun {
 	@Override
 	public void buildExperiment(SimulationEngine engine) {
 
+		if (parameterArgs != null)
+			updateParameters(parameterArgs);
+
 		SimPathsModel model = new SimPathsModel(Country.getCountryFromNameString(countryString), startYear);
 		if (persist_population) model.setPersistPopulation(true);
 		if (persist_root) model.setPersistDatabasePath("./input/input");
