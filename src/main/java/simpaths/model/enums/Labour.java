@@ -11,10 +11,9 @@ public enum Labour implements IntegerValuedEnum {
 
     //Represents hours of work per week that a Person will supply to firms
     ZERO(0, 0, 5), // Note: ZERO always returns 0 continuous hours but maxBound is specified as 5 here to remain consistent with the discretization used in the data
-    TEN(10, 6, 15),
-	TWENTY(20, 16, 25),
-	THIRTY(30, 26, 35),
-	FORTY(40, 36, Parameters.MAX_LABOUR_HOURS_IN_WEEK);
+    TWENTY(20, 6, 20),
+	FORTY(40, 11, 40),
+	FIFTY(50, 41, Parameters.MAX_LABOUR_HOURS_IN_WEEK);
 
     private final int hours, minBound, maxBound;
     Labour(int hours, int minBound, int maxBound) {
@@ -49,15 +48,13 @@ public enum Labour implements IntegerValuedEnum {
     private static Labour convertHoursToLabourInternal(int hoursWorked) {
         if (hoursWorked <= 5) {
             return Labour.ZERO;
-        } else if (hoursWorked <= 15) {
-            return Labour.TEN;
-        } else if (hoursWorked <= 25) {
+        } else if (hoursWorked <= 20) {
             return Labour.TWENTY;
-        } else if (hoursWorked <= 35) {
-            return Labour.THIRTY;
-        } else {
+        } else if (hoursWorked <= 40) {
             return Labour.FORTY;
-        }
+        } else {
+            return Labour.FIFTY;
+        } 
     }
 
     //

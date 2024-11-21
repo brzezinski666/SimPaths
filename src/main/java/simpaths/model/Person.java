@@ -1,30 +1,28 @@
 package simpaths.model;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.*;
-
 import jakarta.persistence.*;
-
-import microsim.data.db.PanelEntityKey;
-import simpaths.data.ManagerRegressions;
-import simpaths.data.MultiValEvent;
-import simpaths.data.RegressionName;
-import simpaths.data.filters.FertileFilter;
-import simpaths.model.decisions.Axis;
-import simpaths.model.enums.*;
-import microsim.statistics.Series;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.log4j.Logger;
-
-import simpaths.data.Parameters;
-import simpaths.model.decisions.DecisionParams;
 import microsim.agent.Weight;
+import microsim.data.db.PanelEntityKey;
 import microsim.engine.SimulationEngine;
 import microsim.event.EventListener;
 import microsim.statistics.IDoubleSource;
 import microsim.statistics.IIntSource;
+import microsim.statistics.Series;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.log4j.Logger;
+import simpaths.data.ManagerRegressions;
+import simpaths.data.MultiValEvent;
+import simpaths.data.Parameters;
+import simpaths.data.RegressionName;
+import simpaths.data.filters.FertileFilter;
+import simpaths.model.decisions.Axis;
+import simpaths.model.decisions.DecisionParams;
+import simpaths.model.enums.*;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.*;
 
 import static simpaths.data.Parameters.getUnemploymentRateByGenderEducationAgeYear;
 
@@ -571,10 +569,6 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             labourSupplyWeekly = Labour.convertHoursToLabour(model.getInitialHoursWorkedWeekly().get(key.getId()).intValue());
         receivesBenefitsFlag_L1 = receivesBenefitsFlag;
         labourSupplyWeekly_L1 = getLabourSupplyWeekly();
-
-        if(UnionMatchingMethod.SBAM.equals(model.getUnionMatchingMethod())) {
-            updateAgeGroup();
-        }
 
         hoursWorkedWeekly = null;	//Not to be updated as labourSupplyWeekly contains this information.
         updateVariables(true);
@@ -2030,7 +2024,6 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Covid_2021_D,
         Covid19GrossPayMonthly_L1,
         Covid19ReceivesSEISS_L1,
-        CovidTransitionsMonth,
         Cut1,       // ordered probit/logit cut points - ignore these when evaluating score
         Cut2,
         Cut3,
@@ -2124,8 +2117,6 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Dnc02_L1, 						//Lag(1) of number of children aged 0-2 in the benefitUnit
         Dnc017, 						//Number of children aged 0-17 in the benefitUnit
         EmployedToUnemployed,
-        Employmentsonflexiblefurlough,
-        Employmentsonfullfurlough,
         EquivalisedConsumptionYearly,
         EquivalisedIncomeYearly, 							//Equivalised income for use with the security index
         Female,
@@ -2209,6 +2200,8 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         UKM,
         UKmissing,
         UKN,
+        HUA,                //HU
+        HUB,
         Year,										//Year as in the simulation, e.g. 2009
         Ydses_c5_Q2_L1, 							//HH Income Lag(1) 2nd Quantile
         Ydses_c5_Q3_L1,								//HH Income Lag(1) 3rd Quantile
@@ -3054,20 +3047,17 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
                 return 0.;        //For our purpose, all our simulated people have a region, so this enum value is always going to be 0 (false).
                 //			return (getRegion().equals(Region.UKmissing)) ? 1. : 0.;		//For people whose region info is missing.  The UK survey did not record the region in the first two waves (2006 and 2007, each for 4 years). For all those individuals we have gender, education etc but not region. If we exclude them we lose a large part of the UK sample, so this is the trick to keep them in the estimates.
             }
+            case HUA -> {
+                return Region.HUA.equals(getRegion()) ? 1.0 : 0.0;
+            }
+            case HUB -> {
+                return Region.HUB.equals(getRegion()) ? 1.0 : 0.0;
+            }
             // Regressors used in the Covid-19 labour market module below:
             case Dgn_Dag -> {
                 if (dgn.equals(Gender.Male)) {
                     return (double) dag;
                 } else return 0.;
-            }
-            case Employmentsonfullfurlough -> {
-                return Parameters.getEmploymentsFurloughedFullForMonthYear(model.getLabourMarket().getCovid19TransitionsMonth(), getYear());
-            }
-            case Employmentsonflexiblefurlough -> {
-                return Parameters.getEmploymentsFurloughedFlexForMonthYear(model.getLabourMarket().getCovid19TransitionsMonth(), getYear());
-            }
-            case CovidTransitionsMonth -> {
-                return model.getLabourMarket().getMonthForRegressor();
             }
             case Lhw_L1 -> {
                 if (getNewWorkHours_lag1() != null) {
@@ -3881,6 +3871,10 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
 
     public void setLiwwh(Integer liwwh) {
         this.liwwh = liwwh;
+    }
+
+    public int getLiwwh() {
+        return liwwh != null? liwwh : 0 ;
     }
 
     public void setIoFlag(boolean ioFlag) {
