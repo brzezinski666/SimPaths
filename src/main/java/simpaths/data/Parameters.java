@@ -956,8 +956,8 @@ public class Parameters {
             columnsPartnershipU1a = 13; //#
             columnsPartnershipU1b = 26; //#
             columnsPartnershipU2b = 29; //#
-            columnsFertilityF1a = 6;
-            columnsFertilityF1b = 26;
+            columnsFertilityF1a = 5; //#
+            columnsFertilityF1b = 25; //#
             columnsIncomeI3a = 20;
             columnsIncomeI3b = 29;
             columnsIncomeI4b = 25;
@@ -1030,7 +1030,6 @@ public class Parameters {
         coeffCovariancePartnershipU1a = ExcelAssistant.loadCoefficientMap("input/reg_partnership.xlsx", countryString + "_U1a", 1, columnsPartnershipU1a);
         coeffCovariancePartnershipU1b = ExcelAssistant.loadCoefficientMap("input/reg_partnership.xlsx", countryString + "_U1b", 1, columnsPartnershipU1b);
         coeffCovariancePartnershipU2b = ExcelAssistant.loadCoefficientMap("input/reg_partnership.xlsx", countryString + "_U2b", 1, columnsPartnershipU2b);
-
 
         //Partnership - parameters for matching based on wage and age differential
         meanCovarianceParametricMatching = ExcelAssistant.loadCoefficientMap("input/scenario_parametricMatching.xlsx", countryString, 1, 1);
