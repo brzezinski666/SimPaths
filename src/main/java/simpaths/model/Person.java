@@ -2142,6 +2142,12 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Les_c3_NotEmployed_L1,
         Les_c3_Sick_L1,					//This is based on dlltsd
         Les_c3_Student_L1,
+        Les_c4_Student_L1,
+        Les_c4_NotEmployed_L1,
+        Les_c4_Retired_L1,
+        Les_c4_Student_L1_Dgn,
+        Les_c4_NotEmployed_L1_Dgn,
+        Les_c4_Retired_L1_Dgn,
         Les_c7_Covid_Furlough_L1,
         Lesdf_c4_BothNotEmployed_L1,
         Lesdf_c4_EmployedSpouseNotEmployed_L1, 					//Own and partner's activity status lag(1)
@@ -2709,6 +2715,24 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             }
             case Les_c3_Student_L1 -> {
                 return (Les_c4.Student.equals(les_c4_lag1)) ? 1.0 : 0.0;
+            }
+            case Les_c4_Student_L1 -> {
+                return (Les_c4.Student.equals(les_c4_lag1)) ? 1.0 : 0.0;
+            }
+            case Les_c4_NotEmployed_L1 -> {
+                return (Les_c4.NotEmployed.equals(les_c4_lag1)) ? 1.0 : 0.0;
+            }
+            case Les_c4_Retired_L1 -> {
+                return (Les_c4.Retired.equals(les_c4_lag1)) ? 1.0 : 0.0;
+            }
+            case Les_c4_Student_L1_Dgn -> {
+                return (Les_c4.Student.equals(les_c4_lag1) && Gender.Male.equals(dgn)) ? 1.0 : 0.0;
+            }
+            case Les_c4_NotEmployed_L1_Dgn -> {
+                return (Les_c4.NotEmployed.equals(les_c4_lag1) && Gender.Male.equals(dgn)) ? 1.0 : 0.0;
+            }
+            case Les_c4_Retired_L1_Dgn -> {
+                return (Les_c4.Retired.equals(les_c4_lag1) && Gender.Male.equals(dgn)) ? 1.0 : 0.0;
             }
             case Les_c3_NotEmployed_L1 -> {
                 return ((Les_c4.NotEmployed.equals(les_c4_lag1)) || (Les_c4.Retired.equals(les_c4_lag1))) ? 1.0 : 0.0;

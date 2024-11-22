@@ -953,9 +953,9 @@ public class Parameters {
             columnsEducationE1a = 8; //#
             columnsEducationE1b = 13; //#
             columnsEducationE2a = 20; //TODO
-            columnsPartnershipU1a = 27;
-            columnsPartnershipU1b = 31;
-            columnsPartnershipU2b = 38;
+            columnsPartnershipU1a = 13; //#
+            columnsPartnershipU1b = 26; //#
+            columnsPartnershipU2b = 29; //#
             columnsFertilityF1a = 6;
             columnsFertilityF1b = 26;
             columnsIncomeI3a = 20;
