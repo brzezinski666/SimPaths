@@ -10,9 +10,9 @@ import simpaths.model.Person;
 public enum Labour implements IntegerValuedEnum {
 
     //Represents hours of work per week that a Person will supply to firms
-    ZERO(0, 0, 5), // Note: ZERO always returns 0 continuous hours but maxBound is specified as 5 here to remain consistent with the discretization used in the data
-    TWENTY(20, 6, 20),
-	FORTY(40, 11, 40),
+    ZERO(0, 0, 0), // Note: ZERO always returns 0 continuous hours but maxBound is specified as 5 here to remain consistent with the discretization used in the data
+    TWENTY(20, 1, 39),
+	FORTY(40, 40, 40),
 	FIFTY(50, 41, Parameters.MAX_LABOUR_HOURS_IN_WEEK);
 
     private final int hours, minBound, maxBound;
@@ -46,15 +46,15 @@ public enum Labour implements IntegerValuedEnum {
     }
 
     private static Labour convertHoursToLabourInternal(int hoursWorked) {
-        if (hoursWorked <= 5) {
+        if (hoursWorked <= 0) {
             return Labour.ZERO;
-        } else if (hoursWorked <= 20) {
+        } else if (hoursWorked <= 39) {
             return Labour.TWENTY;
         } else if (hoursWorked <= 40) {
             return Labour.FORTY;
         } else {
             return Labour.FIFTY;
-        } 
+        }
     }
 
     //
