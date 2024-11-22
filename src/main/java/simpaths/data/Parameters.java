@@ -849,8 +849,8 @@ public class Parameters {
         //RMSE
         coefficientMapRMSE = ExcelAssistant.loadCoefficientMap("input/reg_RMSE.xlsx", countryString, 1, 1);
 
-        //Mortality rates TODO HU
-        mortalityProbabilityByGenderAgeYear = ExcelAssistant.loadCoefficientMap("input/projections_mortality.xlsx", countryString + "_MortalityByGenderAgeYear", 2, 120);
+        //Mortality rates
+        mortalityProbabilityByGenderAgeYear = ExcelAssistant.loadCoefficientMap("input/projections_mortality.xlsx", countryString + "_MortalityByGenderAgeYear", 2, 141);
         setMapBounds(MapBounds.Mortality, countryString);
 
 
@@ -947,19 +947,12 @@ public class Parameters {
             columnsLabourSupplyUtilityACMales = 13; //#
             columnsLabourSupplyUtilityACFemales = 13; //#
             columnsLabourSupplyUtilityCouples = 48; //#
-            columnsHealthH1a = 28;
-            columnsHealthH1b = 35;
-            columnsHealthH2b = 35;
-            columnsHealthHM1 = 31;
-            columnsHealthHM2Males = 11;
-            columnsHealthHM2Females = 11;
-            columnsUnemploymentU1a = 19;
-            columnsUnemploymentU1b = 19;
-            columnsUnemploymentU1c = 19;
-            columnsUnemploymentU1d = 19;
-            columnsEducationE1a = 19;
-            columnsEducationE1b = 25;
-            columnsEducationE2a = 20;
+            columnsHealthH1a = 28; //TODO
+            columnsHealthH1b = 35; //TODO
+            columnsHealthH2b = 35; //TODO
+            columnsEducationE1a = 8; //#
+            columnsEducationE1b = 13; //#
+            columnsEducationE2a = 20; //TODO
             columnsPartnershipU1a = 27;
             columnsPartnershipU1b = 31;
             columnsPartnershipU2b = 38;
@@ -1022,30 +1015,15 @@ public class Parameters {
         coeffCovarianceEmploymentSelectionFemalesE = ExcelAssistant.loadCoefficientMap("input/reg_employmentSelection.xlsx", countryString + "_EmploymentSelection_FemaleE", 1, columnsEmploymentSelectionFemalesE);
         coeffCovarianceEmploymentSelectionFemalesNE = ExcelAssistant.loadCoefficientMap("input/reg_employmentSelection.xlsx", countryString + "_EmploymentSelection_FemaleNE", 1, columnsEmploymentSelectionFemalesNE);
 
-
-        //Health
+        //Health TODO HU requires update to generalized logit model
         coeffCovarianceHealthH1a = ExcelAssistant.loadCoefficientMap("input/reg_health.xlsx", countryString + "_H1a", 1, columnsHealthH1a);
         coeffCovarianceHealthH1b = ExcelAssistant.loadCoefficientMap("input/reg_health.xlsx", countryString + "_H1b", 1, columnsHealthH1b);
         coeffCovarianceHealthH2b = ExcelAssistant.loadCoefficientMap("input/reg_health.xlsx", countryString + "_H2b", 1, columnsHealthH2b);
 
-
-        //Unemployment
-        coeffCovarianceUnemploymentU1a = ExcelAssistant.loadCoefficientMap("input/reg_unemployment.xlsx", countryString + "_U1a", 1, columnsUnemploymentU1a);
-        coeffCovarianceUnemploymentU1b = ExcelAssistant.loadCoefficientMap("input/reg_unemployment.xlsx", countryString + "_U1b", 1, columnsUnemploymentU1b);
-        coeffCovarianceUnemploymentU1c = ExcelAssistant.loadCoefficientMap("input/reg_unemployment.xlsx", countryString + "_U1c", 1, columnsUnemploymentU1c);
-        coeffCovarianceUnemploymentU1d = ExcelAssistant.loadCoefficientMap("input/reg_unemployment.xlsx", countryString + "_U1d", 1, columnsUnemploymentU1d);
-
-        //Health mental: level and case-based
-        coeffCovarianceHM1Level = ExcelAssistant.loadCoefficientMap("input/reg_health_mental.xlsx", countryString + "_HM1_L", 1, columnsHealthHM1);
-        coeffCovarianceHM2LevelMales = ExcelAssistant.loadCoefficientMap("input/reg_health_mental.xlsx", countryString + "_HM2_Males_L", 1, columnsHealthHM2Males);
-        coeffCovarianceHM2LevelFemales = ExcelAssistant.loadCoefficientMap("input/reg_health_mental.xlsx", countryString + "_HM2_Females_L", 1, columnsHealthHM2Females);
-        coeffCovarianceHM1Case = ExcelAssistant.loadCoefficientMap("input/reg_health_mental.xlsx", countryString + "_HM1_C", 1, columnsHealthHM1);
-        coeffCovarianceHM2CaseMales = ExcelAssistant.loadCoefficientMap("input/reg_health_mental.xlsx", countryString + "_HM2_Males_C", 1, columnsHealthHM2Males);
-        coeffCovarianceHM2CaseFemales = ExcelAssistant.loadCoefficientMap("input/reg_health_mental.xlsx", countryString + "_HM2_Females_C", 1, columnsHealthHM2Females);
-
         //Education
         coeffCovarianceEducationE1a = ExcelAssistant.loadCoefficientMap("input/reg_education.xlsx", countryString + "_E1a", 1, columnsEducationE1a);
         coeffCovarianceEducationE1b = ExcelAssistant.loadCoefficientMap("input/reg_education.xlsx", countryString + "_E1b", 1, columnsEducationE1b);
+        //TODO HU E2a requires update to generalized logit model
         coeffCovarianceEducationE2a = ExcelAssistant.loadCoefficientMap("input/reg_education.xlsx", countryString + "_E2a", 1, columnsEducationE2a);
 
         //Partnership
@@ -1123,19 +1101,6 @@ public class Parameters {
             coeffCovarianceHealthH1a = RegressionUtils.bootstrap(coeffCovarianceHealthH1a); //Note that this overrides the original coefficient map with bootstrapped values
             coeffCovarianceHealthH1b = RegressionUtils.bootstrap(coeffCovarianceHealthH1b);
             coeffCovarianceHealthH2b = RegressionUtils.bootstrap(coeffCovarianceHealthH2b);
-            coeffCovarianceHM1Level = RegressionUtils.bootstrap(coeffCovarianceHM1Level);
-            coeffCovarianceHM2LevelMales = RegressionUtils.bootstrap(coeffCovarianceHM2LevelMales);
-            coeffCovarianceHM2LevelFemales = RegressionUtils.bootstrap(coeffCovarianceHM2LevelFemales);
-            coeffCovarianceHM1Case = RegressionUtils.bootstrap(coeffCovarianceHM1Case);
-            coeffCovarianceHM2CaseMales = RegressionUtils.bootstrap(coeffCovarianceHM2CaseMales);
-            coeffCovarianceHM2CaseFemales = RegressionUtils.bootstrap(coeffCovarianceHM2CaseFemales);
-
-
-            //Unemployment
-            coeffCovarianceUnemploymentU1a = RegressionUtils.bootstrap(coeffCovarianceUnemploymentU1a);
-            coeffCovarianceUnemploymentU1b = RegressionUtils.bootstrap(coeffCovarianceUnemploymentU1b);
-            coeffCovarianceUnemploymentU1c = RegressionUtils.bootstrap(coeffCovarianceUnemploymentU1c);
-            coeffCovarianceUnemploymentU1d = RegressionUtils.bootstrap(coeffCovarianceUnemploymentU1d);
 
             //Non-labour income
             // coeffCovarianceIncomeI1a = RegressionUtils.bootstrap(coeffCovarianceIncomeI1a); // Commented out as not used any more since income is split.
@@ -1179,14 +1144,6 @@ public class Parameters {
         regHealthH1a = new OrderedProbitRegression(coeffCovarianceHealthH1a, Dhe.class);
         regHealthH1b = new OrderedProbitRegression(coeffCovarianceHealthH1b, Dhe.class);
         regHealthH2b = new ProbitRegression(coeffCovarianceHealthH2b);
-
-
-        //Unemployment
-        regUnemploymentMaleGraduateU1a = new ProbitRegression(coeffCovarianceUnemploymentU1a);
-        regUnemploymentMaleNonGraduateU1b = new ProbitRegression(coeffCovarianceUnemploymentU1b);
-        regUnemploymentFemaleGraduateU1c = new ProbitRegression(coeffCovarianceUnemploymentU1c);
-        regUnemploymentFemaleNonGraduateU1d = new ProbitRegression(coeffCovarianceUnemploymentU1d);
-
 
         //Education
         regEducationE1a = new ProbitRegression(coeffCovarianceEducationE1a);

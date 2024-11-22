@@ -2059,6 +2059,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Deh_c3_Low,
         Deh_c3_Low_Dag,
         Deh_c3_Low_L1,					//Education level lag(1) equals low
+        Deh_c3_High_L1,					//Education level lag(1) equals low
         Deh_c3_Medium,
         Deh_c3_Medium_Dag,
         Deh_c3_Medium_L1, 				//Education level lag(1) equals medium
@@ -2607,6 +2608,9 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             }
             case Deh_c3_Low_L1 -> {
                 return (Education.Low.equals(deh_c3_lag1)) ? 1.0 : 0.0;
+            }
+            case Deh_c3_High_L1 -> {
+                return (Education.High.equals(deh_c3_lag1)) ? 1.0 : 0.0;
             }
             case Dehm_c3_High -> {
                 return (Education.High.equals(dehm_c3)) ? 1.0 : 0.0;
