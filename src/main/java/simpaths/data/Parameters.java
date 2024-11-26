@@ -947,12 +947,12 @@ public class Parameters {
             columnsLabourSupplyUtilityACMales = 13; //#
             columnsLabourSupplyUtilityACFemales = 13; //#
             columnsLabourSupplyUtilityCouples = 48; //#
-            columnsHealthH1a = 28; //TODO
-            columnsHealthH1b = 35; //TODO
-            columnsHealthH2b = 35; //TODO
+            columnsHealthH1a = 37; //#
+            columnsHealthH1b = 89; //#
+            columnsHealthH2b = 26; //#
             columnsEducationE1a = 8; //#
             columnsEducationE1b = 13; //#
-            columnsEducationE2a = 20; //TODO
+            columnsEducationE2a = 15; //#
             columnsPartnershipU1a = 13; //#
             columnsPartnershipU1b = 26; //#
             columnsPartnershipU2b = 29; //#
@@ -1015,7 +1015,7 @@ public class Parameters {
         coeffCovarianceEmploymentSelectionFemalesE = ExcelAssistant.loadCoefficientMap("input/reg_employmentSelection.xlsx", countryString + "_EmploymentSelection_FemaleE", 1, columnsEmploymentSelectionFemalesE);
         coeffCovarianceEmploymentSelectionFemalesNE = ExcelAssistant.loadCoefficientMap("input/reg_employmentSelection.xlsx", countryString + "_EmploymentSelection_FemaleNE", 1, columnsEmploymentSelectionFemalesNE);
 
-        //Health TODO HU requires update to generalized logit model
+        //Health
         coeffCovarianceHealthH1a = ExcelAssistant.loadCoefficientMap("input/reg_health.xlsx", countryString + "_H1a", 1, columnsHealthH1a);
         coeffCovarianceHealthH1b = ExcelAssistant.loadCoefficientMap("input/reg_health.xlsx", countryString + "_H1b", 1, columnsHealthH1b);
         coeffCovarianceHealthH2b = ExcelAssistant.loadCoefficientMap("input/reg_health.xlsx", countryString + "_H2b", 1, columnsHealthH2b);
@@ -1023,7 +1023,6 @@ public class Parameters {
         //Education
         coeffCovarianceEducationE1a = ExcelAssistant.loadCoefficientMap("input/reg_education.xlsx", countryString + "_E1a", 1, columnsEducationE1a);
         coeffCovarianceEducationE1b = ExcelAssistant.loadCoefficientMap("input/reg_education.xlsx", countryString + "_E1b", 1, columnsEducationE1b);
-        //TODO HU E2a requires update to generalized logit model
         coeffCovarianceEducationE2a = ExcelAssistant.loadCoefficientMap("input/reg_education.xlsx", countryString + "_E2a", 1, columnsEducationE2a);
 
         //Partnership
@@ -1035,7 +1034,6 @@ public class Parameters {
         meanCovarianceParametricMatching = ExcelAssistant.loadCoefficientMap("input/scenario_parametricMatching.xlsx", countryString, 1, 1);
 
         //Fertility
-
         coeffCovarianceFertilityF1a = ExcelAssistant.loadCoefficientMap("input/reg_fertility.xlsx", countryString + "_F1a", 1, columnsFertilityF1a);
         coeffCovarianceFertilityF1b = ExcelAssistant.loadCoefficientMap("input/reg_fertility.xlsx", countryString + "_F1b", 1, columnsFertilityF1b);
 
