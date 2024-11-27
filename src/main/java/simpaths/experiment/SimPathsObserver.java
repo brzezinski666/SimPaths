@@ -2,27 +2,7 @@
 package simpaths.experiment;
 
 // import Java packages
-import java.awt.*;
-import java.util.*;
-import javax.swing.JComponent;
-import javax.swing.JInternalFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.ScrollPaneConstants;
 
-// import plug-in packages
-import simpaths.data.filters.*;
-import simpaths.model.BenefitUnit;
-import simpaths.model.SimPathsModel;
-import simpaths.model.Validator;
-import simpaths.model.enums.*;
-import org.apache.commons.collections4.map.LinkedMap;
-import org.apache.commons.collections4.map.MultiKeyMap;
-import org.apache.log4j.Logger;
-import net.miginfocom.swing.MigLayout;
-
-// import JAS-mine packages
 import microsim.annotation.GUIparameter;
 import microsim.engine.AbstractSimulationObserverManager;
 import microsim.engine.SimulationCollectorManager;
@@ -32,22 +12,32 @@ import microsim.event.EventGroup;
 import microsim.event.EventListener;
 import microsim.event.SingleTargetEvent;
 import microsim.gui.GuiUtils;
-import microsim.gui.plot.IndividualBarSimulationPlotter;
-import microsim.gui.plot.ScatterplotSimulationPlotterRefreshable;
-import microsim.gui.plot.Weighted_PyramidPlotter;
-import microsim.gui.plot.TimeSeriesSimulationPlotter;
-import microsim.gui.plot.Weighted_HistogramSimulationPlotter;
+import microsim.gui.plot.*;
 import microsim.statistics.IDoubleSource;
 import microsim.statistics.ILongSource;
 import microsim.statistics.functions.MultiTraceFunction;
 import microsim.statistics.weighted.Weighted_CrossSection;
 import microsim.statistics.weighted.functions.Weighted_MeanArrayFunction;
 import microsim.statistics.weighted.functions.Weighted_SumArrayFunction;
-
-// import LABOURsim packages
-import simpaths.model.Person;
-import simpaths.data.Parameters;
+import net.miginfocom.swing.MigLayout;
+import org.apache.commons.collections4.map.LinkedMap;
+import org.apache.commons.collections4.map.MultiKeyMap;
+import org.apache.log4j.Logger;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import simpaths.data.Parameters;
+import simpaths.data.filters.*;
+import simpaths.model.BenefitUnit;
+import simpaths.model.Person;
+import simpaths.model.SimPathsModel;
+import simpaths.model.Validator;
+import simpaths.model.enums.Education;
+import simpaths.model.enums.Gender;
+import simpaths.model.enums.HistogramTypeEnum;
+import simpaths.model.enums.Region;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.*;
 
 
 /**
@@ -67,7 +57,7 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 	private Boolean showAdditionalCharts = true;
 
 	@GUIparameter(description = "Enable validation statistics")
-	private Boolean showValidationStatistics = true;
+	private Boolean showValidationStatistics = false;
 	
 	@GUIparameter(description = "Set the time-period between chart updates")
 	private Double displayFrequency = 1.;
@@ -219,7 +209,9 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 			
 			model = (SimPathsModel) getManager();
 			final SimPathsCollector collector = (SimPathsCollector) getCollectorManager();
-			validator = new Validator();
+			if (showValidationStatistics) {
+				validator = new Validator();
+			}
 
 			//Renderers - these allow different graphs to use different look for the series displayed
 			XYLineAndShapeRenderer studentAgeRenderer = new XYLineAndShapeRenderer(); //Set up a new renderer to define series colors for this chart

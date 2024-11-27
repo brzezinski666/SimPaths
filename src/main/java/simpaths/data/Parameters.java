@@ -964,8 +964,8 @@ public class Parameters {
             columnsIncomeI3b_selection = 21; //#
             columnsLeaveHomeP1a = 16; //#
             columnsHomeownership = 29; //#
-            columnsRetirementR1a = 26;
-            columnsRetirementR1b = 31;
+            columnsRetirementR1a = 17; //#
+            columnsRetirementR1b = 21; //#
         }
         else throw new IllegalArgumentException("Country not recognised in Parameters.loadParameters()!");
 
@@ -1035,18 +1035,14 @@ public class Parameters {
         if(bootstrapAll) {
 
             //Wages
-            //coeffCovarianceWagesMales = RegressionUtils.bootstrap(coeffCovarianceWagesMales);
             coeffCovarianceWagesMalesE = RegressionUtils.bootstrap(coeffCovarianceWagesMalesE);
             coeffCovarianceWagesMalesNE = RegressionUtils.bootstrap(coeffCovarianceWagesMalesNE);
-            //coeffCovarianceWagesFemales = RegressionUtils.bootstrap(coeffCovarianceWagesFemales);
             coeffCovarianceWagesFemalesE = RegressionUtils.bootstrap(coeffCovarianceWagesFemalesE);
             coeffCovarianceWagesFemalesNE = RegressionUtils.bootstrap(coeffCovarianceWagesFemalesNE);
 
             //Employment selection
-            //coeffCovarianceEmploymentSelectionMales = RegressionUtils.bootstrap(coeffCovarianceEmploymentSelectionMales);
             coeffCovarianceEmploymentSelectionMalesE = RegressionUtils.bootstrap(coeffCovarianceEmploymentSelectionMalesE);
             coeffCovarianceEmploymentSelectionMalesNE = RegressionUtils.bootstrap(coeffCovarianceEmploymentSelectionMalesNE);
-            //coeffCovarianceEmploymentSelectionFemales = RegressionUtils.bootstrap(coeffCovarianceEmploymentSelectionFemales);
             coeffCovarianceEmploymentSelectionFemalesE = RegressionUtils.bootstrap(coeffCovarianceEmploymentSelectionFemalesE);
             coeffCovarianceEmploymentSelectionFemalesNE = RegressionUtils.bootstrap(coeffCovarianceEmploymentSelectionFemalesNE);
 
@@ -1070,17 +1066,9 @@ public class Parameters {
             coeffCovarianceHealthH2b = RegressionUtils.bootstrap(coeffCovarianceHealthH2b);
 
             //Non-labour income
-            // coeffCovarianceIncomeI1a = RegressionUtils.bootstrap(coeffCovarianceIncomeI1a); // Commented out as not used any more since income is split.
-            // coeffCovarianceIncomeI1b = RegressionUtils.bootstrap(coeffCovarianceIncomeI1b); // Commented out as not used any more since income is split.
+
             coeffCovarianceIncomeI3a_amount = RegressionUtils.bootstrap(coeffCovarianceIncomeI3a_amount);
             coeffCovarianceIncomeI3b_amount = RegressionUtils.bootstrap(coeffCovarianceIncomeI3b_amount);
-            //coeffCovarianceIncomeI3c = RegressionUtils.bootstrap(coeffCovarianceIncomeI3c);
-            //coeffCovarianceIncomeI4a = RegressionUtils.bootstrap(coeffCovarianceIncomeI4a);
-            coeffCovarianceIncomeI4b = RegressionUtils.bootstrap(coeffCovarianceIncomeI4b);
-            coeffCovarianceIncomeI5a_selection = RegressionUtils.bootstrap(coeffCovarianceIncomeI5a_selection);
-            coeffCovarianceIncomeI5b_amount = RegressionUtils.bootstrap(coeffCovarianceIncomeI5b_amount);
-            //coeffCovarianceIncomeI6a_selection = RegressionUtils.bootstrap(coeffCovarianceIncomeI6a_selection);
-            //coeffCovarianceIncomeI6b_amount = RegressionUtils.bootstrap(coeffCovarianceIncomeI6b_amount);
             coeffCovarianceIncomeI3a_selection = RegressionUtils.bootstrap(coeffCovarianceIncomeI3a_selection);
             coeffCovarianceIncomeI3b_selection = RegressionUtils.bootstrap(coeffCovarianceIncomeI3b_selection);
 
@@ -1104,6 +1092,8 @@ public class Parameters {
 
         }
 
+        // Define regression objects
+
         //Health
         regHealthH1a = new OrderedProbitRegression(coeffCovarianceHealthH1a, Dhe.class);
         regHealthH1b = new OrderedProbitRegression(coeffCovarianceHealthH1b, Dhe.class);
@@ -1119,29 +1109,22 @@ public class Parameters {
         regPartnershipU1b = new ProbitRegression(coeffCovariancePartnershipU1b);
         regPartnershipU2b = new ProbitRegression(coeffCovariancePartnershipU2b);
 
-
         //Fertility
         regFertilityF1a = new ProbitRegression(coeffCovarianceFertilityF1a);
         regFertilityF1b = new ProbitRegression(coeffCovarianceFertilityF1b);
 
-
         //Income
         regIncomeI3a = new LinearRegression(coeffCovarianceIncomeI3a_amount);
         regIncomeI3b = new LinearRegression(coeffCovarianceIncomeI3b_amount);
-        regIncomeI4b = new LinearRegression(coeffCovarianceIncomeI4b);
-        regIncomeI5b_amount = new LinearRegression(coeffCovarianceIncomeI5b_amount);
         regIncomeI3a_selection = new LogitRegression(coeffCovarianceIncomeI3a_selection);
         regIncomeI3b_selection = new LogitRegression(coeffCovarianceIncomeI3b_selection);
-        regIncomeI5a_selection = new LogitRegression(coeffCovarianceIncomeI5a_selection);
 
         //Homeownership
         regHomeownershipHO1a = new ProbitRegression(coeffCovarianceHomeownership);
 
         //XXX: Note: the model used for selection in Heckman procedure is a Probit, but to obtain Inverse Mills Ratio, linear prediction needs to be obtained - so linear regression used here
-        //regEmploymentSelectionMale = new LinearRegression(coeffCovarianceEmploymentSelectionMales);
         regEmploymentSelectionMaleE = new LinearRegression(coeffCovarianceEmploymentSelectionMalesE);
         regEmploymentSelectionMaleNE = new LinearRegression(coeffCovarianceEmploymentSelectionMalesNE);
-        //regEmploymentSelectionFemale = new LinearRegression(coeffCovarianceEmploymentSelectionFemales);
         regEmploymentSelectionFemaleE = new LinearRegression(coeffCovarianceEmploymentSelectionFemalesE);
         regEmploymentSelectionFemaleNE = new LinearRegression(coeffCovarianceEmploymentSelectionFemalesNE);
         standardNormalDistribution = new NormalDistribution();
@@ -1167,7 +1150,6 @@ public class Parameters {
         //Retirement
         regRetirementR1a = new ProbitRegression(coeffCovarianceRetirementR1a);
         regRetirementR1b = new ProbitRegression(coeffCovarianceRetirementR1b);
-
 
         //Create the age and wage differential MultivariateNormalDistribution for partnership formation, using means and var-cov matrix loaded from Excel
         targetMeanAgeDifferential = ((Number) meanCovarianceParametricMatching.getValue("mean_dag_diff")).doubleValue();
