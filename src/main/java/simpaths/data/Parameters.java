@@ -936,10 +936,10 @@ public class Parameters {
             columnsWagesMalesE = 19; //#
             columnsWagesFemalesNE = 18; //#
             columnsWagesFemalesE = 19; //#
-            columnsEmploymentSelectionMalesNE = 30;
-            columnsEmploymentSelectionMalesE = 29;
-            columnsEmploymentSelectionFemalesNE = 30;
-            columnsEmploymentSelectionFemalesE = 29;
+            columnsEmploymentSelectionMalesNE = 18; //#
+            columnsEmploymentSelectionMalesE = 17; //#
+            columnsEmploymentSelectionFemalesNE = 18; //#
+            columnsEmploymentSelectionFemalesE = 17; //#
             columnsLabourSupplyUtilityMales = 13; //#
             columnsLabourSupplyUtilityFemales = 13; //#
             columnsLabourSupplyUtilityMalesWithDependent = 19; //#
@@ -1009,7 +1009,7 @@ public class Parameters {
         coeffLabourSupplyUtilityACFemales = ExcelAssistant.loadCoefficientMap("input/reg_labourSupplyUtility.xlsx", countryString + "_SingleAC_Females", 1, columnsLabourSupplyUtilityACFemales);
         coeffLabourSupplyUtilityCouples = ExcelAssistant.loadCoefficientMap("input/reg_labourSupplyUtility.xlsx", countryString + "_Couples", 1, columnsLabourSupplyUtilityCouples);
 
-        //Heckman model employment selection TODO HU
+        //Heckman model employment selection
         coeffCovarianceEmploymentSelectionMalesE = ExcelAssistant.loadCoefficientMap("input/reg_employmentSelection.xlsx", countryString + "_EmploymentSelection_MaleE", 1, columnsEmploymentSelectionMalesE);
         coeffCovarianceEmploymentSelectionMalesNE = ExcelAssistant.loadCoefficientMap("input/reg_employmentSelection.xlsx", countryString + "_EmploymentSelection_MaleNE", 1, columnsEmploymentSelectionMalesNE);
         coeffCovarianceEmploymentSelectionFemalesE = ExcelAssistant.loadCoefficientMap("input/reg_employmentSelection.xlsx", countryString + "_EmploymentSelection_FemaleE", 1, columnsEmploymentSelectionFemalesE);
