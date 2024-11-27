@@ -963,7 +963,7 @@ public class Parameters {
             columnsIncomeI3a_selection = 11; //#
             columnsIncomeI3b_selection = 21; //#
             columnsLeaveHomeP1a = 16; //#
-            columnsHomeownership = 33;
+            columnsHomeownership = 29; //#
             columnsRetirementR1a = 26;
             columnsRetirementR1b = 31;
         }

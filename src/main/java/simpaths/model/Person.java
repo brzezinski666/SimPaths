@@ -2042,6 +2042,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         D_children_18over,				//Currently this will return 0 (false) as children leave home when they are 18
         D_Econ_benefits,
         D_Home_owner,
+        Dhh_owned_L1,
         Dag,
         Dag_sq,
         DagCeiling54,
@@ -2109,6 +2110,13 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Dhhtp_c4_CoupleNoChildren_L1,
         Dhhtp_c4_SingleChildren_L1,
         Dhhtp_c4_SingleNoChildren_L1,
+        Dhhtp_c8_2_L1,
+        Dhhtp_c8_3_L1,
+        Dhhtp_c8_4_L1,
+        Dhhtp_c8_5_L1,
+        Dhhtp_c8_6_L1,
+        Dhhtp_c8_7_L1,
+        Dhhtp_c8_8_L1,
         Dhm,							//Mental health status
         Dhm_L1,							//Mental health status lag(1)
         Dhmghq_L1,
@@ -2663,6 +2671,54 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             case Dhhtp_c4_SingleChildren_L1 -> {
                 return (Dhhtp_c4.SingleChildren.equals(getDhhtp_c4_lag1())) ? 1.0 : 0.0;
             }
+            case Dhhtp_c8_2_L1 -> {
+                // Couple with no children, spouse student
+                Person partner = getPartner();
+                if (partner != null && partner.les_c4_lag1 != null)
+                    return (partner.les_c4_lag1.equals(Les_c4.Student) && Dhhtp_c4.CoupleNoChildren.equals(getDhhtp_c4_lag1())) ? 1. : 0.;
+                else
+                    return 0.;
+            }
+            case Dhhtp_c8_3_L1 -> {
+                // Couple with no children, spouse not employed
+                Person partner = getPartner();
+                if (partner != null && partner.les_c4_lag1 != null)
+                    return ((partner.les_c4_lag1.equals(Les_c4.NotEmployed) || partner.les_c4_lag1.equals(Les_c4.Retired)) && Dhhtp_c4.CoupleNoChildren.equals(getDhhtp_c4_lag1())) ? 1. : 0.;
+                else
+                    return 0.;
+            }
+            case Dhhtp_c8_4_L1 -> {
+                // Couple with children, spouse employed
+                Person partner = getPartner();
+                if (partner != null && partner.les_c4_lag1 != null)
+                    return (partner.les_c4_lag1.equals(Les_c4.EmployedOrSelfEmployed) && Dhhtp_c4.CoupleChildren.equals(getDhhtp_c4_lag1())) ? 1. : 0.;
+                else
+                    return 0.;
+            }
+            case Dhhtp_c8_5_L1 -> {
+                // Couple with children, spouse student
+                Person partner = getPartner();
+                if (partner != null && partner.les_c4_lag1 != null)
+                    return (partner.les_c4_lag1.equals(Les_c4.Student) && Dhhtp_c4.CoupleChildren.equals(getDhhtp_c4_lag1())) ? 1. : 0.;
+                else
+                    return 0.;
+            }
+            case Dhhtp_c8_6_L1 -> {
+                // Couple with children, spouse not employed
+                Person partner = getPartner();
+                if (partner != null && partner.les_c4_lag1 != null)
+                    return ((partner.les_c4_lag1.equals(Les_c4.NotEmployed) || partner.les_c4_lag1.equals(Les_c4.Retired)) && Dhhtp_c4.CoupleChildren.equals(getDhhtp_c4_lag1())) ? 1. : 0.;
+                else
+                    return 0.;
+            }
+            case Dhhtp_c8_7_L1 -> {
+                // Single with no children
+                return Dhhtp_c4.SingleNoChildren.equals(getDhhtp_c4_lag1()) ? 1. : 0.;
+            }
+            case Dhhtp_c8_8_L1 -> {
+                // Single with children
+                return Dhhtp_c4.SingleChildren.equals(getDhhtp_c4_lag1()) ? 1. : 0.;
+            }
             case Dlltsd -> {
                 return Indicator.True.equals(dlltsd) ? 1. : 0.;
             }
@@ -2982,6 +3038,9 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             case D_Home_owner -> {
                 return getBenefitUnit().isDhhOwned() ? 1. : 0.;
             } // Evaluated at the level of a benefit unit. If required, can be changed to individual-level homeownership status.
+            case Dhh_owned_L1 -> {
+                return getBenefitUnit().isDhhOwned_lag1() ? 1. : 0.;
+            }
             case Covid_2020_D -> {
                 return (getYear() == 2020) ? 1. : 0.;
             }

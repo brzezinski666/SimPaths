@@ -86,6 +86,7 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
     @Transient private Dhhtp_c4 dhhtp_c4_lag1;
     private String createdByConstructor;
     @Column(name="dhh_owned") private Boolean dhhOwned; // are any of the individuals in the benefit unit a homeowner? True / false
+    @Transient private Boolean dhhOwned_lag1;
     @Transient ArrayList<Triple<Les_c7_covid, Double, Integer>> covid19MonthlyStateAndGrossIncomeAndWorkHoursTripleMale = new ArrayList<>();
     @Transient ArrayList<Triple<Les_c7_covid, Double, Integer>> covid19MonthlyStateAndGrossIncomeAndWorkHoursTripleFemale = new ArrayList<>(); // This ArrayList stores monthly values of labour market states and gross incomes, to be sampled from by the LabourMarket class, for the female member of the benefit unit
 
@@ -259,6 +260,7 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
         this.ydses_c5_lag1 = originalBenefitUnit.ydses_c5_lag1;
         this.dhhtp_c4_lag1 = originalBenefitUnit.dhhtp_c4_lag1;
         this.dhhOwned = originalBenefitUnit.dhhOwned;
+        this.dhhOwned_lag1 = originalBenefitUnit.dhhOwned_lag1;
         createdByConstructor = Objects.requireNonNullElse(originalBenefitUnit.createdByConstructor,"CopyConstructor");
         tmpHHYpnbihs_dv_asinh = Objects.requireNonNullElse(originalBenefitUnit.tmpHHYpnbihs_dv_asinh, 0.0);
         taxDbMatch = originalBenefitUnit.getTaxDbMatch();
@@ -340,6 +342,7 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
         numberChildrenAll_lag1 = getNumberChildrenAll();
         numberChildren02_lag1 = getNumberChildren(0,2);
         dhhtp_c4_lag1 = getDhhtp_c4();
+        dhhOwned_lag1 = isDhhOwned();
 
         equivalisedDisposableIncomeYearly_lag1 = getEquivalisedDisposableIncomeYearly();
         atRiskOfPoverty_lag1 = getAtRiskOfPoverty();
@@ -2860,6 +2863,18 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
     public void setDhhOwned(boolean dhh_owned) {
         this.dhhOwned = dhh_owned;
     }
+
+    public Boolean isDhhOwned_lag1() {
+        if (dhhOwned_lag1 == null) {
+            dhhOwned_lag1 = false;
+        }
+        return dhhOwned_lag1;
+    }
+
+    public void setDhhOwned_lag1(Boolean dhhOwned_lag1) {
+        this.dhhOwned_lag1 = dhhOwned_lag1;
+    }
+
 
     public ArrayList<Triple<Les_c7_covid, Double, Integer>> getCovid19MonthlyStateAndGrossIncomeAndWorkHoursTripleFemale() {
         return covid19MonthlyStateAndGrossIncomeAndWorkHoursTripleFemale;
