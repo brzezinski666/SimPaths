@@ -631,7 +631,7 @@ public class TaxDonorDataParser {
                 // loop through tax units
 
                 counter++;
-                int age = 0, numberMembersOver17 = 0, numberChildrenUnder5 = 0, numberChildren5To9 = 0;
+                int age = 0, numberMembersOver17 = 0, numberChildrenUnder5 = 0, numberChildren5To9 = 0, numberChildren5To17 = 0;
                 int numberChildren10To17 = 0, dlltsd1 = -1, dlltsd2 = -1, careProvision = -1;
                 double hoursWorkedPerWeek1 = 0.0, hoursWorkedPerWeek2 = 0.0;
                 boolean flagInitialiseDemographics = true;
@@ -666,8 +666,10 @@ public class TaxDonorDataParser {
                                 numberChildrenUnder5 += 1;
                             } else if (agePerson < 10) {
                                 numberChildren5To9 += 1;
+                                numberChildren5To17 += 1;
                             } else if (agePerson < Parameters.AGE_TO_BECOME_RESPONSIBLE) {
                                 numberChildren10To17 += 1;
+                                numberChildren5To17 += 1;
                             } else {
                                 numberMembersOver17 += 1;
                             }

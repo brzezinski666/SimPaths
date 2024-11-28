@@ -6,6 +6,7 @@ package simpaths.data;
 import microsim.data.MultiKeyCoefficientMap;
 import microsim.data.excel.ExcelAssistant;
 import microsim.statistics.regression.*;
+import microsim.statistics.regression.RegressionType;
 import org.apache.commons.collections4.keyvalue.MultiKey;
 import org.apache.commons.collections4.map.LinkedMap;
 import org.apache.commons.collections4.map.MultiKeyMap;
@@ -25,6 +26,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
+
+import static microsim.statistics.regression.RegressionUtils.appendCoefficientMaps;
 
 
 /**
@@ -601,62 +604,62 @@ public class Parameters {
     /////////////////////////////////////////////////////////////////// REGRESSION OBJECTS //////////////////////////////////////////
 
     //Health
-    private static OrderedProbitRegression regHealthH1a;
-    private static OrderedProbitRegression regHealthH1b;
-    private static ProbitRegression regHealthH2b;
+    private static GeneralisedOrderedRegression regHealthH1a;
+    private static GeneralisedOrderedRegression regHealthH1b;
+    private static BinomialRegression regHealthH2b;
 
     //Social care
-    private static ProbitRegression regReceiveCareS1a;
+    private static BinomialRegression regReceiveCareS1a;
     private static LinearRegression regCareHoursS1b;
-    private static ProbitRegression regNeedCareS2a;
-    private static ProbitRegression regReceiveCareS2b;
-    private static MultiLogitRegression<SocialCareReceiptS2c> regSocialCareMarketS2c;
-    private static ProbitRegression regReceiveCarePartnerS2d;
-    private static MultiLogitRegression<PartnerSupplementaryCarer> regPartnerSupplementaryCareS2e;
-    private static MultiLogitRegression<NotPartnerInformalCarer> regNotPartnerInformalCareS2f;
+    private static BinomialRegression regNeedCareS2a;
+    private static BinomialRegression regReceiveCareS2b;
+    private static MultinomialRegression<SocialCareReceiptS2c> regSocialCareMarketS2c;
+    private static BinomialRegression regReceiveCarePartnerS2d;
+    private static MultinomialRegression<PartnerSupplementaryCarer> regPartnerSupplementaryCareS2e;
+    private static MultinomialRegression<NotPartnerInformalCarer> regNotPartnerInformalCareS2f;
     private static LinearRegression regPartnerCareHoursS2g;
     private static LinearRegression regDaughterCareHoursS2h;
     private static LinearRegression regSonCareHoursS2i;
     private static LinearRegression regOtherCareHoursS2j;
     private static LinearRegression regFormalCareHoursS2k;
-    private static ProbitRegression regCarePartnerProvCareToOtherS3a;
-    private static ProbitRegression regNoCarePartnerProvCareToOtherS3b;
-    private static ProbitRegression regNoPartnerProvCareToOtherS3c;
-    private static MultiLogitRegression<SocialCareProvision> regInformalCareToS3d;
+    private static BinomialRegression regCarePartnerProvCareToOtherS3a;
+    private static BinomialRegression regNoCarePartnerProvCareToOtherS3b;
+    private static BinomialRegression regNoPartnerProvCareToOtherS3c;
+    private static MultinomialRegression<SocialCareProvision> regInformalCareToS3d;
     private static LinearRegression regCareHoursProvS3e;
 
     //Unemployment
-    private static ProbitRegression regUnemploymentMaleGraduateU1a;
-    private static ProbitRegression regUnemploymentMaleNonGraduateU1b;
-    private static ProbitRegression regUnemploymentFemaleGraduateU1c;
-    private static ProbitRegression regUnemploymentFemaleNonGraduateU1d;
+    private static BinomialRegression regUnemploymentMaleGraduateU1a;
+    private static BinomialRegression regUnemploymentMaleNonGraduateU1b;
+    private static BinomialRegression regUnemploymentFemaleGraduateU1c;
+    private static BinomialRegression regUnemploymentFemaleNonGraduateU1d;
 
     //Health mental
     private static LinearRegression regHealthHM1Level;
     private static LinearRegression regHealthHM2LevelMales;
     private static LinearRegression regHealthHM2LevelFemales;
 
-    private static LogitRegression regHealthHM1Case;
-    private static LogitRegression regHealthHM2CaseMales;
-    private static LogitRegression regHealthHM2CaseFemales;
+    private static BinomialRegression regHealthHM1Case;
+    private static BinomialRegression regHealthHM2CaseMales;
+    private static BinomialRegression regHealthHM2CaseFemales;
 
     //Education
-    private static ProbitRegression regEducationE1a;
-    private static ProbitRegression regEducationE1b;
-    private static OrderedProbitRegression regEducationE2a;
+    private static BinomialRegression regEducationE1a;
+    private static BinomialRegression regEducationE1b;
+    private static OrderedRegression regEducationE2a;
 
     //Partnership
-    private static ProbitRegression regPartnershipU1a;
-    private static ProbitRegression regPartnershipU1b;
-    private static ProbitRegression regPartnershipU2b;
+    private static BinomialRegression regPartnershipU1a;
+    private static BinomialRegression regPartnershipU1b;
+    private static BinomialRegression regPartnershipU2b;
 
-    private static ProbitRegression regPartnershipITU1;
-    private static ProbitRegression regPartnershipITU2;
+    private static BinomialRegression regPartnershipITU1;
+    private static BinomialRegression regPartnershipITU2;
 
     //Fertility
-    private static ProbitRegression regFertilityF1a;
-    private static ProbitRegression regFertilityF1b;
-    private static ProbitRegression regFertilityF1;
+    private static BinomialRegression regFertilityF1a;
+    private static BinomialRegression regFertilityF1b;
+    private static BinomialRegression regFertilityF1;
 
     //Income
     private static LinearRegression regIncomeI1a;
@@ -668,20 +671,20 @@ public class Parameters {
     private static LinearRegression regIncomeI4b;
     private static LinearRegression regIncomeI5b_amount;
     private static LinearRegression regIncomeI6b_amount;
-    private static LogitRegression regIncomeI3a_selection;
-    private static LogitRegression regIncomeI3b_selection;
-    private static LogitRegression regIncomeI5a_selection;
-    private static LogitRegression regIncomeI6a_selection;
+    private static BinomialRegression regIncomeI3a_selection;
+    private static BinomialRegression regIncomeI3b_selection;
+    private static BinomialRegression regIncomeI5a_selection;
+    private static BinomialRegression regIncomeI6a_selection;
 
     //Homeownership
-    private static ProbitRegression regHomeownershipHO1a;
+    private static BinomialRegression regHomeownershipHO1a;
 
     //New regressions from Lia
-    private static LogitRegression regSchooling;
-    private static MultiLogitRegression<Education> regEducationLevel;
+    private static BinomialRegression regSchooling;
+    private static MultinomialRegression<Education> regEducationLevel;
 
     //New simple educ level
-    private static MultiLogitRegression<Education> regSimpleEducLevel;
+    private static MultinomialRegression<Education> regSimpleEducLevel;
 
     //For Labour market
     private static LinearRegression regWagesMales;
@@ -705,13 +708,13 @@ public class Parameters {
 
     // Covid-19 labour transitions regressions below
     // Initialisation
-    private static ProbitRegression regC19LS_SE; // Assigns self-employed status in the simulated population
+    private static BinomialRegression regC19LS_SE; // Assigns self-employed status in the simulated population
     // Transitions
-    private static MultiLogitRegression<Les_transitions_E1> regC19LS_E1;  // Models transitions from employment
-    private static MultiLogitRegression<Les_transitions_FF1> regC19LS_FF1;  // Models transitions from furlough full
-    private static MultiLogitRegression<Les_transitions_FX1> regC19LS_FX1;  // Models transitions from furlough flex
-    private static MultiLogitRegression<Les_transitions_S1> regC19LS_S1;  // Models transitions from self-employment
-    private static MultiLogitRegression<Les_transitions_U1> regC19LS_U1;  // Models transitions from non-employment
+    private static MultinomialRegression<Les_transitions_E1> regC19LS_E1;  // Models transitions from employment
+    private static MultinomialRegression<Les_transitions_FF1> regC19LS_FF1;  // Models transitions from furlough full
+    private static MultinomialRegression<Les_transitions_FX1> regC19LS_FX1;  // Models transitions from furlough flex
+    private static MultinomialRegression<Les_transitions_S1> regC19LS_S1;  // Models transitions from self-employment
+    private static MultinomialRegression<Les_transitions_U1> regC19LS_U1;  // Models transitions from non-employment
     // Hours of work
     private static LinearRegression regC19LS_E2a;
     private static LinearRegression regC19LS_E2b;
@@ -722,21 +725,21 @@ public class Parameters {
     private static LinearRegression regC19LS_U2a;
 
     // Probability of SEISS
-    private static LogitRegression regC19LS_S3;
+    private static BinomialRegression regC19LS_S3;
 
     //Leaving parental home
-    private static ProbitRegression regLeaveHomeP1a;
+    private static BinomialRegression regLeaveHomeP1a;
 
     //Retirement
-    private static ProbitRegression regRetirementR1a;
-    private static ProbitRegression regRetirementR1b;
+    private static BinomialRegression regRetirementR1a;
+    private static BinomialRegression regRetirementR1b;
 
     //Childcare
-    private static ProbitRegression regChildcareC1a;
+    private static BinomialRegression regChildcareC1a;
     private static LinearRegression regChildcareC1b;
 
-    private static ProbitRegression regBirthFemales;
-    private static ProbitRegression regUnionFemales;
+    private static BinomialRegression regBirthFemales;
+    private static BinomialRegression regUnionFemales;
     private static Set<Region> countryRegions;
     private static Map<Region, Double> unemploymentRatesByRegion;
     public static boolean isFixTimeTrend;
@@ -1095,32 +1098,37 @@ public class Parameters {
         // Define regression objects
 
         //Health
-        regHealthH1a = new OrderedProbitRegression(coeffCovarianceHealthH1a, Dhe.class);
-        regHealthH1b = new OrderedProbitRegression(coeffCovarianceHealthH1b, Dhe.class);
-        regHealthH2b = new ProbitRegression(coeffCovarianceHealthH2b);
+        regHealthH1a = new GeneralisedOrderedRegression<>(RegressionType.GenOrderedLogit, Dhe.class, coeffCovarianceHealthH1a);
+        regHealthH1b = new GeneralisedOrderedRegression<>(RegressionType.GenOrderedLogit, Dhe.class, coeffCovarianceHealthH1b);
+        regHealthH2b = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffCovarianceHealthH2b);
 
         //Education
-        regEducationE1a = new ProbitRegression(coeffCovarianceEducationE1a);
-        regEducationE1b = new ProbitRegression(coeffCovarianceEducationE1b);
-        regEducationE2a = new OrderedProbitRegression(coeffCovarianceEducationE2a, Education.class);
+        regEducationE1a = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffCovarianceEducationE1a);
+        regEducationE1b = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffCovarianceEducationE1b);
+        regEducationE2a = new OrderedRegression(RegressionType.OrderedProbit, Education.class, coeffCovarianceEducationE2a);
 
         //Partnership
-        regPartnershipU1a = new ProbitRegression(coeffCovariancePartnershipU1a);
-        regPartnershipU1b = new ProbitRegression(coeffCovariancePartnershipU1b);
-        regPartnershipU2b = new ProbitRegression(coeffCovariancePartnershipU2b);
+        MultiKeyCoefficientMap coeffPartnershipU1aAppended = appendCoefficientMaps(coeffCovariancePartnershipU1a, partnershipTimeAdjustment, "Year");
+        MultiKeyCoefficientMap coeffPartnershipU1bAppended = appendCoefficientMaps(coeffCovariancePartnershipU1b, partnershipTimeAdjustment, "Year");
+        MultiKeyCoefficientMap coeffPartnershipU2bAppended = appendCoefficientMaps(coeffCovariancePartnershipU2b, partnershipTimeAdjustment, "Year", true);
+        regPartnershipU1a = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffPartnershipU1aAppended);
+        regPartnershipU1b = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffPartnershipU1bAppended);
+        regPartnershipU2b = new BinomialRegression(RegressionType.Probit, ReversedIndicator.class, coeffPartnershipU2bAppended);
 
         //Fertility
-        regFertilityF1a = new ProbitRegression(coeffCovarianceFertilityF1a);
-        regFertilityF1b = new ProbitRegression(coeffCovarianceFertilityF1b);
+        MultiKeyCoefficientMap coeffFertilityF1aAppended = appendCoefficientMaps(coeffCovarianceFertilityF1a, fertilityTimeAdjustment, "Year");
+        MultiKeyCoefficientMap coeffFertilityF1bAppended = appendCoefficientMaps(coeffCovarianceFertilityF1b, fertilityTimeAdjustment, "Year");
+        regFertilityF1a = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffFertilityF1aAppended);
+        regFertilityF1b = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffFertilityF1bAppended);
 
         //Income
         regIncomeI3a = new LinearRegression(coeffCovarianceIncomeI3a_amount);
         regIncomeI3b = new LinearRegression(coeffCovarianceIncomeI3b_amount);
-        regIncomeI3a_selection = new LogitRegression(coeffCovarianceIncomeI3a_selection);
-        regIncomeI3b_selection = new LogitRegression(coeffCovarianceIncomeI3b_selection);
+        regIncomeI3a_selection = new BinomialRegression(RegressionType.Logit, Indicator.class, coeffCovarianceIncomeI3a_selection);
+        regIncomeI3b_selection = new BinomialRegression(RegressionType.Logit, Indicator.class, coeffCovarianceIncomeI3b_selection);
 
         //Homeownership
-        regHomeownershipHO1a = new ProbitRegression(coeffCovarianceHomeownership);
+        regHomeownershipHO1a = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffCovarianceHomeownership);
 
         //XXX: Note: the model used for selection in Heckman procedure is a Probit, but to obtain Inverse Mills Ratio, linear prediction needs to be obtained - so linear regression used here
         regEmploymentSelectionMaleE = new LinearRegression(coeffCovarianceEmploymentSelectionMalesE);
@@ -1145,11 +1153,11 @@ public class Parameters {
         regLabourSupplyUtilityCouples = new LinearRegression(coeffLabourSupplyUtilityCouples);
 
         //Leaving parental home
-        regLeaveHomeP1a = new ProbitRegression(coeffCovarianceLeaveHomeP1a);
+        regLeaveHomeP1a = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffCovarianceLeaveHomeP1a);
 
         //Retirement
-        regRetirementR1a = new ProbitRegression(coeffCovarianceRetirementR1a);
-        regRetirementR1b = new ProbitRegression(coeffCovarianceRetirementR1b);
+        regRetirementR1a = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffCovarianceRetirementR1a);
+        regRetirementR1b = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffCovarianceRetirementR1b);
 
         //Create the age and wage differential MultivariateNormalDistribution for partnership formation, using means and var-cov matrix loaded from Excel
         targetMeanAgeDifferential = ((Number) meanCovarianceParametricMatching.getValue("mean_dag_diff")).doubleValue();
@@ -1161,71 +1169,6 @@ public class Parameters {
         calculateFertilityRatesFromProjections();
         calculatePopulationGrowthRatiosFromProjections();
 
-        /////////////////////////////////////////////////POPULATE STATISTICS FOR VALIDATION/////////////////////////////
-        //Students by Age
-        validationStudentsByAge = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_studentsByAge", 1, columnsValidationStudentsByAge);
-
-        //Students by Region
-        validationStudentsByRegion = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_studentsByRegion", 1, columnsValidationStudentsByRegion);
-
-        //Education level of over 17 year olds
-        validationEducationLevel = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_educationLevel", 1, columnsValidationEducationLevel);
-
-        //Education level by age group
-        validationEducationLevelByAge = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_educationLevelByAge", 1, columnsValidationEducationLevelByAge);
-
-        //Education level by region
-        validationEducationLevelByRegion = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_educationLevelByRegion", 1, columnsValidationEducationLevelByRegion);
-
-        //Partnered BU share by region
-        validationPartneredShareByRegion = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_partneredBUShareByRegion", 1, columnsValidationPartneredBUShareByRegion);
-
-        //Disabled by age
-        validationDisabledByAge = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_disabledByAgeGroup", 1, columnsValidationDisabledByAgeGroup);
-
-        validationDisabledByGender = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_disabledByGender", 1, columnsValidationDisabledByGender);
-
-        //Health by age
-        validationHealthByAge = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_healthByAgeGroup", 1, columnsValidationHealthByAgeGroup);
-
-        //Mental health by age and gender
-        validationMentalHealthByAge = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_mentalHealthByAgeGroup", 1, columnsValidationMentalHealthByAgeGroup);
-
-        //Psychological distress by age and gender
-        validationPsychDistressByAge = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_psychDistressByAgeGroup", 1, columnsValidationMentalHealthByAgeGroup);
-        validationPsychDistressByAgeLow = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_psychDistressByAgeGroupLowED", 1, columnsValidationMentalHealthByAgeGroup);
-        validationPsychDistressByAgeMed = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_psychDistressByAgeGroupMedED", 1, columnsValidationMentalHealthByAgeGroup);
-        validationPsychDistressByAgeHigh = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_psychDistressByAgeGroupHiEd", 1, columnsValidationMentalHealthByAgeGroup);
-
-        //Employment by gender
-        validationEmploymentByGender = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_employmentByGender", 1, columnsValidationEmploymentByGender);
-
-        //Employment by age and gender
-        validationEmploymentByAgeAndGender = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_employmentByGenderAndAge", 1, columnsValidationEmploymentByGenderAndAge);
-
-        //Employment by maternity
-        validationEmploymentByMaternity = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_employmentByMaternity", 1, columnsValidationEmploymentByMaternity);
-
-        //Employment by gender and region
-        validationEmploymentByGenderAndRegion = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_employmentByGenderAndRegion", 1, columnsValidationEmploymentByGenderAndRegion);
-
-        //Labour supply by education
-        validationLabourSupplyByEducation = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_labourSupplyByEducation", 1, columnsValidationLabourSupplyByEducation);
-
-        //Activity status
-        validationActivityStatus = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_activityStatus", 1, columnsValidationActivityStatus);
-
-        //Homeownership status
-        validationHomeownershipBenefitUnits = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_homeownership", 1, columnsValidationHomeownership);
-
-        //Gross earnings yearly by education and gender (for employed persons)
-        validationGrossEarningsByGenderAndEducation = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_grossEarningsByGenderAndEdu", 1, columnsValidationByGenderAndEducation);
-
-        //Hourly wages by education and gender (for employed persons)
-        validationLhwByGenderAndEducation = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_lhwByGenderAndEdu", 1, 8);
-
-        //Hours worked weekly by education and gender (for employed persons)
-        hourlyWageByGenderAndEducation = ExcelAssistant.loadCoefficientMap("input/validation_statistics.xlsx", countryString + "_hourlywageByGenderAndEdu", 1, columnsValidationByGenderAndEducation);
     }
 
     /**
@@ -1471,98 +1414,58 @@ public class Parameters {
 
     public static MultiKeyCoefficientMap getStudentShareProjections() { return studentShareProjections; }
 
-    public static MultiLogitRegression<Education> getRegEducationLevel() {
+    public static MultinomialRegression<Education> getRegEducationLevel() {
         return regEducationLevel;
     }
 
-    public static OrderedProbitRegression getRegHealthH1a() {
-        return regHealthH1a;
-    }
-    public static OrderedProbitRegression getRegHealthH1b() {
-        return regHealthH1b;
-    }
-    public static ProbitRegression getRegHealthH2b() { return regHealthH2b; }
+    public static GeneralisedOrderedRegression getRegHealthH1a() { return regHealthH1a; }
+    public static GeneralisedOrderedRegression getRegHealthH1b() { return regHealthH1b; }
+    public static BinomialRegression getRegHealthH2b() { return regHealthH2b; }
 
-    public static ProbitRegression getRegReceiveCareS1a() { return regReceiveCareS1a; }
+    public static BinomialRegression getRegReceiveCareS1a() { return regReceiveCareS1a; }
     public static LinearRegression getRegCareHoursS1b() { return regCareHoursS1b; }
-    public static ProbitRegression getRegNeedCareS2a() { return regNeedCareS2a; }
-    public static ProbitRegression getRegReceiveCareS2b() { return regReceiveCareS2b; }
-    public static MultiLogitRegression getRegSocialCareMarketS2c() { return regSocialCareMarketS2c; }
-    public static ProbitRegression getRegReceiveCarePartnerS2d() { return regReceiveCarePartnerS2d; }
-    public static MultiLogitRegression getRegPartnerSupplementaryCareS2e() { return regPartnerSupplementaryCareS2e; }
-    public static MultiLogitRegression getRegNotPartnerInformalCareS2f() { return regNotPartnerInformalCareS2f; }
+    public static BinomialRegression getRegNeedCareS2a() { return regNeedCareS2a; }
+    public static BinomialRegression getRegReceiveCareS2b() { return regReceiveCareS2b; }
+    public static MultinomialRegression getRegSocialCareMarketS2c() { return regSocialCareMarketS2c; }
+    public static BinomialRegression getRegReceiveCarePartnerS2d() { return regReceiveCarePartnerS2d; }
+    public static MultinomialRegression getRegPartnerSupplementaryCareS2e() { return regPartnerSupplementaryCareS2e; }
+    public static MultinomialRegression getRegNotPartnerInformalCareS2f() { return regNotPartnerInformalCareS2f; }
     public static LinearRegression getRegPartnerCareHoursS2g() { return regPartnerCareHoursS2g; }
     public static LinearRegression getRegDaughterCareHoursS2h() { return regDaughterCareHoursS2h; }
     public static LinearRegression getRegSonCareHoursS2i() { return regSonCareHoursS2i; }
     public static LinearRegression getRegOtherCareHoursS2j() { return regOtherCareHoursS2j; }
     public static LinearRegression getRegFormalCareHoursS2k() { return regFormalCareHoursS2k; }
-    public static ProbitRegression getRegCarePartnerProvCareToOtherS3a() { return regCarePartnerProvCareToOtherS3a; }
-    public static ProbitRegression getRegNoCarePartnerProvCareToOtherS3b() { return regNoCarePartnerProvCareToOtherS3b; }
-    public static ProbitRegression getRegNoPartnerProvCareToOtherS3c() { return regNoPartnerProvCareToOtherS3c; }
-    public static MultiLogitRegression getRegInformalCareToS3d() { return regInformalCareToS3d; }
+    public static BinomialRegression getRegCarePartnerProvCareToOtherS3a() { return regCarePartnerProvCareToOtherS3a; }
+    public static BinomialRegression getRegNoCarePartnerProvCareToOtherS3b() { return regNoCarePartnerProvCareToOtherS3b; }
+    public static BinomialRegression getRegNoPartnerProvCareToOtherS3c() { return regNoPartnerProvCareToOtherS3c; }
+    public static MultinomialRegression getRegInformalCareToS3d() { return regInformalCareToS3d; }
     public static LinearRegression getRegCareHoursProvS3e() { return regCareHoursProvS3e; }
 
-    public static ProbitRegression getRegUnemploymentMaleGraduateU1a() { return regUnemploymentMaleGraduateU1a; }
-    public static ProbitRegression getRegUnemploymentMaleNonGraduateU1b() { return regUnemploymentMaleNonGraduateU1b; }
-    public static ProbitRegression getRegUnemploymentFemaleGraduateU1c() { return regUnemploymentFemaleGraduateU1c; }
-    public static ProbitRegression getRegUnemploymentFemaleNonGraduateU1d() { return regUnemploymentFemaleNonGraduateU1d; }
+    public static BinomialRegression getRegUnemploymentMaleGraduateU1a() { return regUnemploymentMaleGraduateU1a; }
+    public static BinomialRegression getRegUnemploymentMaleNonGraduateU1b() { return regUnemploymentMaleNonGraduateU1b; }
+    public static BinomialRegression getRegUnemploymentFemaleGraduateU1c() { return regUnemploymentFemaleGraduateU1c; }
+    public static BinomialRegression getRegUnemploymentFemaleNonGraduateU1d() { return regUnemploymentFemaleNonGraduateU1d; }
 
     public static LinearRegression getRegHealthHM1Level() { return regHealthHM1Level; }
     public static LinearRegression getRegHealthHM2LevelMales() { return regHealthHM2LevelMales; }
     public static LinearRegression getRegHealthHM2LevelFemales() { return regHealthHM2LevelFemales; }
-    public static LogitRegression getRegHealthHM1Case() {
-        return regHealthHM1Case;
-    }
-    public static LogitRegression getRegHealthHM2CaseMales() {
-        return regHealthHM2CaseMales;
-    }
-    public static LogitRegression getRegHealthHM2CaseFemales() {
-        return regHealthHM2CaseFemales;
-    }
+    public static BinomialRegression getRegHealthHM1Case() {return regHealthHM1Case;}
+    public static BinomialRegression getRegHealthHM2CaseMales() {return regHealthHM2CaseMales;}
+    public static BinomialRegression getRegHealthHM2CaseFemales() {return regHealthHM2CaseFemales;}
 
-    public static ProbitRegression getRegEducationE1a() {
-        return regEducationE1a;
-    }
+    public static BinomialRegression getRegEducationE1a() {return regEducationE1a;}
+    public static BinomialRegression getRegEducationE1b() {return regEducationE1b;}
+    public static OrderedRegression getRegEducationE2a() {return regEducationE2a;}
 
-    public static ProbitRegression getRegEducationE1b() {
-        return regEducationE1b;
-    }
+    public static BinomialRegression getRegPartnershipU1a() {return regPartnershipU1a;}
+    public static BinomialRegression getRegPartnershipU1b() {return regPartnershipU1b;}
+    public static BinomialRegression getRegPartnershipU2b() {return regPartnershipU2b;}
+    public static BinomialRegression getRegPartnershipITU1() {return regPartnershipITU1;}
+    public static BinomialRegression getRegPartnershipITU2() {return regPartnershipITU2;}
 
-    public static OrderedProbitRegression getRegEducationE2a() {
-        return regEducationE2a;
-    }
-
-    public static ProbitRegression getRegPartnershipU1a() {
-        return regPartnershipU1a;
-    }
-
-    public static ProbitRegression getRegPartnershipU1b() {
-        return regPartnershipU1b;
-    }
-
-    public static ProbitRegression getRegPartnershipU2b() {
-        return regPartnershipU2b;
-    }
-
-    public static ProbitRegression getRegPartnershipITU1() {
-        return regPartnershipITU1;
-    }
-
-    public static ProbitRegression getRegPartnershipITU2() {
-        return regPartnershipITU2;
-    }
-
-    public static ProbitRegression getRegFertilityF1a() {
-        return regFertilityF1a;
-    }
-
-    public static ProbitRegression getRegFertilityF1b() {
-        return regFertilityF1b;
-    }
-
-    public static ProbitRegression getRegFertilityF1() {
-        return regFertilityF1;
-    }
+    public static BinomialRegression getRegFertilityF1a() {return regFertilityF1a;}
+    public static BinomialRegression getRegFertilityF1b() {return regFertilityF1b;}
+    public static BinomialRegression getRegFertilityF1() {return regFertilityF1;}
 
     public static LinearRegression getRegIncomeI1a() {
         return regIncomeI1a;
@@ -1590,15 +1493,12 @@ public class Parameters {
 
     public static LinearRegression getRegIncomeI6b_amount() { return regIncomeI6b_amount; }
 
-    public static LogitRegression getRegIncomeI3a_selection() { return regIncomeI3a_selection; }
+    public static BinomialRegression getRegIncomeI3a_selection() { return regIncomeI3a_selection; }
+    public static BinomialRegression getRegIncomeI3b_selection() { return regIncomeI3b_selection; }
+    public static BinomialRegression getRegIncomeI5a_selection() { return regIncomeI5a_selection; }
+    public static BinomialRegression getRegIncomeI6a_selection() { return regIncomeI6a_selection; }
 
-    public static LogitRegression getRegIncomeI3b_selection() { return regIncomeI3b_selection; }
-    public static LogitRegression getRegIncomeI5a_selection() { return regIncomeI5a_selection; }
-    public static LogitRegression getRegIncomeI6a_selection() { return regIncomeI6a_selection; }
-
-    public static ProbitRegression getRegHomeownershipHO1a() {
-        return regHomeownershipHO1a;
-    }
+    public static BinomialRegression getRegHomeownershipHO1a() {return regHomeownershipHO1a;}
 
     public static Set<Region> getCountryRegions() {
         return countryRegions;
@@ -1792,19 +1692,19 @@ public class Parameters {
         return wageAndAgeDifferentialMultivariateNormalDistribution.sample();
     }
 
-    public static ProbitRegression getRegLeaveHomeP1a() {
+    public static BinomialRegression getRegLeaveHomeP1a() {
         return regLeaveHomeP1a;
     }
 
-    public static ProbitRegression getRegRetirementR1a() {
+    public static BinomialRegression getRegRetirementR1a() {
         return regRetirementR1a;
     }
 
-    public static ProbitRegression getRegRetirementR1b() {
+    public static BinomialRegression getRegRetirementR1b() {
         return regRetirementR1b;
     }
 
-    public static ProbitRegression getRegChildcareC1a() { return regChildcareC1a; }
+    public static BinomialRegression getRegChildcareC1a() { return regChildcareC1a; }
 
     public static LinearRegression getRegChildcareC1b() {
         return regChildcareC1b;
@@ -1908,29 +1808,15 @@ public class Parameters {
     }
 
     ///////////////////////////////////////////GETTERS FOR COVID-19 LABOUR TRANSITIONS//////////////////////////////////
-    public static ProbitRegression getRegC19LS_SE() {
+    public static BinomialRegression getRegC19LS_SE() {
         return regC19LS_SE;
     }
 
-    public static MultiLogitRegression<Les_transitions_E1> getRegC19LS_E1() {
-        return regC19LS_E1;
-    }
-
-    public static MultiLogitRegression<Les_transitions_FF1> getRegC19LS_FF1() {
-        return regC19LS_FF1;
-    }
-
-    public static MultiLogitRegression<Les_transitions_FX1> getRegC19LS_FX1() {
-        return regC19LS_FX1;
-    }
-
-    public static MultiLogitRegression<Les_transitions_S1> getRegC19LS_S1() {
-        return regC19LS_S1;
-    }
-
-    public static MultiLogitRegression<Les_transitions_U1> getRegC19LS_U1() {
-        return regC19LS_U1;
-    }
+    public static MultinomialRegression getRegC19LS_E1() {return regC19LS_E1;}
+    public static MultinomialRegression getRegC19LS_FF1() {return regC19LS_FF1;}
+    public static MultinomialRegression getRegC19LS_FX1() {return regC19LS_FX1;}
+    public static MultinomialRegression getRegC19LS_S1() {return regC19LS_S1;}
+    public static MultinomialRegression getRegC19LS_U1() {return regC19LS_U1;}
 
     public static LinearRegression getRegC19LS_E2a() {
         return regC19LS_E2a;
@@ -1960,7 +1846,7 @@ public class Parameters {
         return regC19LS_U2a;
     }
 
-    public static LogitRegression getRegC19LS_S3() {
+    public static BinomialRegression getRegC19LS_S3() {
         return regC19LS_S3;
     }
 

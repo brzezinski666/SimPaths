@@ -1052,7 +1052,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             if (recCareInnov < probRecCare) {
                 // receive care
 
-                Map<SocialCareReceiptS2c,Double> probs1 = Parameters.getRegSocialCareMarketS2c().getProbabilites(this, Person.DoublesVariables.class);
+                Map<SocialCareReceiptS2c,Double> probs1 = Parameters.getRegSocialCareMarketS2c().getProbabilities(this, Person.DoublesVariables.class);
                 MultiValEvent event = new MultiValEvent(probs1, innovations.getDoubleDraw(8));
                 SocialCareReceiptS2c socialCareReceiptS2c = (SocialCareReceiptS2c) event.eval();
                 socialCareReceipt = SocialCareReceipt.getCode(socialCareReceiptS2c);
@@ -1071,7 +1071,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
 
                             socialCareFromPartner = true;
                             Map<PartnerSupplementaryCarer,Double> probs2 =
-                                    Parameters.getRegPartnerSupplementaryCareS2e().getProbabilites(this, Person.DoublesVariables.class);
+                                    Parameters.getRegPartnerSupplementaryCareS2e().getProbabilities(this, Person.DoublesVariables.class);
                             event = new MultiValEvent(probs2, innovations.getDoubleDraw(10));
                             PartnerSupplementaryCarer cc = (PartnerSupplementaryCarer) event.eval();
                             if (PartnerSupplementaryCarer.Daughter.equals(cc))
@@ -1086,7 +1086,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
                         // no care from partner - identify who supplies informal care
 
                         Map<NotPartnerInformalCarer,Double> probs2 =
-                                Parameters.getRegNotPartnerInformalCareS2f().getProbabilites(this, Person.DoublesVariables.class);
+                                Parameters.getRegNotPartnerInformalCareS2f().getProbabilities(this, Person.DoublesVariables.class);
                         event = new MultiValEvent(probs2, innovations.getDoubleDraw(11));
                         NotPartnerInformalCarer cc = (NotPartnerInformalCarer) event.eval();
                         if (NotPartnerInformalCarer.DaughterOnly.equals(cc) || NotPartnerInformalCarer.DaughterAndSon.equals(cc) || NotPartnerInformalCarer.DaughterAndOther.equals(cc))
@@ -1487,34 +1487,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
                 else ypncp = 0.; //If no capital income, set amount to 0
             }
             if (Les_c4.Retired.equals(les_c4)) {
-                // Retirement decision is modelled in the retirement process. Here only the amount of pension income for retired individuals is modelled.
-                /*
-                    Private pension income when individual was retired in the previous period is modelled using process I4b.
-
-                    Private pension income when individual moves from non-retirement to retirement is modelled using:
-                    i) process I5a_selection, to determine who receives private pension income
-                    ii) process I5b_amount, for those who are determined to receive private pension income by process I5a_selection. I5b_amount is modelled in levels using linear regression.
-                */
-
-                double score, rmse, pensionIncLevel = 0.;
-                if (Les_c4.Retired.equals(les_c4_lag1)) {
-                    // If person was retired in the previous period (and the simulation is not in its initial year), use process I4b
-
-                    score = Parameters.getRegIncomeI4b().getScore(this, Person.DoublesVariables.class);
-                    rmse = Parameters.getRMSEForRegression("I4b");
-                    pensionIncLevel = setIncomeBySource(score, rmse, IncomeSource.PrivatePension, RegressionScoreType.Asinh);
-                } else {
-                    // For individuals in the first year of retirement, use processes I5a_selection and I5b_amount
-
-                    double prob = Parameters.getRegIncomeI5a_selection().getProbability(this, Person.DoublesVariables.class);
-                    boolean hasPrivatePensionIncome = (innovations.getDoubleDraw(19) < prob);
-                    if (hasPrivatePensionIncome) {
-
-                        score = Parameters.getRegIncomeI5b_amount().getScore(this, Person.DoublesVariables.class);
-                        rmse = Parameters.getRMSEForRegression("I5b");
-                        pensionIncLevel = setIncomeBySource(score, rmse, IncomeSource.PrivatePension, RegressionScoreType.Level);
-                    }
-                }
+                double pensionIncLevel = 0.;
                 ypnoab = Parameters.asinh(pensionIncLevel);
             }
         }

@@ -180,7 +180,7 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
     public boolean labourMarketCovid19On = false; // Set to true to use reduced-form labour market module for years affected by Covid-19 (2020, 2021)
 
     @GUIparameter(description = "Simulate formal childcare costs")
-    public boolean projectFormalChildcare = true;
+    public boolean projectFormalChildcare = false;
 
     @GUIparameter(description = "Average over donor pool when imputing transfer payments")
     public boolean donorPoolAveraging = true;
@@ -233,11 +233,11 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
     EventGroup yearlySchedule = new EventGroup();
 
     @GUIparameter(description = "tick to project social care")
-    private boolean projectSocialCare = true;
+    private boolean projectSocialCare = false;
 
-    private boolean flagSuppressChildcareCosts = false;
+    private boolean flagSuppressChildcareCosts = true;
 
-    private boolean flagSuppressSocialCareCosts = false;
+    private boolean flagSuppressSocialCareCosts = true;
 
     @GUIparameter(description = "tick to enable intertemporal optimised consumption and labour decisions")
     private boolean enableIntertemporalOptimisations = false;
@@ -2743,15 +2743,15 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
                     }
                 }
                 MahalanobisDistance mdDualIncome = new MahalanobisDistance(dataDualIncome);
-                MahalanobisDistance mdChildcare = new MahalanobisDistance(dataChildcare);
-                MahalanobisDistance mdDualIncomeChildcare = new MahalanobisDistance(dataDualIncomeChildcare);
+            //    MahalanobisDistance mdChildcare = new MahalanobisDistance(dataChildcare);
+            //    MahalanobisDistance mdDualIncomeChildcare = new MahalanobisDistance(dataDualIncomeChildcare);
 
                 // instantiate Parameters for retrieval
                 Parameters.setTaxdbReferences(taxdbReferences);
                 Parameters.setDonorPool(donorPool);
                 Parameters.setMdDualIncome(mdDualIncome);
-                Parameters.setMdChildcare(mdChildcare);
-                Parameters.setMdDualIncomeChildcare(mdDualIncomeChildcare);
+            //    Parameters.setMdChildcare(mdChildcare);
+            //    Parameters.setMdDualIncomeChildcare(mdDualIncomeChildcare);
 
                 // close database connection
                 txn.commit();
