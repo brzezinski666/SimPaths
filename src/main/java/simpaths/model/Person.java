@@ -2034,12 +2034,12 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Cut8,
         Cut9,
         Cut10,
-        D_children,
-        D_children_2under,				// Indicator (dummy variables for presence of children of certain ages in the benefitUnit)
-        D_children_3_6,
-        D_children_7_12,
-        D_children_13_17,
-        D_children_18over,				//Currently this will return 0 (false) as children leave home when they are 18
+        D_Children,
+        D_Children_2under,				// Indicator (dummy variables for presence of children of certain ages in the benefitUnit)
+        D_Children_3_6,
+        D_Children_7_12,
+        D_Children_13_17,
+        D_Children_18over,				//Currently this will return 0 (false) as children leave home when they are 18
         D_Econ_benefits,
         D_Home_owner,
         Dhh_owned_L1,
@@ -2483,22 +2483,22 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
                     return dcpst_lag1.equals(Dcpst.PreviouslyPartnered) ? 1. : 0.;
                 } else return 0.;
             }
-            case D_children_2under -> {
+            case D_Children_2under -> {
                 return (double) benefitUnit.getIndicatorChildren(0, 2).ordinal();
             }
-            case D_children_3_6 -> {
+            case D_Children_3_6 -> {
                 return (double) benefitUnit.getIndicatorChildren(3, 6).ordinal();
             }
-            case D_children_7_12 -> {
+            case D_Children_7_12 -> {
                 return (double) benefitUnit.getIndicatorChildren(7, 12).ordinal();
             }
-            case D_children_13_17 -> {
+            case D_Children_13_17 -> {
                 return (double) benefitUnit.getIndicatorChildren(13, 17).ordinal();
             }
-            case D_children_18over -> {
+            case D_Children_18over -> {
                 return (double) benefitUnit.getIndicatorChildren(18, 99).ordinal();
             }
-            case D_children -> {
+            case D_Children -> {
                 return (getNumberChildrenAll() > 0) ? 1. : 0.;
             }
             case Dnc_L1 -> {

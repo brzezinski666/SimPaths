@@ -714,7 +714,9 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 					Weighted_CrossSection.Integer regionCS = new Weighted_CrossSection.Integer(model.getPersons(), Person.class, "getLowEducation", true);
 					regionCS.setFilter(regionFilter);
 					eduLowRegionPlotter.addSeries(region.getName(), new Weighted_MeanArrayFunction(regionCS), null, colorArrayList.get(colorCounter), false);		//'yo' means "years old"
-					eduLowRegionPlotter.addSeries("Validation "+region.getName(), validator, Validator.DoublesVariables.valueOf("educationLevelLowByRegion_"+region), colorArrayList.get(colorCounter), true);
+					if (showValidationStatistics) {
+						eduLowRegionPlotter.addSeries("Validation " + region.getName(), validator, Validator.DoublesVariables.valueOf("educationLevelLowByRegion_" + region), colorArrayList.get(colorCounter), true);
+					}
 					colorCounter++;
 			    }		    			    
 			    updateChartSet.add(eduLowRegionPlotter);			//Add to set to be updated in buildSchedule method
@@ -728,7 +730,9 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 					Weighted_CrossSection.Integer regionCS = new Weighted_CrossSection.Integer(model.getPersons(), Person.class, "getHighEducation", true);
 					regionCS.setFilter(regionFilter);
 					eduHighRegionPlotter.addSeries(region.getName(), new Weighted_MeanArrayFunction(regionCS), null, colorArrayList.get(colorCounter), false);		//'yo' means "years old"
-					eduHighRegionPlotter.addSeries("Validation "+region.getName(), validator, Validator.DoublesVariables.valueOf("educationLevelHighByRegion_"+region), colorArrayList.get(colorCounter), true);
+					if (showValidationStatistics) {
+						eduHighRegionPlotter.addSeries("Validation " + region.getName(), validator, Validator.DoublesVariables.valueOf("educationLevelHighByRegion_" + region), colorArrayList.get(colorCounter), true);
+					}
 					colorCounter++;
 			    }		    			    
 			    updateChartSet.add(eduHighRegionPlotter);			//Add to set to be updated in buildSchedule method
@@ -748,12 +752,16 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 					Weighted_CrossSection.Integer regionCS = new Weighted_CrossSection.Integer(model.getBenefitUnits(), BenefitUnit.class, "getCoupleDummy", true);
 					regionCS.setFilter(regionFilter);
 					houseCompositionRegionPlotter.addSeries(region.getName(), new Weighted_MeanArrayFunction(regionCS), null, colorArrayList.get(colorCounter), false);		//'yo' means "years old"
-					houseCompositionRegionPlotter.addSeries("Validation "+region.getName(), validator, Validator.DoublesVariables.valueOf("partneredShare_"+region), colorArrayList.get(colorCounter), true);
+					if (showValidationStatistics) {
+						houseCompositionRegionPlotter.addSeries("Validation " + region.getName(), validator, Validator.DoublesVariables.valueOf("partneredShare_" + region), colorArrayList.get(colorCounter), true);
+					}
 					colorCounter++;
 			    }		    
 			    Weighted_CrossSection.Integer coupleCS = new Weighted_CrossSection.Integer(model.getBenefitUnits(), BenefitUnit.class, "getCoupleDummy", true);
 			    houseCompositionRegionPlotter.addSeries("national", new Weighted_MeanArrayFunction(coupleCS), null, colorArrayList.get(colorCounter), false);		//'yo' means "years old"
-				houseCompositionRegionPlotter.addSeries("Validation national", validator, Validator.DoublesVariables.valueOf("partneredShare_All"), colorArrayList.get(colorCounter), true);
+				if (showValidationStatistics) {
+					houseCompositionRegionPlotter.addSeries("Validation national", validator, Validator.DoublesVariables.valueOf("partneredShare_All"), colorArrayList.get(colorCounter), true);
+				}
 			    houseCompositionRegionPlotter.setName("Cohabitation status");
 			    updateChartSet.add(houseCompositionRegionPlotter);			//Add to set to be updated in buildSchedule method
 			    tabSet.add(houseCompositionRegionPlotter);
@@ -843,8 +851,10 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 				TimeSeriesSimulationPlotter disabledAgePlotter = new TimeSeriesSimulationPlotter("Disability rate", "");
 				disabledAgePlotter.addSeries("males", new Weighted_MeanArrayFunction(maleCSDisabled), null, colorArrayList.get(0), false);
 				disabledAgePlotter.addSeries("females", new Weighted_MeanArrayFunction(femaleCSDisabled), null, colorArrayList.get(1), false);
-				disabledAgePlotter.addSeries("Validation males", validator, Validator.DoublesVariables.valueOf("disabledMale"), colorArrayList.get(0), true);
-				disabledAgePlotter.addSeries("Validation females", validator, Validator.DoublesVariables.valueOf("disabledFemale"), colorArrayList.get(1), true);
+				if (showValidationStatistics) {
+					disabledAgePlotter.addSeries("Validation males", validator, Validator.DoublesVariables.valueOf("disabledMale"), colorArrayList.get(0), true);
+					disabledAgePlotter.addSeries("Validation females", validator, Validator.DoublesVariables.valueOf("disabledFemale"), colorArrayList.get(1), true);
+				}
 
 				updateChartSet.add(disabledAgePlotter);
 				disabledAgePlots.add(disabledAgePlotter);
@@ -868,8 +878,10 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 					TimeSeriesSimulationPlotter healthAgePlotter = new TimeSeriesSimulationPlotter("Health score by age: " + ageFilter.getAgeFrom() + " - " + ageFilter.getAgeTo(), "");
 					healthAgePlotter.addSeries("males", new Weighted_MeanArrayFunction(maleCS), null, colorArrayList.get(0), false);
 					healthAgePlotter.addSeries("females", new Weighted_MeanArrayFunction(femaleCS), null, colorArrayList.get(1), false);
-					healthAgePlotter.addSeries("Validation males", validator, Validator.DoublesVariables.valueOf("healthMale_" + ageFrom + "_" + ageTo), colorArrayList.get(0), true);
-					healthAgePlotter.addSeries("Validation females", validator, Validator.DoublesVariables.valueOf("healthFemale_" + ageFrom + "_" + ageTo), colorArrayList.get(1), true);
+					if (showValidationStatistics) {
+						healthAgePlotter.addSeries("Validation males", validator, Validator.DoublesVariables.valueOf("healthMale_" + ageFrom + "_" + ageTo), colorArrayList.get(0), true);
+						healthAgePlotter.addSeries("Validation females", validator, Validator.DoublesVariables.valueOf("healthFemale_" + ageFrom + "_" + ageTo), colorArrayList.get(1), true);
+					}
 
 					updateChartSet.add(healthAgePlotter);
 					healthAgePlots.add(healthAgePlotter);
@@ -892,8 +904,10 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 					TimeSeriesSimulationPlotter healthMentalAgePlotter = new TimeSeriesSimulationPlotter("Psychological distress score by age: " + ageFilter.getAgeFrom() + " - " + ageFilter.getAgeTo(), "");
 					healthMentalAgePlotter.addSeries("males", new Weighted_MeanArrayFunction(maleCS), null, colorArrayList.get(0), false);
 					healthMentalAgePlotter.addSeries("females", new Weighted_MeanArrayFunction(femaleCS), null, colorArrayList.get(1), false);
-					healthMentalAgePlotter.addSeries("Validation males", validator, Validator.DoublesVariables.valueOf("mentalHealthMale_" + ageFrom + "_" + ageTo), colorArrayList.get(0), true);
-					healthMentalAgePlotter.addSeries("Validation females", validator, Validator.DoublesVariables.valueOf("mentalHealthFemale_" + ageFrom + "_" + ageTo), colorArrayList.get(1), true);
+					if (showValidationStatistics) {
+						healthMentalAgePlotter.addSeries("Validation males", validator, Validator.DoublesVariables.valueOf("mentalHealthMale_" + ageFrom + "_" + ageTo), colorArrayList.get(0), true);
+						healthMentalAgePlotter.addSeries("Validation females", validator, Validator.DoublesVariables.valueOf("mentalHealthFemale_" + ageFrom + "_" + ageTo), colorArrayList.get(1), true);
+					}
 
 					updateChartSet.add(healthMentalAgePlotter);
 					healthMentalAgePlots.add(healthMentalAgePlotter);
@@ -916,8 +930,10 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 					TimeSeriesSimulationPlotter psychDistressAgePlotter = new TimeSeriesSimulationPlotter("Share in psychological distress by age: " + ageFilter.getAgeFrom() + " - " + ageFilter.getAgeTo(), "");
 					psychDistressAgePlotter.addSeries("males", new Weighted_MeanArrayFunction(maleCS), null, colorArrayList.get(0), false);
 					psychDistressAgePlotter.addSeries("females", new Weighted_MeanArrayFunction(femaleCS), null, colorArrayList.get(1), false);
-					psychDistressAgePlotter.addSeries("Validation males", validator, Validator.DoublesVariables.valueOf("psychDistressMale_" + ageFrom + "_" + ageTo), colorArrayList.get(0), true);
-					psychDistressAgePlotter.addSeries("Validation females", validator, Validator.DoublesVariables.valueOf("psychDistressFemale_" + ageFrom + "_" + ageTo), colorArrayList.get(1), true);
+					if (showValidationStatistics) {
+						psychDistressAgePlotter.addSeries("Validation males", validator, Validator.DoublesVariables.valueOf("psychDistressMale_" + ageFrom + "_" + ageTo), colorArrayList.get(0), true);
+						psychDistressAgePlotter.addSeries("Validation females", validator, Validator.DoublesVariables.valueOf("psychDistressFemale_" + ageFrom + "_" + ageTo), colorArrayList.get(1), true);
+					}
 
 					updateChartSet.add(psychDistressAgePlotter);
 					psychologicalDistressCasesAgePlots.add(psychDistressAgePlotter);
@@ -942,8 +958,10 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 						TimeSeriesSimulationPlotter psychDistressAgeEducationPlotter = new TimeSeriesSimulationPlotter("Share in psychological distress by age: " + ageFilter.getAgeFrom() + " - " + ageFilter.getAgeTo(), "");
 						psychDistressAgeEducationPlotter.addSeries("males " + education + " educ", new Weighted_MeanArrayFunction(maleCS), null, colorArrayList.get(0), false);
 						psychDistressAgeEducationPlotter.addSeries("females " + education + " educ", new Weighted_MeanArrayFunction(femaleCS), null, colorArrayList.get(1), false);
-						psychDistressAgeEducationPlotter.addSeries("Validation males", validator, Validator.DoublesVariables.valueOf("psychDistressMale_"+ageFrom+"_"+ageTo), colorArrayList.get(0), true);
-						psychDistressAgeEducationPlotter.addSeries("Validation females", validator, Validator.DoublesVariables.valueOf("psychDistressFemale_"+ageFrom+"_"+ageTo), colorArrayList.get(1), true);
+						if (showValidationStatistics) {
+							psychDistressAgeEducationPlotter.addSeries("Validation males", validator, Validator.DoublesVariables.valueOf("psychDistressMale_" + ageFrom + "_" + ageTo), colorArrayList.get(0), true);
+							psychDistressAgeEducationPlotter.addSeries("Validation females", validator, Validator.DoublesVariables.valueOf("psychDistressFemale_" + ageFrom + "_" + ageTo), colorArrayList.get(1), true);
+						}
 						updateChartSet.add(psychDistressAgeEducationPlotter);
 						psychologicalDistressCasesAgeEducationPlots.add(psychDistressAgeEducationPlotter);
 					}
@@ -1044,8 +1062,10 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 			    emplPlotter.addSeries("males", new Weighted_MeanArrayFunction(males18_64CS), null, colorArrayList.get(0), false);
 //			    emplPlotter.addSeries("males_NE", new Weighted_MeanArrayFunction(males18_64CSNE));
 			    emplPlotter.addSeries("females", new Weighted_MeanArrayFunction(females18_64CS), null, colorArrayList.get(1), false);
-			    emplPlotter.addSeries("Validation males", validator, Validator.DoublesVariables.employmentMale, colorArrayList.get(0), true);
-				emplPlotter.addSeries("Validation females", validator, Validator.DoublesVariables.employmentFemale, colorArrayList.get(1), true);
+				if (showValidationStatistics) {
+					emplPlotter.addSeries("Validation males", validator, Validator.DoublesVariables.employmentMale, colorArrayList.get(0), true);
+					emplPlotter.addSeries("Validation females", validator, Validator.DoublesVariables.employmentFemale, colorArrayList.get(1), true);
+				}
 
 			    emplPlotter.setName("Employment");
 				updateChartSet.add(emplPlotter);			//Add to set to be updated in buildSchedule method
@@ -1071,8 +1091,10 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 					TimeSeriesSimulationPlotter emplAgePlotter = new TimeSeriesSimulationPlotter("Employment rate by age: " + ageFilter.getAgeFrom() + " - " + ageFilter.getAgeTo(), "");
 				    emplAgePlotter.addSeries("males", new Weighted_MeanArrayFunction(maleCS), null, colorArrayList.get(0), false);
 				    emplAgePlotter.addSeries("females", new Weighted_MeanArrayFunction(femaleCS), null, colorArrayList.get(1), false);
-					emplAgePlotter.addSeries("Validation males", validator, Validator.DoublesVariables.valueOf("employmentMaleByAge_"+ageFrom+"_"+ageTo), colorArrayList.get(0), true);
-					emplAgePlotter.addSeries("Validation females", validator, Validator.DoublesVariables.valueOf("employmentFemaleByAge_"+ageFrom+"_"+ageTo), colorArrayList.get(1), true);
+					if (showValidationStatistics) {
+						emplAgePlotter.addSeries("Validation males", validator, Validator.DoublesVariables.valueOf("employmentMaleByAge_" + ageFrom + "_" + ageTo), colorArrayList.get(0), true);
+						emplAgePlotter.addSeries("Validation females", validator, Validator.DoublesVariables.valueOf("employmentFemaleByAge_" + ageFrom + "_" + ageTo), colorArrayList.get(1), true);
+					}
 					updateChartSet.add(emplAgePlotter);			//Add to set to be updated in buildSchedule method
 					emplAgePlots.add(emplAgePlotter);
 				}
@@ -1129,9 +1151,11 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 						emplChildPlotter.addSeries("with children aged 0 - 5 yo", new Weighted_MeanArrayFunction(withChildrenAged0_5CS), null, colorArrayList.get(0), false);
 						emplChildPlotter.addSeries("with children aged 6 - 18 yo", new Weighted_MeanArrayFunction(withChildrenAged6_18CS), null, colorArrayList.get(1), false);
 						emplChildPlotter.addSeries("without children under 18 yo", new Weighted_MeanArrayFunction(withoutChildrenCS), null, colorArrayList.get(2), false);
-						emplChildPlotter.addSeries("Validation with children aged 0 - 5 yo", validator, Validator.DoublesVariables.employmentFemaleChild_0_5, colorArrayList.get(0), true);
-						emplChildPlotter.addSeries("Validation with children aged 6 - 18 yo", validator, Validator.DoublesVariables.employmentFemaleChild_6_18, colorArrayList.get(1), true);
-						emplChildPlotter.addSeries("Validation without children under 18 yo", validator, Validator.DoublesVariables.employmentFemaleNoChild, colorArrayList.get(2), true);
+						if (showValidationStatistics) {
+							emplChildPlotter.addSeries("Validation with children aged 0 - 5 yo", validator, Validator.DoublesVariables.employmentFemaleChild_0_5, colorArrayList.get(0), true);
+							emplChildPlotter.addSeries("Validation with children aged 6 - 18 yo", validator, Validator.DoublesVariables.employmentFemaleChild_6_18, colorArrayList.get(1), true);
+							emplChildPlotter.addSeries("Validation without children under 18 yo", validator, Validator.DoublesVariables.employmentFemaleNoChild, colorArrayList.get(2), true);
+						}
 
 						updateChartSet.add(emplChildPlotter);			//Add to set to be updated in buildSchedule method
 						emplAgeMaternityPlots.add(emplChildPlotter);
@@ -1168,14 +1192,18 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 					Weighted_CrossSection.Integer maleRegionCS = new Weighted_CrossSection.Integer(model.getPersons(), Person.class, "getEmployed", true);
 					maleRegionCS.setFilter(maleRegionFilter);
 					emplMaleRegionPlotter.addSeries(region.getName(), new Weighted_MeanArrayFunction(maleRegionCS), null, colorArrayList.get(colorCounter), false);
-					emplMaleRegionPlotter.addSeries("Validation " + region.getName(), validator, Validator.DoublesVariables.valueOf("employed_male_"+region), colorArrayList.get(colorCounter), true);
+					if (showValidationStatistics) {
+						emplMaleRegionPlotter.addSeries("Validation " + region.getName(), validator, Validator.DoublesVariables.valueOf("employed_male_" + region), colorArrayList.get(colorCounter), true);
+					}
 					
 //					FemaleRegionCSfilter femaleRegionFilter = new FemaleRegionCSfilter(region);
 					FemaleRegionAgeCSfilter femaleRegionFilter = new FemaleRegionAgeCSfilter(region, 18, 64);
 					Weighted_CrossSection.Integer femaleRegionCS = new Weighted_CrossSection.Integer(model.getPersons(), Person.class, "getEmployed", true);
 					femaleRegionCS.setFilter(femaleRegionFilter);
 					emplFemaleRegionPlotter.addSeries(region.getName(), new Weighted_MeanArrayFunction(femaleRegionCS), null, colorArrayList.get(colorCounter), false);
-					emplFemaleRegionPlotter.addSeries("Validation " + region.getName(), validator, Validator.DoublesVariables.valueOf("employed_female_"+region), colorArrayList.get(colorCounter), true);
+					if (showValidationStatistics) {
+						emplFemaleRegionPlotter.addSeries("Validation " + region.getName(), validator, Validator.DoublesVariables.valueOf("employed_female_" + region), colorArrayList.get(colorCounter), true);
+					}
 					colorCounter++;
 			    }		    		    
 				updateChartSet.add(emplMaleRegionPlotter);			//Add to set to be updated in buildSchedule method		    
@@ -1194,7 +1222,9 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 					Weighted_CrossSection.Double supplyCS = new Weighted_CrossSection.Double(model.getPersons(), Person.class, "getLabourSupplyHoursYearly", true);
 					supplyCS.setFilter(eduFilter);
 					supplyPlotter.addSeries(edu.toString(), new Weighted_MeanArrayFunction(supplyCS), null, colorArrayList.get(colorCounter), false);
-					supplyPlotter.addSeries("Validation " + edu.toString(), validator, Validator.DoublesVariables.valueOf("labour_supply_"+edu), colorArrayList.get(colorCounter), true);
+					if (showValidationStatistics) {
+						supplyPlotter.addSeries("Validation " + edu.toString(), validator, Validator.DoublesVariables.valueOf("labour_supply_" + edu), colorArrayList.get(colorCounter), true);
+					}
 					colorCounter++;
 				}
 				supplyPlotter.setName("Labour supply");
@@ -1234,7 +1264,9 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 						Weighted_CrossSection.Double wagesCS = new Weighted_CrossSection.Double(model.getPersons(), Person.class, "getGrossEarningsYearly", true); // Note: these are nominal values for each simulated year
 						wagesCS.setFilter(genderEducationWorkingFilter);
 						grossEarningsByGenderAndEducationPlotter.addSeries("(" + gender.toString() + ", " + edu.toString() + ")", new Weighted_MeanArrayFunction(wagesCS), null, colorArrayList.get(colorCounter), false);
-						grossEarningsByGenderAndEducationPlotter.addSeries("Validation (" + gender + ", " + edu + ")", validator, Validator.DoublesVariables.valueOf("grossEarnings_"+ gender +"_"+ edu), colorArrayList.get(colorCounter), true);
+						if (showValidationStatistics) {
+							grossEarningsByGenderAndEducationPlotter.addSeries("Validation (" + gender + ", " + edu + ")", validator, Validator.DoublesVariables.valueOf("grossEarnings_" + gender + "_" + edu), colorArrayList.get(colorCounter), true);
+						}
 						colorCounter++;
 					}
 				}
@@ -1254,7 +1286,9 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 						Weighted_CrossSection.Double wagesCS = new Weighted_CrossSection.Double(model.getPersons(), Person.class, "getHourlyWageRate1", true); // Note: these are nominal values for each simulated year
 						wagesCS.setFilter(genderEducationWorkingFilter);
 						hourlyWagesByGenderAndEducationPlotter.addSeries("(" + gender.toString() + ", " + edu.toString() + ")", new Weighted_MeanArrayFunction(wagesCS), null, colorArrayList.get(colorCounter), false);
-						hourlyWagesByGenderAndEducationPlotter.addSeries("Validation (" + gender + ", " + edu + ")", validator, Validator.DoublesVariables.valueOf("hourlyWage_"+ gender +"_"+ edu), colorArrayList.get(colorCounter), true);
+						if (showValidationStatistics) {
+							hourlyWagesByGenderAndEducationPlotter.addSeries("Validation (" + gender + ", " + edu + ")", validator, Validator.DoublesVariables.valueOf("hourlyWage_" + gender + "_" + edu), colorArrayList.get(colorCounter), true);
+						}
 						colorCounter++;
 					}
 				}
@@ -1272,7 +1306,9 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 					Weighted_CrossSection.Double hoursCS = new Weighted_CrossSection.Double(model.getPersons(), Person.class, "getDoubleLabourSupplyHoursWeekly", true); // Note: these are nominal values for each simulated year
 					hoursCS.setFilter(genderWorkingFilter);
 					hoursOfWorkByGenderPlotter.addSeries(gender.toString(), new Weighted_MeanArrayFunction(hoursCS), null, colorArrayList.get(colorCounter), false);
-					hoursOfWorkByGenderPlotter.addSeries("Validation " + gender, validator, Validator.DoublesVariables.valueOf("lhw_"+ gender), colorArrayList.get(colorCounter), true);
+					if (showValidationStatistics) {
+						hoursOfWorkByGenderPlotter.addSeries("Validation " + gender, validator, Validator.DoublesVariables.valueOf("lhw_" + gender), colorArrayList.get(colorCounter), true);
+					}
 					colorCounter++;
 					}
 				hoursOfWorkByGenderPlotter.setName("Hours of Work by Gender");

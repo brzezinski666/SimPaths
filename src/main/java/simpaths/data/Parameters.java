@@ -1058,11 +1058,11 @@ public class Parameters {
             //Education
             coeffCovarianceEducationE1a = RegressionUtils.bootstrap(coeffCovarianceEducationE1a);
             coeffCovarianceEducationE1b = RegressionUtils.bootstrap(coeffCovarianceEducationE1b);
-            coeffCovarianceEducationE2a = RegressionUtils.bootstrap(coeffCovarianceEducationE2a);
+        //    coeffCovarianceEducationE2a = RegressionUtils.bootstrap(coeffCovarianceEducationE2a);
 
             //Health
-            coeffCovarianceHealthH1a = RegressionUtils.bootstrap(coeffCovarianceHealthH1a); //Note that this overrides the original coefficient map with bootstrapped values
-            coeffCovarianceHealthH1b = RegressionUtils.bootstrap(coeffCovarianceHealthH1b);
+        //    coeffCovarianceHealthH1a = RegressionUtils.bootstrap(coeffCovarianceHealthH1a); //Note that this overrides the original coefficient map with bootstrapped values
+        //    coeffCovarianceHealthH1b = RegressionUtils.bootstrap(coeffCovarianceHealthH1b);
             coeffCovarianceHealthH2b = RegressionUtils.bootstrap(coeffCovarianceHealthH2b);
 
             //Non-labour income
