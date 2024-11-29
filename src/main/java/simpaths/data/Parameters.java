@@ -646,7 +646,7 @@ public class Parameters {
     //Education
     private static BinomialRegression regEducationE1a;
     private static BinomialRegression regEducationE1b;
-    private static OrderedRegression regEducationE2a;
+    private static GeneralisedOrderedRegression regEducationE2a;
 
     //Partnership
     private static BinomialRegression regPartnershipU1a;
@@ -1097,6 +1097,8 @@ public class Parameters {
 
         // Define regression objects
 
+
+
         //Health
         regHealthH1a = new GeneralisedOrderedRegression<>(RegressionType.GenOrderedLogit, Dhe.class, coeffCovarianceHealthH1a);
         regHealthH1b = new GeneralisedOrderedRegression<>(RegressionType.GenOrderedLogit, Dhe.class, coeffCovarianceHealthH1b);
@@ -1105,7 +1107,7 @@ public class Parameters {
         //Education
         regEducationE1a = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffCovarianceEducationE1a);
         regEducationE1b = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffCovarianceEducationE1b);
-        regEducationE2a = new OrderedRegression(RegressionType.OrderedProbit, Education.class, coeffCovarianceEducationE2a);
+        regEducationE2a = new GeneralisedOrderedRegression(RegressionType.GenOrderedLogit, Education.class, coeffCovarianceEducationE2a);
 
         //Partnership
         MultiKeyCoefficientMap coeffPartnershipU1aAppended = appendCoefficientMaps(coeffCovariancePartnershipU1a, partnershipTimeAdjustment, "Year");
@@ -1455,7 +1457,7 @@ public class Parameters {
 
     public static BinomialRegression getRegEducationE1a() {return regEducationE1a;}
     public static BinomialRegression getRegEducationE1b() {return regEducationE1b;}
-    public static OrderedRegression getRegEducationE2a() {return regEducationE2a;}
+    public static GeneralisedOrderedRegression getRegEducationE2a() {return regEducationE2a;}
 
     public static BinomialRegression getRegPartnershipU1a() {return regPartnershipU1a;}
     public static BinomialRegression getRegPartnershipU1b() {return regPartnershipU1b;}
