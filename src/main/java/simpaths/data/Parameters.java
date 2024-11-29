@@ -955,7 +955,7 @@ public class Parameters {
             columnsHealthH2b = 26; //#
             columnsEducationE1a = 8; //#
             columnsEducationE1b = 13; //#
-            columnsEducationE2a = 15; //#
+            columnsEducationE2a = 13; //#
             columnsPartnershipU1a = 13; //#
             columnsPartnershipU1b = 26; //#
             columnsPartnershipU2b = 29; //#
@@ -1003,7 +1003,7 @@ public class Parameters {
         //Education
         coeffCovarianceEducationE1a = ExcelAssistant.loadCoefficientMap("input/reg_education.xlsx", countryString + "_E1a", 1, columnsEducationE1a);
         coeffCovarianceEducationE1b = ExcelAssistant.loadCoefficientMap("input/reg_education.xlsx", countryString + "_E1b", 1, columnsEducationE1b);
-        coeffCovarianceEducationE2a = ExcelAssistant.loadCoefficientMap("input/reg_education.xlsx", countryString + "_E2a", 1, 8);
+        coeffCovarianceEducationE2a = ExcelAssistant.loadCoefficientMap("input/reg_education.xlsx", countryString + "_E2a", 1, columnsEducationE2a);
 
         //Partnership
         coeffCovariancePartnershipU1a = ExcelAssistant.loadCoefficientMap("input/reg_partnership.xlsx", countryString + "_U1a", 1, columnsPartnershipU1a);
