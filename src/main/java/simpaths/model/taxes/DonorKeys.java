@@ -19,7 +19,7 @@ public class DonorKeys {
     private Integer[] keys = new Integer[Parameters.TAXDB_REGIMES];       // from most fine to most coarse
     private Integer simYear = null;     // year for which keys evaluated
     private Integer priceYear = null;   // year of prices used to measure financial statistics
-    private boolean lowIncome;  // low income identifier used to determine income imputation method
+    private boolean[] lowIncome;  // low income identifier used to determine income imputation method
     private double hoursWorkedPerWeekMan, hoursWorkedPerWeekWoman;
     private Double originalIncomePerWeek = null;
     private Double secondIncomePerWeek = null;
@@ -61,9 +61,10 @@ public class DonorKeys {
     public double getHoursWorkedPerWeekWoman() { return hoursWorkedPerWeekWoman; }
 
     public double getRandomDraw() { return randomDraw; }
-    public boolean isLowIncome() {
-
-        return lowIncome;
+    public boolean isLowIncome(int regime) {
+        if (regime<0)
+            throw new RuntimeException("attempt to retrieve low income identifier for null regime");
+        return lowIncome[regime];
     }
 
 
@@ -78,7 +79,7 @@ public class DonorKeys {
         simYear = function.getSimYear();
         priceYear = function.getPriceYear();
         keys = function.evaluateKeys();
-        lowIncome = function.isLowIncome(priceYear, originalIncomePerWeek);
+        lowIncome = function.isLowIncome(keys);
         hoursWorkedPerWeekMan = function.getHoursWorkedPerWeekMan();
         hoursWorkedPerWeekWoman = function.getHoursWorkedPerWeekWoman();
     }

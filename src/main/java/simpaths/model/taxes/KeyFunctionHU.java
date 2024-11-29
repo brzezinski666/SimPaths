@@ -4,7 +4,9 @@ import simpaths.data.Parameters;
 import simpaths.model.decisions.DecisionParams;
 import simpaths.model.enums.UpratingCase;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -12,7 +14,7 @@ import java.util.*;
  * CLASS TO MANAGE ONE SPECIFICATION FOR EVALUATING DONOR KEYS USED TO IMPUTE TAX AND BENEFIT PAYMENTS
  *
  */
-public class KeyFunction3 implements IKeyFunction {
+public class KeyFunctionHU implements IKeyFunction {
 
 
     /**
@@ -27,7 +29,8 @@ public class KeyFunction3 implements IKeyFunction {
     /**
      * CONSTRUCTORS
      */
-    public KeyFunction3() {}
+    public KeyFunctionHU() {}
+
 
     /**
      * METHOD TO EVALUATE DONOR KEYS FOR COARSE EXACT MATCHING
@@ -42,6 +45,7 @@ public class KeyFunction3 implements IKeyFunction {
      * @param hoursWorkedPerWeekWoman employment hours per week of adult female
      * @param dlltsdMan disability status of man
      * @param dlltsdWoman disability status of woman
+     * @param careProvision indicator that at least one member of household provides social care
      * @param originalIncomePerWeek original income per week of family (possibly negative)
      * @return Integer list of keys, ordered from most fine (0) to most coarse (2)
      */
@@ -50,7 +54,7 @@ public class KeyFunction3 implements IKeyFunction {
                                       int careProvision, double originalIncomePerWeek, double secondIncomePerWeek, double childcareCostPerWeek) {
 
         // initialise working variables
-        int spa = getStatePensionAge(age, simYear);
+        int spa = Parameters.getStatePensionAge(simYear, age);
         Map<MatchFeature, Map<Integer, Integer>> taxdbCounter = getTaxdbCounter();
         Map<MatchFeature, Map<Integer, Integer>> units = new HashMap<>();
         Integer[] result = new Integer[Parameters.TAXDB_REGIMES];
@@ -80,7 +84,7 @@ public class KeyFunction3 implements IKeyFunction {
             localMap.put(1,2);
             localMap.put(2,2);
             localMap.put(3,1);
-            localMap.put(4,1);
+            localMap.put(4,0);
         } else if (age >= MID_AGE) {
             localMap.put(0,1);
             localMap.put(1,1);
@@ -103,7 +107,7 @@ public class KeyFunction3 implements IKeyFunction {
             localMap.put(1,1);
             localMap.put(2,1);
             localMap.put(3,1);
-            localMap.put(4,1);
+            localMap.put(4,0);
         } else {
             localMap.put(0,0);
             localMap.put(1,0);
@@ -172,7 +176,7 @@ public class KeyFunction3 implements IKeyFunction {
 
         // long-term sick and disabled
         localMap = new HashMap<>();
-        if (dlltsdMan > 0 || dlltsdWoman > 0) {
+        if ((dlltsdMan > 0 || dlltsdWoman > 0) && !Parameters.flagSuppressSocialCareCosts) {
             // one adult disabled and one able-bodied
             localMap.put(0,1);
             localMap.put(1,1);
@@ -189,31 +193,55 @@ public class KeyFunction3 implements IKeyFunction {
         }
         units.put(MatchFeature.Disability, localMap);
 
-        // original income
+        // social care provision
         localMap = new HashMap<>();
-        double originalIncomePerWeekAdjusted = originalIncomePerWeek * Parameters.getTimeSeriesIndex(INCOME_REF_YEAR, UpratingCase.TaxDonor) /
-                Parameters.getTimeSeriesIndex(priceYear, UpratingCase.TaxDonor);
-        if (originalIncomePerWeekAdjusted < LO_INCOME) {
-            // low income
+        if (careProvision > 0 && !Parameters.flagSuppressSocialCareCosts) {
+            localMap.put(0,1);
+            localMap.put(1,1);
+            localMap.put(2,1);
+            localMap.put(3,0);
+            localMap.put(4,0);
+        } else {
             localMap.put(0,0);
             localMap.put(1,0);
             localMap.put(2,0);
             localMap.put(3,0);
             localMap.put(4,0);
-        } else if ( originalIncomePerWeekAdjusted < HI_INCOME ) {
-            // mid income
+        }
+        units.put(MatchFeature.CareProvision, localMap);
+
+        // original income
+        localMap = new HashMap<>();
+        double originalIncomePerWeekAdjusted = originalIncomePerWeek * Parameters.getTimeSeriesIndex(INCOME_REF_YEAR, UpratingCase.TaxDonor) /
+                Parameters.getTimeSeriesIndex(priceYear, UpratingCase.TaxDonor);
+        if (originalIncomePerWeekAdjusted < -LO_INCOME) {
+            // substantial negative income
+            localMap.put(0,0);
+            localMap.put(1,0);
+            localMap.put(2,0);
+            localMap.put(3,0);
+            localMap.put(4,0);
+        } else if (originalIncomePerWeekAdjusted < LO_INCOME) {
+            // low income
             localMap.put(0,1);
             localMap.put(1,1);
-            localMap.put(2,1);
-            localMap.put(3,1);
-            localMap.put(4,1);
-        } else {
-            // high income
+            localMap.put(2,0);
+            localMap.put(3,0);
+            localMap.put(4,0);
+        } else if ( originalIncomePerWeekAdjusted < HI_INCOME ) {
+            // mid income
             localMap.put(0,2);
             localMap.put(1,2);
+            localMap.put(2,1);
+            localMap.put(3,1);
+            localMap.put(4,0);
+        } else {
+            // high income
+            localMap.put(0,3);
+            localMap.put(1,3);
             localMap.put(2,2);
             localMap.put(3,1);
-            localMap.put(4,1);
+            localMap.put(4,0);
         }
         units.put(MatchFeature.Income, localMap);
 
@@ -257,8 +285,14 @@ public class KeyFunction3 implements IKeyFunction {
         for (int ii=0; ii<Parameters.TAXDB_REGIMES; ii++) {
             int index=0;
             for (MatchFeature feature : MatchFeature.values()) {
-                if (units.containsKey(feature))
+                if (units.containsKey(feature)) {
+
+                    Integer aa = units.get(feature).get(ii);
+                    Integer bb = taxdbCounter.get(feature).get(ii);
+                    if (aa==null || bb==null)
+                        throw new RuntimeException("problem evaluating key function");
                     index += units.get(feature).get(ii) * taxdbCounter.get(feature).get(ii);
+                }
             }
             result[ii] = index;
         }
@@ -299,31 +333,11 @@ public class KeyFunction3 implements IKeyFunction {
         for (int regime=0; regime<Parameters.TAXDB_REGIMES; regime++) {
 
             int index = getMatchFeatureIndex(MatchFeature.Income, regime, keys[regime]);
-            lowIncome[regime] = (index == 0);
+            lowIncome[regime] = (regime <= 1 && index == 1) || (regime > 1 && index == 0);
         }
         return lowIncome;
     }
 
-    /**
-     * WORKER METHOD TO PROVIDE STATE PENSION AGE AND YEAR
-     * @param age age of eldest family member
-     * @param simYear simulated year
-     * @return state pension age
-     */
-    public int getStatePensionAge(int age, int simYear) {
-
-        int spa;
-        if (simYear - age + 65 < 2019) {
-            spa = 65;
-        } else if (simYear - age + 66 < 2027) {
-            spa = 66;
-        } else if (simYear - age + 67 < 2045) {
-            spa = 67;
-        } else {
-            spa = 68;
-        }
-        return spa;
-    }
 
     /**
      * WORKER METHOD TO CALL OR INITIALISE THE COUNTER MAPPING FOR DONOR KEYS
@@ -349,12 +363,12 @@ public class KeyFunction3 implements IKeyFunction {
             // age
             mapLocal = updateMap(mapLocal, ptsLocal);
             taxdbCounter.put(MatchFeature.Age,mapLocal);
-            ptsLocal = new int[]{3,3,3,2,2}; // this defines the number of age alternatives considered for each donor key set
+            ptsLocal = new int[]{3,3,3,2,1}; // this defines the number of age alternatives considered for each donor key set
 
             // number of adults
             mapLocal = updateMap(mapLocal, ptsLocal);
             taxdbCounter.put(MatchFeature.Adults,mapLocal);
-            ptsLocal = new int[]{2,2,2,2,2};
+            ptsLocal = new int[]{2,2,2,2,1};
 
             // number of children
             mapLocal = updateMap(mapLocal, ptsLocal);
@@ -371,10 +385,15 @@ public class KeyFunction3 implements IKeyFunction {
             taxdbCounter.put(MatchFeature.Disability,mapLocal);
             ptsLocal = new int[]{2,2,1,1,1};
 
+            // care provision
+            mapLocal = updateMap(mapLocal, ptsLocal);
+            taxdbCounter.put(MatchFeature.CareProvision,mapLocal);
+            ptsLocal = new int[]{2,2,2,1,1};
+
             // original income
             mapLocal = updateMap(mapLocal, ptsLocal);
             taxdbCounter.put(MatchFeature.Income,mapLocal);
-            ptsLocal = new int[]{3,3,3,2,2};
+            ptsLocal = new int[]{4,4,3,2,1};
 
             // dual income
             mapLocal = updateMap(mapLocal, ptsLocal);

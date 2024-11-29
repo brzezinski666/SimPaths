@@ -24,7 +24,8 @@ import java.util.Set;
 public class MatchIndicesSet {
 
     private Set<MatchIndices> set = new HashSet<>();
-    private final String[] HEADERS = {"candidateID", "gridAge", "simYear", "key0", "targetIncome", "Age", "Adults", "Children", "Employment", "Disability", "Income", "DualIncome", "Childcare"};
+    private final String[] HEADERS = {"candidateID", "gridAge", "simYear", "key0", "targetIncome", "Age", "Adults", "Children", "Employment", "Disability",
+    "CareProvision", "Income", "DualIncome", "Childcare"};
 
 
     /**

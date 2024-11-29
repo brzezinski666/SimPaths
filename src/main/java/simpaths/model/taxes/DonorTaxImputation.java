@@ -90,7 +90,7 @@ public class DonorTaxImputation {
         // use keys to extract candidate pool from database
         //------------------------------------------------------------
         List<Integer> candidatePool = null;
-        int matchRegime = -1;
+        int matchRegime = 0;
         int systemYear = getSystemYear(keys.getSimYear());
         boolean flagSecondIncome = false, flagChildcareCost = false;
         for (int ii=0; ii<Parameters.TAXDB_REGIMES; ii++) {
@@ -178,7 +178,7 @@ public class DonorTaxImputation {
         donorID = targetCandidate.getId();
         double targetIncomeDifference = Math.abs(targetNormalisedOriginalIncome -
                 targetCandidate.getPolicyBySystemYear(systemYear).getNormalisedOriginalIncomePerMonth());
-        if (!keys.isLowIncome()) {
+        if (!keys.isLowIncome(matchRegime)) {
             targetIncomeDifference /= Math.abs(targetNormalisedOriginalIncome);
             targetIncomeDifference *= 100;
         }
@@ -273,7 +273,7 @@ public class DonorTaxImputation {
                 if (keys.getRandomDraw()>0.0 || Math.abs(keys.getRandomDraw()+2.0)<1.0E-2)
                     weight = 1.0;
                 DonorTaxUnit candidate = candidateList.getCandidate();
-                if ( keys.isLowIncome() ) {
+                if ( keys.isLowIncome(matchRegime) ) {
                     // impute based on observed disposable income
                     disposableIncomePerWeek += candidate.getPolicyBySystemYear(systemYear).getDisposableIncomePerMonth() / Parameters.WEEKS_PER_MONTH * weight * infAdj;
                     benefitsReceivedPerWeek += (candidate.getPolicyBySystemYear(systemYear).getBenMeansTestPerMonth() + candidate.getPolicyBySystemYear(systemYear).getBenNonMeansTestPerMonth()) / Parameters.WEEKS_PER_MONTH * weight * infAdj;
@@ -290,7 +290,7 @@ public class DonorTaxImputation {
         }
         if (Math.abs(disposableIncomePerWeek+999.0)<1.0E-5)
             throw new RuntimeException("Failed to populate disposable income and benefits from donor with inner key value " + keys.getKey(0));
-        if ( !keys.isLowIncome() ) {
+        if ( !keys.isLowIncome(matchRegime) ) {
             disposableIncomePerWeek *= keys.getOriginalIncomePerWeek();
             benefitsReceivedPerWeek *= keys.getOriginalIncomePerWeek();
         }

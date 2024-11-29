@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.HashSet;
 
 
 /**
@@ -25,6 +26,7 @@ public class DonorPerson {
     @Column(name = "WEIGHT") private Double weight;
     @Column(name = "HOURS_WORKED_WEEKLY") private Integer hoursWorkedWeekly;
     @Column(name = "DLLTSD") private Integer dlltsd;
+    @Column(name = "CARER") private Integer carer;
 
 
     /**
@@ -42,7 +44,7 @@ public class DonorPerson {
     public Integer getAge() { return this.age; }
     public int getHoursWorkedWeekly() { return this.hoursWorkedWeekly; }
     public int getDlltsd() { return this.dlltsd; }
-
+    public int getCarer() { return 0; }
     public double getWeight() { return this.weight; }
     public Set<DonorPersonPolicy> getPolicies() { return policies; }
     public DonorPersonPolicy getPolicy(int startYear) {
