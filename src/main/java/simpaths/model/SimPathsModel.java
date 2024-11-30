@@ -441,13 +441,8 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
 
         addEventToAllYears(Processes.StartYear);
 
-        if (enableIntertemporalOptimisations)
-            firstYearSched.addEvent(this, Processes.RationalOptimisation);
-
         addEventToAllYears(Processes.UpdateParameters);
         addEventToAllYears(Processes.GarbageCollection);
-        if (enableIntertemporalOptimisations)
-            yearlySchedule.addCollectionEvent(benefitUnits, BenefitUnit.Processes.UpdateWealth);
         addCollectionEventToAllYears(benefitUnits, BenefitUnit.Processes.Update);
         addCollectionEventToAllYears(persons, Person.Processes.Update);
 
@@ -479,9 +474,6 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
         // Update Health - determine health (continuous) based on regression models: done here because health depends on education
         yearlySchedule.addCollectionEvent(persons, Person.Processes.Health);
 
-        // Update mental health - determine (continuous) mental health level based on regression models
-        yearlySchedule.addCollectionEvent(persons, Person.Processes.HealthMentalHM1); //Step 1 of mental health
-
         // HOUSEHOLD COMPOSITION MODULE: Decide whether to enter into a union (marry / cohabit), and then perform union matching (marriage) between a male and female
 
         // Update potential earnings so that as up to date as possible to decide partner in union matching.
@@ -503,41 +495,16 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
         yearlySchedule.addCollectionEvent(persons, Person.Processes.GiveBirth, false);        //Cannot use read-only collection schedule as newborn children cause concurrent modification exception.  Need to specify false in last argument of Collection event.
 
         // TIME USE MODULE
-        // Social care
-        if (projectSocialCare) {
-            addCollectionEventToAllYears(persons, Person.Processes.SocialCareReceipt);
-            addCollectionEventToAllYears(persons, Person.Processes.SocialCareProvision);
-            //yearlySchedule.addEvent(this, Processes.SocialCareMarketClearing);
-        }
-
-        // Unemployment
-        addCollectionEventToAllYears(persons, Person.Processes.Unemployment);
-
-        // update references for optimising behaviour
-        // needs to be positioned after all decision states for the current period have been simulated
-        if (enableIntertemporalOptimisations)
-            addCollectionEventToAllYears(benefitUnits, BenefitUnit.Processes.UpdateStates, false);
-
         addEventToAllYears(Processes.LabourMarketAndIncomeUpdate);
 
         // Assign benefit status to individuals in benefit units, from donors. Based on donor tax unit status.
         addCollectionEventToAllYears(benefitUnits, BenefitUnit.Processes.ReceivesBenefits);
 
         // CONSUMPTION AND SAVINGS MODULE
-        if (enableIntertemporalOptimisations)
-            addCollectionEventToAllYears(benefitUnits, BenefitUnit.Processes.ProjectDiscretionaryConsumption);
         addCollectionEventToAllYears(persons, Person.Processes.ProjectEquivConsumption);
 
         // equivalised disposable income
         addCollectionEventToAllYears(benefitUnits, BenefitUnit.Processes.CalculateChangeInEDI);
-
-        // MENTAL HEALTH MODULE
-        // Update mental health - determine (continuous) mental health level based on regression models + caseness
-        addCollectionEventToAllYears(persons, Person.Processes.HealthMentalHM1); //Step 1 of mental health
-        // modify the outcome of Step 1 depending on individual's exposures + caseness
-        addCollectionEventToAllYears(persons, Person.Processes.HealthMentalHM2); //Step 2 of mental health.
-        // update case-based measure
-        addCollectionEventToAllYears(persons, Person.Processes.HealthMentalHM1HM2Cases);
 
         // mortality (migration) and population alignment at year's end
         addCollectionEventToAllYears(persons, Person.Processes.ConsiderMortality);

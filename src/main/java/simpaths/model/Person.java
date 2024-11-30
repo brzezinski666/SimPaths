@@ -1279,10 +1279,9 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             } else {
                 toLeaveSchool = true; //Hasn't left education until 30 - force out
             }
-        } else if (dag <= 45 && (!Les_c4.Student.equals(les_c4) || leftEducation)) { //leftEducation is initialised to false and updated to true when individual leaves education for the first time (and never reset).
-            //If age is between 16 - 45 and individual has not continuously been in education, follow process E1b:
+        } else if (dag <= 35 && (!Les_c4.Student.equals(les_c4) || leftEducation) && !Les_c4.Student.equals(les_c4_lag1)) { //leftEducation is initialised to false and updated to true when individual leaves education for the first time (and never reset).
+            //If age is between 16 - 35 and individual has not continuously been in education, follow process E1b:
             //Either individual is currently a student and has left education at some point in the past (so returned) or individual is not a student so has not been in continuous education:
-            //TODO: If regression outcome of process E1b is true, set activity status to student and der (return to education indicator) to true?
 
             double prob = Parameters.getRegEducationE1b().getProbability(this, Person.DoublesVariables.class);
             if (labourInnov < prob) {
@@ -1296,9 +1295,9 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
 
                 setLes_c4(Les_c4.NotEmployed);
                 setDed(Indicator.False);
-                toLeaveSchool = true; //Test what happens if people who returned to education leave again
+            //    toLeaveSchool = true; // Model E2b has been estimated for first-time school leavers only, so individuals returning to education canot increase their outcome.
             }
-        } else if (dag > 45 && les_c4.equals(Les_c4.Student)) {
+        } else if (dag > 35 && les_c4.equals(Les_c4.Student)) {
             //People above 45 shouldn't be in education, so if someone re-entered at 45 in previous step, force out
 
             setLes_c4(Les_c4.NotEmployed);
@@ -1539,7 +1538,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
     }
 
 
-    // Assign education level to school leavers using MultiProbitRegression
+    // Assign education level to school leavers using Generalised Ordered Logit regression
     // Note that persons are now assigned a Low education level by default at birth (to prevent null pointer exceptions when persons become old enough to marry while still being a student
     // (we now allow students to marry, given they can re-enter school throughout their lives).
     // The module only applies to students who are leaving school (activityStatus == Student and toLeaveSchool == true) - see inSchool()
@@ -2191,10 +2190,81 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         HUA,                //HU
         HUB,
         Year,										//Year as in the simulation, e.g. 2009
+        Year2010,
+        Year2011,
+        Year2012,
+        Year2013,
+        Year2014,
+        Year2015,
+        Year2016,
+        Year2017,
+        Year2018,
+        Year2019,
+        Year2020,
+        Year2021,
+        Year2022,
+        Year2023,
+        Year2024,
+        Year2025,
+        Year2026,
+        Year2027,
+        Year2028,
+        Year2029,
+        Year2030,
+        Year2031,
+        Year2032,
+        Year2033,
+        Year2034,
+        Year2035,
+        Year2036,
+        Year2037,
+        Year2038,
+        Year2039,
+        Year2040,
+        Year2041,
+        Year2042,
+        Year2043,
+        Year2044,
+        Year2045,
+        Year2046,
+        Year2047,
+        Year2048,
+        Year2049,
+        Year2050,
+        Year2051,
+        Year2052,
+        Year2053,
+        Year2054,
+        Year2055,
+        Year2056,
+        Year2057,
+        Year2058,
+        Year2059,
+        Year2060,
+        Year2061,
+        Year2062,
+        Year2063,
+        Year2064,
+        Year2065,
+        Year2066,
+        Year2067,
+        Year2068,
+        Year2069,
+        Year2070,
+        Year2071,
+        Year2072,
+        Year2073,
+        Year2074,
+        Year2075,
+        Year2076,
+        Year2077,
+        Year2078,
+        Year2079,
         Ydses_c5_Q2_L1, 							//HH Income Lag(1) 2nd Quantile
         Ydses_c5_Q3_L1,								//HH Income Lag(1) 3rd Quantile
         Ydses_c5_Q4_L1,								//HH Income Lag(1) 4th Quantile
         Ydses_c5_Q5_L1,								//HH Income Lag(1) 5th Quantile
+        Ydses_L1,
         Year_transformed,							//Year - 2000
         Year_transformed_monetary,					//Year-2000 that stops in 2017, for use with monetary processes
         Ynbcpdf_dv_L1, 								//Lag(1) of difference between own and partner's gross personal non-benefit income
@@ -2210,6 +2280,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Yptciihs_dv_L1,								//Lag(1) of gross personal non-employment non-benefit income
         Yptciihs_dv_L2,								//Lag(2) of gross personal non-employment non-benefit income
         Yptciihs_dv_L3,								//Lag(3) of gross personal non-employment non-benefit income
+        New_rel_L1,                                 // New relation indicator
     }
 
     public double getDoubleValue(Enum<?> variableID) {
@@ -2862,6 +2933,216 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             case Year -> {
                 return (Parameters.isFixTimeTrend && getYear() >= Parameters.timeTrendStopsIn) ? (double) Parameters.timeTrendStopsIn : (double) getYear();
             }
+            case Year2010 -> {
+                return (getYear() <= 2010) ? 1. : 0.;
+            }
+            case Year2011 -> {
+                return (getYear() == 2011) ? 1. : 0.;
+            }
+            case Year2012 -> {
+                return (getYear() == 2012) ? 1. : 0.;
+            }
+            case Year2013 -> {
+                return (getYear() == 2013) ? 1. : 0.;
+            }
+            case Year2014 -> {
+                return (getYear() == 2014) ? 1. : 0.;
+            }
+            case Year2015 -> {
+                return (getYear() == 2015) ? 1. : 0.;
+            }
+            case Year2016 -> {
+                return (getYear() == 2016) ? 1. : 0.;
+            }
+            case Year2017 -> {
+                return (getYear() == 2017) ? 1. : 0.;
+            }
+            case Year2018 -> {
+                return (getYear() == 2018) ? 1. : 0.;
+            }
+            case Year2019 -> {
+                return (getYear() == 2019) ? 1. : 0.;
+            }
+            case Year2020 -> {
+                return (getYear() == 2020) ? 1. : 0.;
+            }
+            case Year2021 -> {
+                return (getYear() == 2021) ? 1. : 0.;
+            }
+            case Year2022 -> {
+                return (getYear() == 2022) ? 1. : 0.;
+            }
+            case Year2023 -> {
+                return (getYear() == 2023) ? 1. : 0.;
+            }
+            case Year2024 -> {
+                return (getYear() == 2024) ? 1. : 0.;
+            }
+            case Year2025 -> {
+                return (getYear() == 2025) ? 1. : 0.;
+            }
+            case Year2026 -> {
+                return (getYear() == 2026) ? 1. : 0.;
+            }
+            case Year2027 -> {
+                return (getYear() == 2027) ? 1. : 0.;
+            }
+            case Year2028 -> {
+                return (getYear() == 2028) ? 1. : 0.;
+            }
+            case Year2029 -> {
+                return (getYear() == 2029) ? 1. : 0.;
+            }
+            case Year2030 -> {
+                return (getYear() == 2030) ? 1. : 0.;
+            }
+            case Year2031 -> {
+                return (getYear() == 2031) ? 1. : 0.;
+            }
+            case Year2032 -> {
+                return (getYear() == 2032) ? 1. : 0.;
+            }
+            case Year2033 -> {
+                return (getYear() == 2033) ? 1. : 0.;
+            }
+            case Year2034 -> {
+                return (getYear() == 2034) ? 1. : 0.;
+            }
+            case Year2035 -> {
+                return (getYear() == 2035) ? 1. : 0.;
+            }
+            case Year2036 -> {
+                return (getYear() == 2036) ? 1. : 0.;
+            }
+            case Year2037 -> {
+                return (getYear() == 2037) ? 1. : 0.;
+            }
+            case Year2038 -> {
+                return (getYear() == 2038) ? 1. : 0.;
+            }
+            case Year2039 -> {
+                return (getYear() == 2039) ? 1. : 0.;
+            }
+            case Year2040 -> {
+                return (getYear() == 2040) ? 1. : 0.;
+            }
+            case Year2041 -> {
+                return (getYear() == 2041) ? 1. : 0.;
+            }
+            case Year2042 -> {
+                return (getYear() == 2042) ? 1. : 0.;
+            }
+            case Year2043 -> {
+                return (getYear() == 2043) ? 1. : 0.;
+            }
+            case Year2044 -> {
+                return (getYear() == 2044) ? 1. : 0.;
+            }
+            case Year2045 -> {
+                return (getYear() == 2045) ? 1. : 0.;
+            }
+            case Year2046 -> {
+                return (getYear() == 2046) ? 1. : 0.;
+            }
+            case Year2047 -> {
+                return (getYear() == 2047) ? 1. : 0.;
+            }
+            case Year2048 -> {
+                return (getYear() == 2048) ? 1. : 0.;
+            }
+            case Year2049 -> {
+                return (getYear() == 2049) ? 1. : 0.;
+            }
+            case Year2050 -> {
+                return (getYear() == 2050) ? 1. : 0.;
+            }
+            case Year2051 -> {
+                return (getYear() == 2051) ? 1. : 0.;
+            }
+            case Year2052 -> {
+                return (getYear() == 2052) ? 1. : 0.;
+            }
+            case Year2053 -> {
+                return (getYear() == 2053) ? 1. : 0.;
+            }
+            case Year2054 -> {
+                return (getYear() == 2054) ? 1. : 0.;
+            }
+            case Year2055 -> {
+                return (getYear() == 2055) ? 1. : 0.;
+            }
+            case Year2056 -> {
+                return (getYear() == 2056) ? 1. : 0.;
+            }
+            case Year2057 -> {
+                return (getYear() == 2057) ? 1. : 0.;
+            }
+            case Year2058 -> {
+                return (getYear() == 2058) ? 1. : 0.;
+            }
+            case Year2059 -> {
+                return (getYear() == 2059) ? 1. : 0.;
+            }
+            case Year2060 -> {
+                return (getYear() == 2060) ? 1. : 0.;
+            }
+            case Year2061 -> {
+                return (getYear() == 2061) ? 1. : 0.;
+            }
+            case Year2062 -> {
+                return (getYear() == 2062) ? 1. : 0.;
+            }
+            case Year2063 -> {
+                return (getYear() == 2063) ? 1. : 0.;
+            }
+            case Year2064 -> {
+                return (getYear() == 2064) ? 1. : 0.;
+            }
+            case Year2065 -> {
+                return (getYear() == 2065) ? 1. : 0.;
+            }
+            case Year2066 -> {
+                return (getYear() == 2066) ? 1. : 0.;
+            }
+            case Year2067 -> {
+                return (getYear() == 2067) ? 1. : 0.;
+            }
+            case Year2068 -> {
+                return (getYear() == 2068) ? 1. : 0.;
+            }
+            case Year2069 -> {
+                return (getYear() == 2069) ? 1. : 0.;
+            }
+            case Year2070 -> {
+                return (getYear() == 2070) ? 1. : 0.;
+            }
+            case Year2071 -> {
+                return (getYear() == 2071) ? 1. : 0.;
+            }
+            case Year2072 -> {
+                return (getYear() == 2072) ? 1. : 0.;
+            }
+            case Year2073 -> {
+                return (getYear() == 2073) ? 1. : 0.;
+            }
+            case Year2074 -> {
+                return (getYear() == 2074) ? 1. : 0.;
+            }
+            case Year2075 -> {
+                return (getYear() == 2075) ? 1. : 0.;
+            }
+            case Year2076 -> {
+                return (getYear() == 2076) ? 1. : 0.;
+            }
+            case Year2077 -> {
+                return (getYear() == 2077) ? 1. : 0.;
+            }
+            case Year2078 -> {
+                return (getYear() == 2078) ? 1. : 0.;
+            }
+            case Year2079 -> {
+                return (getYear() >= 2079) ? 1. : 0.;
+            }
             case Year_transformed -> {
                 return (Parameters.isFixTimeTrend && getYear() >= Parameters.timeTrendStopsIn) ? (double) Parameters.timeTrendStopsIn - 2000 : (double) getYear() - 2000;
             }
@@ -2879,6 +3160,11 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             }
             case Ydses_c5_Q5_L1 -> {
                 return (Ydses_c5.Q5.equals(getYdses_c5_lag1())) ? 1.0 : 0.0;
+            }
+            case Ydses_L1 -> {
+                if (getYdses_c5_lag1() != null) {
+                    return (double) getYdses_c5_lag1().getValue();
+                } else return 0.;
             }
             case Ypnbihs_dv_L1 -> {
                 if (ypnbihs_dv_lag1 != null) {
@@ -2905,6 +3191,9 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             }
             case Yptciihs_dv_L3 -> {
                 return yptciihs_dv_lag3;
+            }
+            case New_rel_L1 -> {
+                return (getDcpst().equals(Dcpst.Partnered) && !dcpst_lag1.equals(Dcpst.Partnered))? 1. : 0.;
             }
             case Ypncp_L1 -> {
                 return ypncp_lag1;
