@@ -83,6 +83,7 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
     @Enumerated(EnumType.STRING) private Ydses_c5 ydses_c5;
     @Transient private Ydses_c5 ydses_c5_lag1;
     @Transient private Double tmpHHYpnbihs_dv_asinh;
+    private Dhhtp_c4 dhhtp_c4;
     @Transient private Dhhtp_c4 dhhtp_c4_lag1;
     private String createdByConstructor;
     @Column(name="dhh_owned") private Boolean dhhOwned; // are any of the individuals in the benefit unit a homeowner? True / false
@@ -274,6 +275,7 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
 
     public enum Processes {
         Update,        //This updates the household fields, such as number of children of a certain age
+        UpdateOutputVariables,
         UpdateWealth,
         CalculateChangeInEDI, //Calculate change in equivalised disposable income
         Homeownership,
@@ -290,6 +292,9 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
             case Update -> {
                 updateAttributes();
                 clearStates();
+            }
+            case UpdateOutputVariables -> {
+                updateOutputVariables();
             }
             case UpdateWealth -> {
                 updateWealth();
@@ -354,6 +359,13 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
 
     protected void updateWealth() {
         liquidWealth += disposableIncomeMonthly * 12.0 - discretionaryConsumptionPerYear - getNonDiscretionaryConsumptionPerYear();
+    }
+
+    /*
+    Contemporaneous values of dhhtp_c4 are required for validation. Update and output here.
+     */
+    private void updateOutputVariables() {
+        dhhtp_c4 = getDhhtp_c4();
     }
 
 
