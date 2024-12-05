@@ -51,7 +51,7 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 	private static Logger log = Logger.getLogger(SimPathsObserver.class);
 	
 	@GUIparameter(description="Toggle to turn all charts on/off")
-	private Boolean showCharts = false;
+	private Boolean showCharts = true;
 
 	@GUIparameter(description = "Enable additional charts")
 	private Boolean showAdditionalCharts = true;
@@ -540,10 +540,12 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 				activityStatusPlotter.addSeries("Student", new Weighted_MeanArrayFunction(studentCS), null, colorArrayList.get(2), false);
 				activityStatusPlotter.addSeries("Retired", new Weighted_MeanArrayFunction(retiredCS), null, colorArrayList.get(3), false);
 
-				activityStatusPlotter.addSeries("Employed validation", validator, Validator.DoublesVariables.activityStatus_Employed, colorArrayList.get(0), true);
-				activityStatusPlotter.addSeries("Not Employed / Retired validation", validator, Validator.DoublesVariables.activityStatus_NotEmployedRetired, colorArrayList.get(1), true);
-				activityStatusPlotter.addSeries("Student validation", validator, Validator.DoublesVariables.activityStatus_Student, colorArrayList.get(2), true);
-		//		activityStatusPlotter.addSeries("Retired validation", validator, Validator.DoublesVariables.activityStatus_Retired, colorArrayList.get(3), true);
+				if (showValidationStatistics) {
+					activityStatusPlotter.addSeries("Employed validation", validator, Validator.DoublesVariables.activityStatus_Employed, colorArrayList.get(0), true);
+					activityStatusPlotter.addSeries("Not Employed / Retired validation", validator, Validator.DoublesVariables.activityStatus_NotEmployedRetired, colorArrayList.get(1), true);
+					activityStatusPlotter.addSeries("Student validation", validator, Validator.DoublesVariables.activityStatus_Student, colorArrayList.get(2), true);
+					//		activityStatusPlotter.addSeries("Retired validation", validator, Validator.DoublesVariables.activityStatus_Retired, colorArrayList.get(3), true);
+				}
 
 				activityStatusPlotter.setName("Activity status");
 				updateChartSet.add(activityStatusPlotter);
@@ -555,7 +557,9 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 				Weighted_CrossSection.Double homeownersBUsCS = new Weighted_CrossSection.Double(model.getBenefitUnits(), BenefitUnit.Regressors.Homeownership_D);
 				TimeSeriesSimulationPlotter homeownershipStatusPlotter = new TimeSeriesSimulationPlotter("Share of benefit units owning homes", "");
 				homeownershipStatusPlotter.addSeries("Homeowners", new Weighted_MeanArrayFunction(homeownersBUsCS), null, colorArrayList.get(0), false);
-				homeownershipStatusPlotter.addSeries("Homeowners validation", validator, Validator.DoublesVariables.homeownership_BenefitUnit, colorArrayList.get(0), true);
+				if (showValidationStatistics) {
+					homeownershipStatusPlotter.addSeries("Homeowners validation", validator, Validator.DoublesVariables.homeownership_BenefitUnit, colorArrayList.get(0), true);
+				}
 				homeownershipStatusPlotter.setName("Homeownership status");
 				updateChartSet.add(homeownershipStatusPlotter);
 				tabSet.add(homeownershipStatusPlotter);
