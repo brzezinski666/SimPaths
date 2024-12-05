@@ -84,7 +84,7 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
     private Integer startYear = 2011;
 
     @GUIparameter(description = "Simulation ends at year")
-    private Integer endYear = 2026;
+    private Integer endYear = 2040;
 
     @GUIparameter(description = "Maximum simulated age")
     private Integer maxAge = 130;
@@ -162,7 +162,7 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
 
     private boolean alignInSchool = false; //Set to true to align share of students among 16-29 age group
 
-    private boolean alignCohabitation = false; //Set to true to align share of couples (cohabiting individuals)
+    private boolean alignCohabitation = true; //Set to true to align share of couples (cohabiting individuals)
 
     private boolean alignEmployment = false; //Set to true to align employment share
 

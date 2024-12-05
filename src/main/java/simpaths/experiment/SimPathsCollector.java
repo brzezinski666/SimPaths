@@ -55,7 +55,7 @@ public class SimPathsCollector extends AbstractSimulationCollectorManager implem
     private boolean persistStatistics2 = true;
 
     @GUIparameter(description="Report alignment adjustments")
-    private boolean persistStatistics3 = false;
+    private boolean persistStatistics3 = true;
 
     @GUIparameter(description="Toggle to turn database persistence on/off")
     private boolean exportToDatabase = false;

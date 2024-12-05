@@ -1204,7 +1204,6 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
 
     public void cohabitation() {
         double probitAdjustment = (model.isAlignCohabitation()) ? Parameters.getAlignmentValue(getYear(), AlignmentVariable.PartnershipAlignment) : 0.0;
-        probitAdjustment += Parameters.getTimeSeriesValue(getYear(), TimeSeriesVariable.PartnershipAdjustment);
         cohabitation(probitAdjustment);
     }
 
@@ -1221,7 +1220,6 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Person partner = getPartner();
         if (dag >= Parameters.MIN_AGE_COHABITATION) {
             // cohabitation possible
-
 
                 double prob;
                 if (partner == null) {
