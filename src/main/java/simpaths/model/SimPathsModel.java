@@ -158,7 +158,7 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
     //	@GUIparameter(description = "If checked, will align fertility")
     private boolean alignFertility = true;
 
-    private boolean alignEducation = false; //Set to true to align level of education
+    private boolean alignEducation = true; //Set to true to align level of education
 
     private boolean alignInSchool = false; //Set to true to align share of students among 16-29 age group
 
@@ -1719,9 +1719,9 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
         FertilityAlignment fertilityAlignment = new FertilityAlignment(persons);
 
         // define limits of search algorithm
-        double fertiityAdjustment = Parameters.getTimeSeriesValue(getYear(), TimeSeriesVariable.FertilityAdjustment);
-        double minVal = Math.max(-4.0, - fertiityAdjustment - 4.0);
-        double maxVal = Math.min(4.0, - fertiityAdjustment + 4.0);
+        double fertilityAdjustment = Parameters.getTimeSeriesValue(getYear(), TimeSeriesVariable.FertilityAdjustment);
+        double minVal = Math.max(-4.0, - fertilityAdjustment - 4.0);
+        double maxVal = Math.min(4.0, - fertilityAdjustment + 4.0);
 
         // run search
         RootSearch search = getRootSearch(0.0, minVal, maxVal, fertilityAlignment, 5.0E-3, 5.0E-3); // epsOrdinates and epsFunction determine the stopping condition for the search. For partnershipAlignment error term is the difference between target and observed share of partnered individuals.

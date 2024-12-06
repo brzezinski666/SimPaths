@@ -727,7 +727,6 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
 
     public void fertility() {
         double probitAdjustment = (model.isAlignFertility()) ? Parameters.getAlignmentValue(getYear(), AlignmentVariable.FertilityAlignment) : 0.0;
-        probitAdjustment += Parameters.getTimeSeriesValue(getYear(), TimeSeriesVariable.FertilityAdjustment);
         fertility(probitAdjustment);
     }
 
@@ -958,12 +957,13 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         if((dag >= 16 && dag <= 29) && Les_c4.Student.equals(les_c4) && leftEducation == false) {
             //If age is between 16 - 29 and individual has always been in education, follow process H1a:
 
-            Map<Dhe,Double> probs = Parameters.getRegHealthH1a().getProbabilities(this, Person.DoublesVariables.class);
+            Map<Dhe,Double> probs = ManagerRegressions.getProbabilities(this, RegressionName.HealthH1a);
             MultiValEvent event = new MultiValEvent(probs, healthInnov1);
             dhe = (Dhe) event.eval();
+
         } else if (dag >= 16) {
 
-            Map<Dhe,Double> probs = Parameters.getRegHealthH1b().getProbabilities(this, Person.DoublesVariables.class);
+            Map<Dhe,Double> probs = ManagerRegressions.getProbabilities(this, RegressionName.HealthH1b);
             MultiValEvent event = new MultiValEvent(probs, healthInnov1);
             dhe = (Dhe) event.eval();
 
