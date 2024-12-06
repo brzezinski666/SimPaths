@@ -1268,46 +1268,53 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
     }
 
     protected void inSchool() {
-
+        // Innovation for education decisions
         double labourInnov = innovations.getDoubleDraw(24);
-        //Min age to leave education set to 16 (from 18 previously) but note that age to leave home is 18.
-        if (Les_c4.Retired.equals(les_c4) || dag < Parameters.MIN_AGE_TO_LEAVE_EDUCATION || dag > Parameters.MAX_AGE_TO_ENTER_EDUCATION) {		//Only apply module for persons who are old enough to consider leaving education, but not retired
-            return;
-        } else if (Les_c4.Student.equals(les_c4) && !leftEducation && dag >= Parameters.MIN_AGE_TO_LEAVE_EDUCATION) { //leftEducation is initialised to false and updated to true when individual leaves education (and never reset).
-            //If age is between 16 - 29 and individual has always been in education, follow process E1a:
 
+        // Check if the individual is eligible for education transitions
+        if (Les_c4.Retired.equals(les_c4) ||
+                dag < Parameters.MIN_AGE_TO_LEAVE_EDUCATION ||
+                dag > Parameters.MAX_AGE_TO_ENTER_EDUCATION) {
+            return; // Skip for retired individuals or those outside the education age range
+        }
+
+        // Case 1: Currently a student and always in education
+        if (Les_c4.Student.equals(les_c4) && !leftEducation) {
             if (dag <= Parameters.MAX_AGE_TO_LEAVE_CONTINUOUS_EDUCATION) {
-
+                // Follow process E1a
                 double prob = Parameters.getRegEducationE1a().getProbability(this, Person.DoublesVariables.class);
-                toLeaveSchool = (labourInnov >= prob); //If event is true, stay in school.  If event is false, leave school.
+                toLeaveSchool = (labourInnov >= prob); // Stay in school if event is false, leave otherwise
             } else {
-                toLeaveSchool = true; //Hasn't left education until 30 - force out
+                toLeaveSchool = true; // Force out of education at age 30
             }
-        } else if (dag <= 35 && (!Les_c4.Student.equals(les_c4) || leftEducation) && !Les_c4.Student.equals(les_c4_lag1)) { //leftEducation is initialised to false and updated to true when individual leaves education for the first time (and never reset).
-            //If age is between 16 - 35 and individual has not continuously been in education, follow process E1b:
-            //Either individual is currently a student and has left education at some point in the past (so returned) or individual is not a student so has not been in continuous education:
-
+        }
+        // Case 2: Not continuously in education
+        else if (dag <= Parameters.MAX_AGE_TO_ENTER_EDUCATION &&
+                (!Les_c4.Student.equals(les_c4) || leftEducation) &&
+                !Les_c4.Student.equals(les_c4_lag1)) {
+            // Follow process E1b
             double prob = Parameters.getRegEducationE1b().getProbability(this, Person.DoublesVariables.class);
-            if (labourInnov < prob) {
-                //If event is true, re-enter education.  If event is false, leave school
 
+            if (labourInnov < prob) {
+                // Re-enter education
                 setLes_c4(Les_c4.Student);
                 setDer(Indicator.True);
                 setDed(Indicator.True);
-            } else if (Les_c4.Student.equals(les_c4)){
-                //If activity status is student but regression to be in education was evaluated to false, remove student status
-
+            } else if (Les_c4.Student.equals(les_c4)) {
+                // Remove student status if regression evaluates to false
                 setLes_c4(Les_c4.NotEmployed);
                 setDed(Indicator.False);
-            //    toLeaveSchool = true; // Model E2b has been estimated for first-time school leavers only, so individuals returning to education canot increase their outcome.
+                toLeaveSchool = true;
             }
-        } else if (dag > 35 && les_c4.equals(Les_c4.Student)) {
-            //People above 45 shouldn't be in education, so if someone re-entered at 45 in previous step, force out
-
+        }
+        // Case 3: Age above 35 and still a student
+        else if (dag > Parameters.MAX_AGE_TO_ENTER_EDUCATION && Les_c4.Student.equals(les_c4)) {
+            // Force out of education for individuals above age 35
             setLes_c4(Les_c4.NotEmployed);
             setDed(Indicator.False);
         }
     }
+
 
     protected void leavingSchool() {
 
@@ -1556,6 +1563,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         //This is because we no longer prevent people in school to get married, given that people can re-enter education throughout their lives.
         //Note that by not filtering out students, we must assign a low education level by default to persons at birth to prevent a null pointer exception when new born persons become old enough to marry if they have not yet left school because
         //their education level has not yet been assigned.
+
         if (newEducationLevel.equals(Education.Low)) {
             model.lowEd++;
         } else if (newEducationLevel.equals(Education.Medium)) {
@@ -1566,12 +1574,13 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             model.nothing++;
         }
         if(deh_c3 != null) {
-            if(newEducationLevel.ordinal() > deh_c3.ordinal()) {		//Assume Education level cannot decrease after re-entering school.
+            if(newEducationLevel.ordinal() >= deh_c3.ordinal()) {		//Assume Education level cannot decrease after re-entering school.
                 deh_c3 = newEducationLevel;
             }
         } else {
             deh_c3 = newEducationLevel;
         }
+
     }
 
     public double getLiquidWealth() {
