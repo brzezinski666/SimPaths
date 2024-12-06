@@ -14,7 +14,7 @@ import java.util.Map;
  * CLASS TO MANAGE ONE SPECIFICATION FOR EVALUATING DONOR KEYS USED TO IMPUTE TAX AND BENEFIT PAYMENTS
  *
  */
-public class KeyFunctionHU implements IKeyFunction {
+public class KeyFunctionHU2 implements IKeyFunction {
 
 
     /**
@@ -29,7 +29,7 @@ public class KeyFunctionHU implements IKeyFunction {
     /**
      * CONSTRUCTORS
      */
-    public KeyFunctionHU() {}
+    public KeyFunctionHU2() {}
 
 
     /**
@@ -84,19 +84,22 @@ public class KeyFunctionHU implements IKeyFunction {
             localMap.put(1,2);
             localMap.put(2,2);
             localMap.put(3,1);
-            localMap.put(4,0);
+            localMap.put(4,1);
+            localMap.put(5,0);
         } else if (age >= MID_AGE) {
             localMap.put(0,1);
             localMap.put(1,1);
             localMap.put(2,1);
             localMap.put(3,0);
             localMap.put(4,0);
+            localMap.put(5,0);
         } else {
             localMap.put(0,0);
             localMap.put(1,0);
             localMap.put(2,0);
             localMap.put(3,0);
             localMap.put(4,0);
+            localMap.put(5,0);
         }
         units.put(MatchFeature.Age, localMap);
 
@@ -107,13 +110,15 @@ public class KeyFunctionHU implements IKeyFunction {
             localMap.put(1,1);
             localMap.put(2,1);
             localMap.put(3,1);
-            localMap.put(4,0);
+            localMap.put(4,1);
+            localMap.put(5,0);
         } else {
             localMap.put(0,0);
             localMap.put(1,0);
             localMap.put(2,0);
             localMap.put(3,0);
             localMap.put(4,0);
+            localMap.put(5,0);
         }
         units.put(MatchFeature.Adults, localMap);
 
@@ -125,12 +130,14 @@ public class KeyFunctionHU implements IKeyFunction {
             localMap.put(2, Math.min(numberChildrenUnder5,2) + 3 * Math.min(numberChildren5To9,2) + 9 * Math.min(numberChildren10To17,1));
             localMap.put(3, Math.min(numberChildrenUnder5,2) + 3 * Math.min(numberChildren5To9 + numberChildren10To17,2));
             localMap.put(4, Math.min(numberChildrenUnder5 + numberChildren5To9 + numberChildren10To17,3));
+            localMap.put(5, Math.min(numberChildrenUnder5 + numberChildren5To9 + numberChildren10To17,3));
         } else {
             localMap.put(0, 0);
             localMap.put(1, 0);
             localMap.put(2, 0);
             localMap.put(3, 0);
             localMap.put(4, 0);
+            localMap.put(5,0);
         }
         units.put(MatchFeature.Children, localMap);
 
@@ -143,6 +150,7 @@ public class KeyFunctionHU implements IKeyFunction {
             localMap.put(2,0);
             localMap.put(3,0);
             localMap.put(4,0);
+            localMap.put(5,0);
         } else if ( fullTimeEmployed == 0 ){
             // only part-time employed
             localMap.put(0,1);
@@ -150,6 +158,7 @@ public class KeyFunctionHU implements IKeyFunction {
             localMap.put(2,1);
             localMap.put(3,1);
             localMap.put(4,0);
+            localMap.put(5,0);
         } else if ( partTimeEmployed + fullTimeEmployed == 1 ){
             // one full-time employed
             localMap.put(0,2);
@@ -157,6 +166,7 @@ public class KeyFunctionHU implements IKeyFunction {
             localMap.put(2,2);
             localMap.put(3,1);
             localMap.put(4,0);
+            localMap.put(5,0);
         } else if ( partTimeEmployed == 1 & fullTimeEmployed == 1 ){
             // one full-time and one part-time employed
             localMap.put(0,3);
@@ -164,6 +174,7 @@ public class KeyFunctionHU implements IKeyFunction {
             localMap.put(2,3);
             localMap.put(3,2);
             localMap.put(4,0);
+            localMap.put(5,0);
         } else {
             // two full-time employed
             localMap.put(0,4);
@@ -171,6 +182,7 @@ public class KeyFunctionHU implements IKeyFunction {
             localMap.put(2,4);
             localMap.put(3,2);
             localMap.put(4,0);
+            localMap.put(5,0);
         }
         units.put(MatchFeature.Employment, localMap);
 
@@ -183,6 +195,7 @@ public class KeyFunctionHU implements IKeyFunction {
             localMap.put(2,0);
             localMap.put(3,0);
             localMap.put(4,0);
+            localMap.put(5,0);
         } else {
             // no disabled
             localMap.put(0,0);
@@ -190,6 +203,7 @@ public class KeyFunctionHU implements IKeyFunction {
             localMap.put(2,0);
             localMap.put(3,0);
             localMap.put(4,0);
+            localMap.put(5,0);
         }
         units.put(MatchFeature.Disability, localMap);
 
@@ -201,12 +215,14 @@ public class KeyFunctionHU implements IKeyFunction {
             localMap.put(2,1);
             localMap.put(3,0);
             localMap.put(4,0);
+            localMap.put(5,0);
         } else {
             localMap.put(0,0);
             localMap.put(1,0);
             localMap.put(2,0);
             localMap.put(3,0);
             localMap.put(4,0);
+            localMap.put(5,0);
         }
         units.put(MatchFeature.CareProvision, localMap);
 
@@ -221,6 +237,7 @@ public class KeyFunctionHU implements IKeyFunction {
             localMap.put(2,0);
             localMap.put(3,0);
             localMap.put(4,0);
+            localMap.put(5,0);
         } else if (originalIncomePerWeekAdjusted < LO_INCOME) {
             // low income
             localMap.put(0,1);
@@ -228,20 +245,23 @@ public class KeyFunctionHU implements IKeyFunction {
             localMap.put(2,0);
             localMap.put(3,0);
             localMap.put(4,0);
+            localMap.put(5,0);
         } else if ( originalIncomePerWeekAdjusted < HI_INCOME ) {
             // mid income
             localMap.put(0,2);
             localMap.put(1,2);
             localMap.put(2,1);
             localMap.put(3,1);
-            localMap.put(4,0);
+            localMap.put(4,1);
+            localMap.put(5,0);
         } else {
             // high income
             localMap.put(0,3);
             localMap.put(1,3);
             localMap.put(2,2);
             localMap.put(3,1);
-            localMap.put(4,0);
+            localMap.put(4,1);
+            localMap.put(5,0);
         }
         units.put(MatchFeature.Income, localMap);
 
@@ -253,12 +273,14 @@ public class KeyFunctionHU implements IKeyFunction {
             localMap.put(2,0);
             localMap.put(3,0);
             localMap.put(4,0);
+            localMap.put(5,0);
         } else {
             localMap.put(0,0);
             localMap.put(1,0);
             localMap.put(2,0);
             localMap.put(3,0);
             localMap.put(4,0);
+            localMap.put(5,0);
         }
         units.put(MatchFeature.DualIncome, localMap);
 
@@ -270,12 +292,14 @@ public class KeyFunctionHU implements IKeyFunction {
             localMap.put(2,0);
             localMap.put(3,0);
             localMap.put(4,0);
+            localMap.put(5,0);
         } else {
             localMap.put(0,0);
             localMap.put(1,0);
             localMap.put(2,0);
             localMap.put(3,0);
             localMap.put(4,0);
+            localMap.put(5,0);
         }
         units.put(MatchFeature.Childcare, localMap);
 
@@ -363,47 +387,47 @@ public class KeyFunctionHU implements IKeyFunction {
             // age
             mapLocal = updateMap(mapLocal, ptsLocal);
             taxdbCounter.put(MatchFeature.Age,mapLocal);
-            ptsLocal = new int[]{3,3,3,2,1}; // this defines the number of age alternatives considered for each donor key set
+            ptsLocal = new int[]{3,3,3,2,2,1}; // this defines the number of age alternatives considered for each donor key set
 
             // number of adults
             mapLocal = updateMap(mapLocal, ptsLocal);
             taxdbCounter.put(MatchFeature.Adults,mapLocal);
-            ptsLocal = new int[]{2,2,2,2,1};
+            ptsLocal = new int[]{2,2,2,2,2,1};
 
             // number of children
             mapLocal = updateMap(mapLocal, ptsLocal);
             taxdbCounter.put(MatchFeature.Children,mapLocal);
-            ptsLocal = new int[]{18,18,18,9,4};
+            ptsLocal = new int[]{18,18,18,9,4,4};
 
             // employment status
             mapLocal = updateMap(mapLocal, ptsLocal);
             taxdbCounter.put(MatchFeature.Employment,mapLocal);
-            ptsLocal = new int[]{5,5,5,3,1};
+            ptsLocal = new int[]{5,5,5,3,1,1};
 
             // disability status
             mapLocal = updateMap(mapLocal, ptsLocal);
             taxdbCounter.put(MatchFeature.Disability,mapLocal);
-            ptsLocal = new int[]{2,2,1,1,1};
+            ptsLocal = new int[]{2,2,1,1,1,1};
 
             // care provision
             mapLocal = updateMap(mapLocal, ptsLocal);
             taxdbCounter.put(MatchFeature.CareProvision,mapLocal);
-            ptsLocal = new int[]{2,2,2,1,1};
+            ptsLocal = new int[]{2,2,2,1,1,1};
 
             // original income
             mapLocal = updateMap(mapLocal, ptsLocal);
             taxdbCounter.put(MatchFeature.Income,mapLocal);
-            ptsLocal = new int[]{4,4,3,2,1};
+            ptsLocal = new int[]{4,4,3,2,2,1};
 
             // dual income
             mapLocal = updateMap(mapLocal, ptsLocal);
             taxdbCounter.put(MatchFeature.DualIncome,mapLocal);
-            ptsLocal = new int[]{2,1,1,1,1};
+            ptsLocal = new int[]{2,1,1,1,1,1};
 
             // childcare
             mapLocal = updateMap(mapLocal, ptsLocal);
             taxdbCounter.put(MatchFeature.Childcare,mapLocal);
-            ptsLocal = new int[]{2,1,1,1,1};
+            ptsLocal = new int[]{2,1,1,1,1,1};
 
             // total size
             mapLocal = updateMap(mapLocal, ptsLocal);

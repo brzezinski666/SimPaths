@@ -136,7 +136,7 @@ public class Parameters {
     };
 
     //Parameters for managing tax and benefit imputations
-    public static final int TAXDB_REGIMES = 5;
+    public static final int TAXDB_REGIMES = 6;
     private static Map<MatchFeature, Map<Integer, Integer>> taxdbCounter = new HashMap<MatchFeature, Map<Integer, Integer>>();			// records, for each of the three donor keys (first Integer), the increments (second Integer) associated with one unit change in characteristic (String).  The properties of taxdbCounter are specific to the KeyFunction used (and are populated by the associated function)
     private static List<DonorTaxUnit> donorPool;													// list of donors for tax imputation, in ascending order by private (original) income
     private static Map<Triple<Integer,Integer,Integer>,List<Integer>> taxdbReferences = new HashMap<>();	    // for Triple <system year, matching regime, regime index> returns a list of indices to donorPool that describes members of grouping, in ascending order by private income

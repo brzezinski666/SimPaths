@@ -27,7 +27,7 @@ public class KeyFunction {
      * CONSTRUCTORS
      */
     public KeyFunction() {
-        this.keyFunction = new KeyFunctionHU();
+        this.keyFunction = new KeyFunctionHU2();
     }
     public KeyFunction(int simYear, int priceYear, int age, int numberMembersOver17, int numberChildrenUnder5, int numberChildren5To9, int numberChildren10To17,
                        double hoursWorkedPerWeekMan, double hoursWorkedPerWeekWoman, int dlltsdMan, int dlltsdWoman, int careProvision, double originalIncomePerWeek) {
