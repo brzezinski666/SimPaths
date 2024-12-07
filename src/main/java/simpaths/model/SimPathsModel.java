@@ -93,9 +93,9 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
     private boolean fixTimeTrend = true;
 
     @GUIparameter(description = "Fix year used in the regressions to")
-    private Integer timeTrendStopsIn = 2021;
+    private Integer timeTrendStopsIn = 2020;
 
-    private Integer timeTrendStopsInMonetaryProcesses = 2021; // For monetary processes, time trend always continues to 2017 (last observed year in the estimation sample) and then values are grown at the growth rate read from Excel
+    private Integer timeTrendStopsInMonetaryProcesses = 2020; // For monetary processes, time trend always continues to 2017 (last observed year in the estimation sample) and then values are grown at the growth rate read from Excel
 
 //	@GUIparameter(description="Age at which people in initial population who are not employed are forced to retire")
 //	private Integer ageNonWorkPeopleRetire = 65;	//The problem is that it is difficult to find donor benefitUnits for non-zero labour supply for older people who are in the Nonwork category but not Retired.  They should, in theory, still enter the Labour Market Module, but if we cannot find donor benefitUnits, how should we proceed?  We avoid this problem by defining that people over the age specified here are retired off if they have activity_status equal to Nonwork.
@@ -156,13 +156,13 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
     private boolean alignPopulation = true; //TODO: routine fails to replicate results for minor variations between simulations
 
     //	@GUIparameter(description = "If checked, will align fertility")
-    private boolean alignFertility = true;
+    private boolean alignFertility = false;
 
-    private boolean alignEducation = true; //Set to true to align level of education
+    private boolean alignEducation = false; //Set to true to align level of education
 
     private boolean alignInSchool = false; //Set to true to align share of students among 16-29 age group
 
-    private boolean alignCohabitation = true; //Set to true to align share of couples (cohabiting individuals)
+    private boolean alignCohabitation = false; //Set to true to align share of couples (cohabiting individuals)
 
     private boolean alignEmployment = false; //Set to true to align employment share
 
