@@ -1573,7 +1573,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         } else {
             model.nothing++;
         }
-        if(deh_c3 != null) {
+        if(der != null && der.equals(Indicator.True)) {
             if(newEducationLevel.ordinal() >= deh_c3.ordinal()) {		//Assume Education level cannot decrease after re-entering school.
                 deh_c3 = newEducationLevel;
             }
@@ -3669,6 +3669,15 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
 
     public void setDed(Indicator ded) {
         this.ded = ded;
+    }
+
+    public int getLeaveSchool() {
+        if(toLeaveSchool != null && toLeaveSchool == true) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
     }
 
     public int getLowEducation() {

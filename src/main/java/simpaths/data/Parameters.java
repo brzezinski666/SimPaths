@@ -840,7 +840,7 @@ public class Parameters {
         projectionsHighEdu = ExcelAssistant.loadCoefficientMap("input/align_educLevel.xlsx", countryString + "_High", 1, 2);
         projectionsLowEdu = ExcelAssistant.loadCoefficientMap("input/align_educLevel.xlsx", countryString + "_Low", 1, 2);
 
-    //    studentShareProjections = ExcelAssistant.loadCoefficientMap("input/align_student_under30.xlsx", countryString, 1, 40);
+        studentShareProjections = ExcelAssistant.loadCoefficientMap("input/align_student_under30.xlsx", countryString, 1, 40);
 
         //Employment alignment
     //    employmentAlignment = ExcelAssistant.loadCoefficientMap("input/align_employment.xlsx", countryString, 2, 40);

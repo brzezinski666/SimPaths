@@ -717,7 +717,7 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
                 if (commentsOn) log.info("Starting year " + year);
             }
             case EndYear -> {
-
+                //System.out.println("Model assigned " + lowEd + "low education levels, " + medEd + "medium, " + highEd + "high ed");
                 long elapsedTime1 = System.currentTimeMillis();
                 double timerForYear = (elapsedTime1 - elapsedTime0)/1000.0;
                 System.out.println("Finished year " + year + " (in " + timerForYear + " seconds)");

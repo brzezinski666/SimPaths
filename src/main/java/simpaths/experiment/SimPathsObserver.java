@@ -682,6 +682,8 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 			    	
 					Weighted_CrossSection.Integer lowEducationCS = new Weighted_CrossSection.Integer(model.getPersons(), Person.class, "getLowEducation", true);
 					lowEducationCS.setFilter(ageFilter);
+					Weighted_CrossSection.Integer leftEducationCS = new Weighted_CrossSection.Integer(model.getPersons(), Person.class, "getLeaveSchool", true);
+					leftEducationCS.setFilter(ageFilter);
 					Weighted_CrossSection.Integer midEducationCS = new Weighted_CrossSection.Integer(model.getPersons(), Person.class, "getMidEducation", true);
 					midEducationCS.setFilter(ageFilter);
 					Weighted_CrossSection.Integer highEducationCS = new Weighted_CrossSection.Integer(model.getPersons(), Person.class, "getHighEducation", true);
@@ -689,6 +691,7 @@ public class SimPathsObserver extends AbstractSimulationObserverManager implemen
 					
 					TimeSeriesSimulationPlotter eduAgePlotter = new TimeSeriesSimulationPlotter("Education level by age: " + ageFilter.getAgeFrom() + " - " + ageFilter.getAgeTo() + "\n(excluding students)", "");		//'yo' means "years old"
 				    eduAgePlotter.addSeries("low", new Weighted_MeanArrayFunction(lowEducationCS), null, colorArrayList.get(0), false);
+					eduAgePlotter.addSeries("left educ", new Weighted_MeanArrayFunction(leftEducationCS), null, colorArrayList.get(3), false);
 				    eduAgePlotter.addSeries("mid", new Weighted_MeanArrayFunction(midEducationCS), null, colorArrayList.get(1), false);
 				    eduAgePlotter.addSeries("high", new Weighted_MeanArrayFunction(highEducationCS), null, colorArrayList.get(2), false);
 
