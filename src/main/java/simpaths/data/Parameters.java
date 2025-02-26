@@ -802,7 +802,7 @@ public class Parameters {
 
 //		unemploymentRatesByRegion = new LinkedHashMap<>();
 //		unemploymentRates = ExcelAssistant.loadCoefficientMap("input/scenario_unemploymentRates.xlsx", countryString, 1, 46);
-        fixedRetireAge = ExcelAssistant.loadCoefficientMap("input/scenario_retirementAgeFixed.xlsx", countryString, 1, 2);
+        fixedRetireAge = ExcelAssistant.loadCoefficientMap("input/scenario_retirementAgeFixed.xlsx", countryString, 1, 2); //#
         /*
         rawProbSick = ExcelAssistant.loadCoefficientMap("input/scenario_probSick.xls", country.toString(), 2, 1);
         for (Object o: rawProbSick.keySet()) {
@@ -828,7 +828,7 @@ public class Parameters {
         */
 
         // alignment parameters
-        populationProjections = ExcelAssistant.loadCoefficientMap("input/align_popProjections.xlsx", countryString, 3, 50); // 50 columns for Hungary
+        populationProjections = ExcelAssistant.loadCoefficientMap("input/align_popProjections.xlsx", countryString, 3, 50); // 50 columns for Hungary //#
         setMapBounds(MapBounds.Population, countryString);
 
         //Alignment of education levels
@@ -849,7 +849,7 @@ public class Parameters {
         coefficientMapRMSE = ExcelAssistant.loadCoefficientMap("input/reg_RMSE.xlsx", countryString, 1, 1);
 
         //Mortality rates
-        mortalityProbabilityByGenderAgeYear = ExcelAssistant.loadCoefficientMap("input/projections_mortality.xlsx", countryString + "_MortalityByGenderAgeYear", 2, 141);
+        mortalityProbabilityByGenderAgeYear = ExcelAssistant.loadCoefficientMap("input/projections_mortality.xlsx", countryString + "_MortalityByGenderAgeYear", 2, 111);
         setMapBounds(MapBounds.Mortality, countryString);
 
 
@@ -865,10 +865,10 @@ public class Parameters {
 
 
         //Load country specific data
-        int columnsWagesMalesNE = 18; //
-        int columnsWagesMalesE = 19; //
-        int columnsWagesFemalesNE = 18; //
-        int columnsWagesFemalesE = 19; //
+        int columnsWagesMalesNE = 21; //#
+        int columnsWagesMalesE = 22; //#
+        int columnsWagesFemalesNE = 21; //#
+        int columnsWagesFemalesE = 22; //#
         int columnsEmploymentSelectionMalesNE = 18; //
         int columnsEmploymentSelectionMalesE = 17; //
         int columnsEmploymentSelectionFemalesNE = 18; //

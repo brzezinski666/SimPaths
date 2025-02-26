@@ -2208,8 +2208,10 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         UKM,
         UKmissing,
         UKN,
-        HUA,                //HU
-        HUB,
+        PL4,
+        PL5,
+        PL6,
+        PL10,
         Year,										//Year as in the simulation, e.g. 2009
         Year2010,
         Year2011,
@@ -2222,7 +2224,9 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Year2018,
         Year2019,
         Year2020,
+        Y2020,
         Year2021,
+        Y2021,
         Year2022,
         Year2023,
         Year2024,
@@ -2984,10 +2988,10 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             case Year2019 -> {
                 return (getYear() == 2019) ? 1. : 0.;
             }
-            case Year2020 -> {
+            case Year2020, Y2020 -> {
                 return (getYear() == 2020) ? 1. : 0.;
             }
-            case Year2021 -> {
+            case Year2021, Y2021 -> {
                 return (getYear() == 2021) ? 1. : 0.;
             }
             case Year2022 -> {
@@ -3417,11 +3421,17 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
                 return 0.;        //For our purpose, all our simulated people have a region, so this enum value is always going to be 0 (false).
                 //			return (getRegion().equals(Region.UKmissing)) ? 1. : 0.;		//For people whose region info is missing.  The UK survey did not record the region in the first two waves (2006 and 2007, each for 4 years). For all those individuals we have gender, education etc but not region. If we exclude them we lose a large part of the UK sample, so this is the trick to keep them in the estimates.
             }
-            case HUA -> {
-                return Region.HUA.equals(getRegion()) ? 1.0 : 0.0;
+            case PL4 -> {
+                return Region.PL4.equals(getRegion()) ? 1.0 : 0.0;
             }
-            case HUB -> {
-                return Region.HUB.equals(getRegion()) ? 1.0 : 0.0;
+            case PL5 -> {
+                return Region.PL5.equals(getRegion()) ? 1.0 : 0.0;
+            }
+            case PL6 -> {
+                return Region.PL6.equals(getRegion()) ? 1.0 : 0.0;
+            }
+            case PL10 -> {
+                return Region.PL10.equals(getRegion()) ? 1.0 : 0.0;
             }
             // Regressors used in the Covid-19 labour market module below:
             case Dgn_Dag -> {
