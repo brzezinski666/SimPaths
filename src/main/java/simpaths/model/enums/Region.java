@@ -6,6 +6,14 @@ public enum Region implements IntegerValuedEnum {
 	
 	//Uses NUTS Level 1 system for each country
 
+	// Poland
+	PL2("Poludniowy", 2),
+	PL4("Polnocno-Zachodni", 4),
+	PL5("Poludniowo-Zachodni", 5),
+	PL6("Polnocny", 6),
+	PL10("Centralno-Wschodni", 10), // "Centralno-Wschodni" =  Central + East = Centralny (1->7) + Wschodni (3->8)+ Województwo Mazowieckie (9)
+
+
 	//Hungary					//Name										//EUROMOD drgn1 value
 	HUC("Central Hungary", 1), // HU1
 	HUA("Transdanubia", 2), // HU2

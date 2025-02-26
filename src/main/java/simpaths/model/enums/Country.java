@@ -2,7 +2,7 @@ package simpaths.model.enums;
 
 public enum Country {
 	
-	HU("Hungary", 17);			// Hungary
+	PL("Poland", 18);			// Hungary
 
 	
 	//EUROMOD country codes for all EU countries

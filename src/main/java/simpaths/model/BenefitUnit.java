@@ -1375,9 +1375,11 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
         MaleLeisure_DChildren2Under,
         MaleLeisure_MaleDeh_c3_Low,
         MaleLeisure_MaleDeh_c3_Medium,
-        MaleLeisure_HU1,
-        MaleLeisure_HU2,
-        MaleLeisure_HU3,
+        MaleLeisure_PL2,
+        MaleLeisure_PL4,
+        MaleLeisure_PL5,
+        MaleLeisure_PL6,
+        MaleLeisure_PL10,
         MaleLeisure_UKF,
         MaleLeisure_UKG,
         MaleLeisure_UKH,
@@ -1397,9 +1399,11 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
         FemaleLeisure_DChildren2Under,
         FemaleLeisure_FemaleDeh_c3_Low,
         FemaleLeisure_FemaleDeh_c3_Medium,
-        FemaleLeisure_HU1,
-        FemaleLeisure_HU2,
-        FemaleLeisure_HU3,
+        FemaleLeisure_PL2,
+        FemaleLeisure_PL4,
+        FemaleLeisure_PL5,
+        FemaleLeisure_PL6,
+        FemaleLeisure_PL10,
         FemaleLeisure_UKF,
         FemaleLeisure_UKG,
         FemaleLeisure_UKH,
@@ -1698,23 +1702,37 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
                     return (Parameters.HOURS_IN_WEEK - getMale().getLabourSupplyHoursWeekly());
                 } else return 0.;
             }
-            case MaleLeisure_HU1 -> {
-                if(model.getCountry().equals(Country.HU)) {
-                    if(getRegion().equals(Region.HUC)) {
+            case MaleLeisure_PL2 -> {
+                if(model.getCountry().equals(Country.PL)) {
+                    if(getRegion().equals(Region.PL2)) {
                         return (Parameters.HOURS_IN_WEEK - getMale().getLabourSupplyHoursWeekly());
                     } else return 0.;
                 } else throw new IllegalArgumentException("Error - the region used in regression doesn't match the country in the simulation!");
             }
-            case MaleLeisure_HU2 -> {
-                if(model.getCountry().equals(Country.HU)) {
-                    if(getRegion().equals(Region.HUA)) {
+            case MaleLeisure_PL4 -> {
+                if(model.getCountry().equals(Country.PL)) {
+                    if(getRegion().equals(Region.PL4)) {
                         return (Parameters.HOURS_IN_WEEK - getMale().getLabourSupplyHoursWeekly());
                     } else return 0.;
                 } else throw new IllegalArgumentException("Error - the region used in regression doesn't match the country in the simulation!");
             }
-            case MaleLeisure_HU3 -> {
-                if(model.getCountry().equals(Country.HU)) {
-                    if(getRegion().equals(Region.HUB)) {
+            case MaleLeisure_PL5 -> {
+                if(model.getCountry().equals(Country.PL)) {
+                    if(getRegion().equals(Region.PL5)) {
+                        return (Parameters.HOURS_IN_WEEK - getMale().getLabourSupplyHoursWeekly());
+                    } else return 0.;
+                } else throw new IllegalArgumentException("Error - the region used in regression doesn't match the country in the simulation!");
+            }
+            case MaleLeisure_PL6 -> {
+                if(model.getCountry().equals(Country.PL)) {
+                    if(getRegion().equals(Region.PL6)) {
+                        return (Parameters.HOURS_IN_WEEK - getMale().getLabourSupplyHoursWeekly());
+                    } else return 0.;
+                } else throw new IllegalArgumentException("Error - the region used in regression doesn't match the country in the simulation!");
+            }
+            case MaleLeisure_PL10 -> {
+                if(model.getCountry().equals(Country.PL)) {
+                    if(getRegion().equals(Region.PL10)) {
                         return (Parameters.HOURS_IN_WEEK - getMale().getLabourSupplyHoursWeekly());
                     } else return 0.;
                 } else throw new IllegalArgumentException("Error - the region used in regression doesn't match the country in the simulation!");
@@ -1758,23 +1776,37 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
                     return (Parameters.HOURS_IN_WEEK - getFemale().getLabourSupplyHoursWeekly());
                 } else return 0.;
             }
-            case FemaleLeisure_HU1 -> {
-                if(model.getCountry().equals(Country.HU)) {
-                    if(getRegion().equals(Region.HUC)) {
+            case FemaleLeisure_PL2 -> {
+                if(model.getCountry().equals(Country.PL)) {
+                    if(getRegion().equals(Region.PL2)) {
                         return (Parameters.HOURS_IN_WEEK - getFemale().getLabourSupplyHoursWeekly());
                     } else return 0.;
                 } else throw new IllegalArgumentException("Error - the region used in regression doesn't match the country in the simulation!");
             }
-            case FemaleLeisure_HU2 -> {
-                if(model.getCountry().equals(Country.HU)) {
-                    if(getRegion().equals(Region.HUA)) {
+            case FemaleLeisure_PL4 -> {
+                if(model.getCountry().equals(Country.PL)) {
+                    if(getRegion().equals(Region.PL4)) {
                         return (Parameters.HOURS_IN_WEEK - getFemale().getLabourSupplyHoursWeekly());
                     } else return 0.;
                 } else throw new IllegalArgumentException("Error - the region used in regression doesn't match the country in the simulation!");
             }
-            case FemaleLeisure_HU3 -> {
-                if(model.getCountry().equals(Country.HU)) {
-                    if(getRegion().equals(Region.HUB)) {
+            case FemaleLeisure_PL5 -> {
+                if(model.getCountry().equals(Country.PL)) {
+                    if(getRegion().equals(Region.PL5)) {
+                        return (Parameters.HOURS_IN_WEEK - getFemale().getLabourSupplyHoursWeekly());
+                    } else return 0.;
+                } else throw new IllegalArgumentException("Error - the region used in regression doesn't match the country in the simulation!");
+            }
+            case FemaleLeisure_PL6 -> {
+                if(model.getCountry().equals(Country.PL)) {
+                    if(getRegion().equals(Region.PL6)) {
+                        return (Parameters.HOURS_IN_WEEK - getFemale().getLabourSupplyHoursWeekly());
+                    } else return 0.;
+                } else throw new IllegalArgumentException("Error - the region used in regression doesn't match the country in the simulation!");
+            }
+            case FemaleLeisure_PL10 -> {
+                if(model.getCountry().equals(Country.PL)) {
+                    if(getRegion().equals(Region.PL10)) {
                         return (Parameters.HOURS_IN_WEEK - getFemale().getLabourSupplyHoursWeekly());
                     } else return 0.;
                 } else throw new IllegalArgumentException("Error - the region used in regression doesn't match the country in the simulation!");
@@ -1972,14 +2004,7 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
             case HoursMaleByDelderly -> {        //Appears only in Single Males regression, not Couple.
                 return 0.;        //Our model doesn't take account of elderly (as people move out of parental home when 18 years old, and we do not provide a mechanism for parents to move back in.
             }
-            case HoursMaleByDregion -> {
-                if(model.getCountry().equals(Country.HU)) {
-                    if(getRegion().equals(Region.HUC)) {        //For HU1
-                        return getMale().getLabourSupplyHoursWeekly();
-                    } else return 0.;
-                } else throw new IllegalArgumentException("Error - household " + this.getId() + " has region " + getRegion() + " which is not yet handled in DonorHousehold.getDoubleValue()!");
 
-            }
             case HoursFemale -> {
                 return getFemale().getLabourSupplyHoursWeekly();
             }
@@ -2004,17 +2029,10 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
             case HoursFemaleByDelderly -> {
                 return 0.;        //Our model doesn't take account of elderly (as people move out of parental home when 18 years old, and we do not provide a mechanism for parents to move back in.
             }
-            case HoursFemaleByDregion -> {        //Value of hours are already taken into account by multiplying regression coefficients in Parameters class
-                if(model.getCountry().equals(Country.HU)) {
-                    if(getRegion().equals(Region.HUC)) {        //For HU1
-                        return getFemale().getLabourSupplyHoursWeekly();
-                    } else return 0.;
-                } else throw new IllegalArgumentException("Error - household " + this.getKey().getId() + " has region " + getRegion() + " which is not yet handled in DonorHousehold.getDoubleValue()!");
 
-                //The following regressors for FixedCosts appear as negative in the Utility regression, and so are multiplied by a factor of -1 below.
-                //The following regressors only apply when the male hours worked is greater than 0
+            //The following regressors for FixedCosts appear as negative in the Utility regression, and so are multiplied by a factor of -1 below.
+            //The following regressors only apply when the male hours worked is greater than 0
 
-            }
             case FixedCostMaleByNumberChildren -> {
                 if(getMale().getLabourSupplyHoursWeekly() > 0) {
                     return - getNumberChildrenAll();        //Return negative as costs appear negative in utility function equation

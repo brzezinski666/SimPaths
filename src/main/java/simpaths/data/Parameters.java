@@ -786,11 +786,7 @@ public class Parameters {
         instantiateAlignmentMaps();
 
         // scenario parameters
-        if (country.equals(Country.HU)) {
-            SAVINGS_RATE = 0.056;
-        } else {
-            SAVINGS_RATE = 0.056;
-        }
+        SAVINGS_RATE = 0.056;
         saveImperfectTaxDBMatches = taxDBMatches;
 
         flagDefaultToTimeSeriesAverages = defaultToTimeSeriesAverages;
@@ -869,108 +865,40 @@ public class Parameters {
 
 
         //Load country specific data
-        int columnsWagesMalesNE = -1;
-        int columnsWagesMalesE = -1;
-        int columnsWagesFemalesNE = -1;
-        int columnsWagesFemalesE = -1;
-        int columnsEmploymentSelectionMalesNE = -1;
-        int columnsEmploymentSelectionMalesE = -1;
-        int columnsEmploymentSelectionFemalesNE = -1;
-        int columnsEmploymentSelectionFemalesE = -1;
-        int columnsLabourSupplyUtilityMales = -1;
-        int columnsLabourSupplyUtilityFemales = -1;
-        int columnsLabourSupplyUtilityMalesWithDependent = -1;
-        int columnsLabourSupplyUtilityFemalesWithDependent = -1;
-        int columnsLabourSupplyUtilityACMales = -1;
-        int columnsLabourSupplyUtilityACFemales = -1;
-        int columnsLabourSupplyUtilityCouples = -1;
-        int columnsHealthH1a = -1;
-        int columnsHealthH1b = -1;
-        int columnsHealthH2b = -1;
-        int columnsHealthHM1 = -1;
-        int columnsHealthHM2Males = -1;
-        int columnsHealthHM2Females = -1;
-        int columnsUnemploymentU1a = -1;
-        int columnsUnemploymentU1b = -1;
-        int columnsUnemploymentU1c = -1;
-        int columnsUnemploymentU1d = -1;
-        int columnsEducationE1a = -1;
-        int columnsEducationE1b = -1;
-        int columnsEducationE2a = -1;
-        int columnsPartnershipU1a = -1;
-        int columnsPartnershipU1b = -1;
-        int columnsPartnershipU2b = -1;
-        int columnsFertilityF1a = -1;
-        int columnsFertilityF1b = -1;
-        int columnsIncomeI3a_amount = -1;
-        int columnsIncomeI3b_amount = -1;
-        int columnsIncomeI4b = -1;
-        int columnsIncomeI5a = -1;
-        int columnsIncomeI5b = -1;
-        int columnsIncomeI3a_selection = -1;
-        int columnsIncomeI3b_selection = -1;
-        int columnsLeaveHomeP1a = -1;
-        int columnsHomeownership = -1;
-        int columnsRetirementR1a = -1;
-        int columnsRetirementR1b = -1;
-        int columnsChildcareC1a = -1;
-        int columnsChildcareC1b = -1;
-        //For validation below:
-        int columnsValidationStudentsByAge = -1;
-        int columnsValidationStudentsByRegion = -1;
-        int columnsValidationEducationLevel = -1;
-        int columnsValidationEducationLevelByAge = -1;
-        int columnsValidationEducationLevelByRegion = -1;
-        int columnsValidationPartneredBUShareByRegion = -1;
-        int columnsValidationDisabledByGender = -1;
-        int columnsValidationDisabledByAgeGroup = -1;
-        int columnsValidationHealthByAgeGroup = -1;
-        int columnsValidationMentalHealthByAgeGroup = -1;
-        int columnsValidationEmploymentByGender = -1;
-        int columnsValidationEmploymentByGenderAndAge = -1;
-        int columnsValidationEmploymentByMaternity = -1;
-        int columnsValidationEmploymentByGenderAndRegion = -1;
-        int columnsValidationActivityStatus = -1;
-        int columnsValidationHomeownership = -1;
-        int columnsValidationByGenderAndEducation = -1;
-        int columnsValidationLabourSupplyByEducation = -1;
-        if(country.equals(Country.HU)) {
-            columnsWagesMalesNE = 18; //#
-            columnsWagesMalesE = 19; //#
-            columnsWagesFemalesNE = 18; //#
-            columnsWagesFemalesE = 19; //#
-            columnsEmploymentSelectionMalesNE = 18; //#
-            columnsEmploymentSelectionMalesE = 17; //#
-            columnsEmploymentSelectionFemalesNE = 18; //#
-            columnsEmploymentSelectionFemalesE = 17; //#
-            columnsLabourSupplyUtilityMales = 13; //#
-            columnsLabourSupplyUtilityFemales = 13; //#
-            columnsLabourSupplyUtilityMalesWithDependent = 19; //#
-            columnsLabourSupplyUtilityFemalesWithDependent = 19; //#
-            columnsLabourSupplyUtilityACMales = 13; //#
-            columnsLabourSupplyUtilityACFemales = 13; //#
-            columnsLabourSupplyUtilityCouples = 48; //#
-            columnsHealthH1a = 16; //#
-            columnsHealthH1b = 77; //#
-            columnsHealthH2b = 26; //#
-            columnsEducationE1a = 8; //#
-            columnsEducationE1b = 13; //#
-            columnsEducationE2a = 13; //#
-            columnsPartnershipU1a = 13; //#
-            columnsPartnershipU1b = 26; //#
-            columnsPartnershipU2b = 29; //#
-            columnsFertilityF1a = 5; //#
-            columnsFertilityF1b = 25; //#
-            columnsIncomeI3a_amount = 11; //#
-            columnsIncomeI3b_amount = 21; //#
-            columnsIncomeI3a_selection = 11; //#
-            columnsIncomeI3b_selection = 21; //#
-            columnsLeaveHomeP1a = 16; //#
-            columnsHomeownership = 29; //#
-            columnsRetirementR1a = 17; //#
-            columnsRetirementR1b = 21; //#
-        }
-        else throw new IllegalArgumentException("Country not recognised in Parameters.loadParameters()!");
+        int columnsWagesMalesNE = 18; //
+        int columnsWagesMalesE = 19; //
+        int columnsWagesFemalesNE = 18; //
+        int columnsWagesFemalesE = 19; //
+        int columnsEmploymentSelectionMalesNE = 18; //
+        int columnsEmploymentSelectionMalesE = 17; //
+        int columnsEmploymentSelectionFemalesNE = 18; //
+        int columnsEmploymentSelectionFemalesE = 17; //
+        int columnsLabourSupplyUtilityMales = 13; //
+        int columnsLabourSupplyUtilityFemales = 13; //
+        int columnsLabourSupplyUtilityMalesWithDependent = 19; //
+        int columnsLabourSupplyUtilityFemalesWithDependent = 19; //
+        int columnsLabourSupplyUtilityACMales = 13; //
+        int columnsLabourSupplyUtilityACFemales = 13; //
+        int columnsLabourSupplyUtilityCouples = 48; //
+        int columnsHealthH1a = 16; //
+        int columnsHealthH1b = 77; //
+        int columnsHealthH2b = 26; //
+        int columnsEducationE1a = 8; //
+        int columnsEducationE1b = 13; //
+        int columnsEducationE2a = 13; //
+        int columnsPartnershipU1a = 13; //
+        int columnsPartnershipU1b = 26; //
+        int columnsPartnershipU2b = 29; //
+        int columnsFertilityF1a = 5; //
+        int columnsFertilityF1b = 25; //
+        int columnsIncomeI3a_amount = 11; //
+        int columnsIncomeI3b_amount = 21; //
+        int columnsIncomeI3a_selection = 11; //
+        int columnsIncomeI3b_selection = 21; //
+        int columnsLeaveHomeP1a = 16; //
+        int columnsHomeownership = 29; //
+        int columnsRetirementR1a = 17; //
+        int columnsRetirementR1b = 21; //
 
         //The Raw maps contain the estimates and covariance matrices, from which we bootstrap at the start of each simulation
 
