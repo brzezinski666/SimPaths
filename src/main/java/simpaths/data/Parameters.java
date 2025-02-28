@@ -776,7 +776,7 @@ public class Parameters {
         endYear = endYearModel;
 
         EUROMODpolicySchedule = calculateEUROMODpolicySchedule(country);
-        taxDonorInputFileName = "population_" + country;
+        //taxDonorInputFileName = "population_" + country;
         populationInitialisationInputFileName = "population_initial_" + country;
         setCountryRegions(country);
         setEnableIntertemporalOptimisations(enableIntertemporalOptimisations);
@@ -873,13 +873,13 @@ public class Parameters {
         int columnsEmploymentSelectionMalesE = 20; //#
         int columnsEmploymentSelectionFemalesNE = 22; //#
         int columnsEmploymentSelectionFemalesE = 20; //#
-        int columnsLabourSupplyUtilityMales = 13; //
-        int columnsLabourSupplyUtilityFemales = 13; //
-        int columnsLabourSupplyUtilityMalesWithDependent = 19; //
-        int columnsLabourSupplyUtilityFemalesWithDependent = 19; //
-        int columnsLabourSupplyUtilityACMales = 13; //
-        int columnsLabourSupplyUtilityACFemales = 13; //
-        int columnsLabourSupplyUtilityCouples = 48; //
+        int columnsLabourSupplyUtilityMales = 13; //#
+        int columnsLabourSupplyUtilityFemales = 13; //#
+        int columnsLabourSupplyUtilityMalesWithDependent = 19; //#
+        int columnsLabourSupplyUtilityFemalesWithDependent = 19; //#
+        int columnsLabourSupplyUtilityACMales = 19; //#
+        int columnsLabourSupplyUtilityACFemales = 19; //#
+        int columnsLabourSupplyUtilityCouples = 72; //#
         int columnsHealthH1a = 32; //#
         int columnsHealthH1b = 81; //#
         int columnsHealthH2b = 30; //#
@@ -989,10 +989,10 @@ public class Parameters {
             //Education
             coeffCovarianceEducationE1a = RegressionUtils.bootstrap(coeffCovarianceEducationE1a);
             coeffCovarianceEducationE1b = RegressionUtils.bootstrap(coeffCovarianceEducationE1b);
-            coeffCovarianceEducationE2a = RegressionUtils.bootstrap(coeffCovarianceEducationE2a);
+   //         coeffCovarianceEducationE2a = RegressionUtils.bootstrap(coeffCovarianceEducationE2a);
 
             //Health
-            coeffCovarianceHealthH1a = RegressionUtils.bootstrap(coeffCovarianceHealthH1a); //Note that this overrides the original coefficient map with bootstrapped values
+    //        coeffCovarianceHealthH1a = RegressionUtils.bootstrap(coeffCovarianceHealthH1a); //Note that this overrides the original coefficient map with bootstrapped values
             coeffCovarianceHealthH1b = RegressionUtils.bootstrap(coeffCovarianceHealthH1b);
             coeffCovarianceHealthH2b = RegressionUtils.bootstrap(coeffCovarianceHealthH2b);
 
