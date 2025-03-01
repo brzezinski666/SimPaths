@@ -886,7 +886,7 @@ public class Parameters {
         int columnsHealthH2b = 30; //#
         int columnsEducationE1a = 12; //#
         int columnsEducationE1b = 17; //#
-        int columnsEducationE2a = 19; //#
+        int columnsEducationE2a = 18; //#
         int columnsPartnershipU1a = 12; //#
         int columnsPartnershipU1b = 30; //#
         int columnsPartnershipU2b = 33; //#
@@ -990,7 +990,7 @@ public class Parameters {
             //Education
             coeffCovarianceEducationE1a = RegressionUtils.bootstrap(coeffCovarianceEducationE1a);
             coeffCovarianceEducationE1b = RegressionUtils.bootstrap(coeffCovarianceEducationE1b);
-   //         coeffCovarianceEducationE2a = RegressionUtils.bootstrap(coeffCovarianceEducationE2a);
+            coeffCovarianceEducationE2a = RegressionUtils.bootstrap(coeffCovarianceEducationE2a);
 
             //Health
     //        coeffCovarianceHealthH1a = RegressionUtils.bootstrap(coeffCovarianceHealthH1a); //Note that this overrides the original coefficient map with bootstrapped values
