@@ -127,6 +127,7 @@ public class Parameters {
 		"dhh_owned",			//flag indicating if individual is a homeowner
 		"potential_earnings_hourly", //initial value of hourly earnings from the data
 		"l1_potential_earnings_hourly", //lag(1) of initial value of hourly earnings from the data
+        "liwwh",                    // number of years in employment
 		//"yem", 					//employment income
 		//"yse", 					//self-employment income
 
@@ -2387,7 +2388,7 @@ public class Parameters {
     }
     private static void setMapBounds(MapBounds map, String countryString) {
 
-        String rgn = countryString + "C";
+        String rgn = countryString + "2";
         boolean searchBack = true;
         boolean searchForward = true;
         boolean searchAge;

@@ -200,6 +200,7 @@ public class DataParser {
 				+ "UPDATE " + personTable + " SET idmother = null WHERE idmother = -9;"
 				+ "ALTER TABLE " + personTable + " ALTER COLUMN idfather BIGINT;"
 				+ "UPDATE " + personTable + " SET idfather = null WHERE idfather = -9;"
+				+ "UPDATE " + personTable + " SET liwwh = null WHERE liwwh = -9;"
 
 				//Rename idbenefitunit to BU_ID
 				+ "ALTER TABLE " + personTable + " ALTER COLUMN idbenefitunit RENAME TO buid;"
