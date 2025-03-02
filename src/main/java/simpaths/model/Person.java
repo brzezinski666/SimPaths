@@ -812,7 +812,6 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             considerLeavingHome();
         }
         updateAgeGroup();   //Update ageGroup as person ages
-        System.out.println("liwwh is " + liwwh);
      }
 
     private void considerMortality() {

@@ -5,7 +5,7 @@ maxNumberOfRuns: 10
 executeWithGui: false
 randomSeed: 606
 startYear: 2011
-endYear: 2022
+endYear: 2025
 popSize: 170000
 
 # Arguments passed to the SimPathsModel
