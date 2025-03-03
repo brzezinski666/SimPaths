@@ -1281,7 +1281,13 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         }
     }
 
-    protected void inSchool() {
+    public boolean inSchool() {
+        double probitAdjustment = (model.isAlignInSchool()) ? Parameters.getTimeSeriesValue(getYear(), TimeSeriesVariable.InSchoolAdjustment) : 0.0;
+        return inSchool(probitAdjustment);
+    }
+
+
+    protected boolean inSchool(double probitAdjustment) {
         // Innovation for education decisions
         double labourInnov = innovations.getDoubleDraw(24);
 
@@ -1289,14 +1295,15 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         if (Les_c4.Retired.equals(les_c4) ||
                 dag < Parameters.MIN_AGE_TO_LEAVE_EDUCATION ||
                 dag > Parameters.MAX_AGE_TO_ENTER_EDUCATION) {
-            return; // Skip for retired individuals or those outside the education age range
+            return false;
         }
 
         // Case 1: Currently a student and always in education
         if (Les_c4.Student.equals(les_c4) && !leftEducation) {
             if (dag <= Parameters.MAX_AGE_TO_LEAVE_CONTINUOUS_EDUCATION) {
                 // Follow process E1a
-                double prob = Parameters.getRegEducationE1a().getProbability(this, Person.DoublesVariables.class);
+                double score = Parameters.getRegEducationE1a().getScore(this, Person.DoublesVariables.class);
+                double prob = Parameters.getRegEducationE1a().getProbability(score + probitAdjustment);
                 toLeaveSchool = (labourInnov >= prob); // Stay in school if event is false, leave otherwise
             } else {
                 toLeaveSchool = true; // Force out of education at age 30
@@ -1307,7 +1314,8 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
                 (!Les_c4.Student.equals(les_c4) || leftEducation) &&
                 !Les_c4.Student.equals(les_c4_lag1)) {
             // Follow process E1b
-            double prob = Parameters.getRegEducationE1b().getProbability(this, Person.DoublesVariables.class);
+            double score = Parameters.getRegEducationE1b().getScore(this, Person.DoublesVariables.class);
+            double prob = Parameters.getRegEducationE1b().getProbability(score + probitAdjustment);
 
             if (labourInnov < prob) {
                 // Re-enter education
@@ -1327,6 +1335,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             setLes_c4(Les_c4.NotEmployed);
             setDed(Indicator.False);
         }
+        return !toLeaveSchool;
     }
 
 

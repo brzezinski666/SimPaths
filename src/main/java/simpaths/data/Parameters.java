@@ -332,10 +332,10 @@ public class Parameters {
     private static boolean flagDefaultToTimeSeriesAverages;
     private static Double averageSavingReturns, averageDebtCostLow, averageDebtCostHigh;
     private static MultiKeyCoefficientMap upratingIndexMapRealGDP, upratingIndexMapInflation, socialCareProvisionTimeAdjustment,
-            partnershipTimeAdjustment, retirementTimeAdjustment, fertilityTimeAdjustment, utilityTimeAdjustmentSingleMales, utilityTimeAdjustmentSingleFemales,
+            partnershipTimeAdjustment, retirementTimeAdjustment, fertilityTimeAdjustment, studentsTimeAdjustment, utilityTimeAdjustmentSingleMales, utilityTimeAdjustmentSingleFemales,
             utilityTimeAdjustmentCouples, upratingIndexMapRealWageGrowth, priceMapRealSavingReturns, priceMapRealDebtCostLow, priceMapRealDebtCostHigh,
-            wageRateFormalSocialCare, socialCarePolicy, partneredShare, retiredShare, employedShareSingleMales, employedShareSingleFemales, employedShareCouples;
-    public static Map<Integer, Double> partnershipAlignAdjustment, fertilityAlignAdjustment, retirementAlignAdjustment;
+            wageRateFormalSocialCare, socialCarePolicy, partneredShare, retiredShare, studentShare, employedShareSingleMales, employedShareSingleFemales, employedShareCouples;
+    public static Map<Integer, Double> partnershipAlignAdjustment, fertilityAlignAdjustment, retirementAlignAdjustment, studentsAlignAdjustment;
     public static MultiKeyMap upratingFactorsMap = new MultiKeyMap<>();
 
     //Education level projections
@@ -1035,8 +1035,10 @@ public class Parameters {
         regHealthH2b = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffCovarianceHealthH2b);
 
         //Education
-        regEducationE1a = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffCovarianceEducationE1a);
-        regEducationE1b = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffCovarianceEducationE1b);
+        MultiKeyCoefficientMap coeffEducationE1aAppended = appendCoefficientMaps(coeffCovarianceEducationE1a, studentsTimeAdjustment, "Year");
+        MultiKeyCoefficientMap coeffEducationE1bAppended = appendCoefficientMaps(coeffCovarianceEducationE1b, studentsTimeAdjustment, "Year");
+        regEducationE1a = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffEducationE1aAppended);
+        regEducationE1b = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffEducationE1bAppended);
         regEducationE2a = new GeneralisedOrderedRegression(RegressionType.GenOrderedLogit, Education.class, coeffCovarianceEducationE2a);
 
         //Partnership
@@ -1834,6 +1836,7 @@ public class Parameters {
    //     socialCareProvisionTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_care_adjustment", 1, 1);
         partnershipTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_cohabitation_adjustment", 1, 1);
         retirementTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_retirement_adjustment", 1, 1);
+        studentsTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_students_adjustment", 1, 1);
         fertilityTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_fertility_adjustment", 1, 1);
         utilityTimeAdjustmentSingleMales = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_utility_adj_smales", 1, 1);
         utilityTimeAdjustmentSingleFemales = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_utility_adj_sfemales", 1, 1);
@@ -1848,6 +1851,7 @@ public class Parameters {
         socialCarePolicy = ExcelAssistant.loadCoefficientMap("input/policy parameters.xlsx", "social care", 1, 8);
         partneredShare = ExcelAssistant.loadCoefficientMap("input/policy parameters.xlsx", "partnership", 1, 1);
         retiredShare = ExcelAssistant.loadCoefficientMap("input/policy parameters.xlsx", "retirement", 1, 1);
+        studentShare = ExcelAssistant.loadCoefficientMap("input/policy parameters.xlsx", "students", 1, 1);
         employedShareSingleMales = ExcelAssistant.loadCoefficientMap("input/policy parameters.xlsx", "employment_smales", 1, 1);
         employedShareSingleFemales = ExcelAssistant.loadCoefficientMap("input/policy parameters.xlsx", "employment_sfemales", 1, 1);
         employedShareCouples = ExcelAssistant.loadCoefficientMap("input/policy parameters.xlsx", "employment_couples", 1, 1);
@@ -1857,11 +1861,13 @@ public class Parameters {
     public static void instantiateAlignmentMaps() {
         partnershipAlignAdjustment = new HashMap<>();
         retirementAlignAdjustment = new HashMap<>();
+        studentsAlignAdjustment = new HashMap<>();
         fertilityAlignAdjustment = new HashMap<>();
         for (int yy=startYear; yy<=endYear; yy++) {
             partnershipAlignAdjustment.put(yy,0.0);
             fertilityAlignAdjustment.put(yy,0.0);
             retirementAlignAdjustment.put(yy,0.0);
+            studentsAlignAdjustment.put(yy,0.0);
         }
     }
 
@@ -1940,6 +1946,9 @@ public class Parameters {
             case RetirementAdjustment -> {
                 map = retirementTimeAdjustment;
             }
+            case InSchoolAdjustment -> {
+                map = studentsTimeAdjustment;
+            }
             case HighEducationRate -> {
                 map = projectionsHighEdu;
             }
@@ -1962,6 +1971,9 @@ public class Parameters {
             }
             case Retirement -> {
                 map = retiredShare;
+            }
+            case Students -> {
+                map = studentShare;
             }
             case EmploymentSingleMales -> {
                 map = employedShareSingleMales;
