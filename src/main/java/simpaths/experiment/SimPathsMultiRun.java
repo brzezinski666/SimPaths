@@ -150,7 +150,7 @@ public class SimPathsMultiRun extends MultiRun {
 		Option fileOption = new Option("f", "Output to file");
 		options.addOption(fileOption);
 
-		Option persistRoot = new Option("persistRootDatabase",
+		Option persistRoot = new Option("P", "persistRootDatabase", false,
 				"Write and read processed database to root database" +
 				"(default: multirun copy in output folder)");
 		options.addOption(persistRoot);
