@@ -217,6 +217,7 @@ public class SimPathsMultiRun extends MultiRun {
 					case "none":
 						log.info("Not persisting processed data");
 						persist_population = false;
+						persist_root = false;
 				}
 			} else {
 				log.info("Persisting processed data to run folder");
