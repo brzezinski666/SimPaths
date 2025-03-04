@@ -71,6 +71,11 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
         PersistDatabasePath = persistDatabasePath;
     }
 
+    public static void setPersistPopulation(boolean persistPopulation) {
+        PersistPopulation = persistPopulation;
+    }
+
+
     public boolean isFirstRun() {
         return isFirstRun;
     }
@@ -311,6 +316,9 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
 //    private static String RunDatabasePath = RunDatabasePath;
     private static String RunDatabasePath;
     private static String PersistDatabasePath;
+    private static boolean PersistPopulation = false;
+
+
 
     /**
      *
@@ -2433,7 +2441,7 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
         double aggregateHouseholdsWeight = 0.;        //Aggregate Weight of simulated benefitUnits (a weighted sum of the simulated households)
 
         //TODO: Slight differences between otherwise identical simulations arise when loading "processed" vs "unprocessed" data (distinguished by the if statement below)
-        Processed processed = getProcessed();
+        Processed processed = PersistPopulation ? getProcessed() : null;
         if (processed!=null) {
             Set<Household> households = processed.getHouseholds();
             if (households.isEmpty())
@@ -2580,8 +2588,11 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
             }
 
             // save to processed repository
-            System.out.println("Saving compiled input data for future reference");
-            persistProcessed();
+
+            if (PersistPopulation) {
+                System.out.println("Saving compiled input data for future reference");
+                persistProcessed();
+            }
 
             stopwatch.stop();
             System.out.println("Time elapsed " + stopwatch.getTime()/1000 + " seconds");

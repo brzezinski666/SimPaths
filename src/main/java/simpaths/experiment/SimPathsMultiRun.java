@@ -56,6 +56,7 @@ public class SimPathsMultiRun extends MultiRun {
 	private Long counter = 0L;
 	public static Logger log = Logger.getLogger(SimPathsMultiRun.class);
 
+	private static boolean persist_population;
 	private static boolean persist_root;
 
 	/**
@@ -150,9 +151,13 @@ public class SimPathsMultiRun extends MultiRun {
 		Option fileOption = new Option("f", "Output to file");
 		options.addOption(fileOption);
 
-		Option persistRoot = new Option("P", "persistRootDatabase", false,
-				"Write and read processed database to root database" +
-				"(default: multirun copy in output folder)");
+		Option persistRoot = new Option("P", "persist", true,
+				"Write and read processed database to root or run-specific database. Accepted arguments:" +
+				"\n - root: persist to root output folder (input/)" +
+				"\n - run: persist to run output folder (output/[yyyymmdd_seed]/input/)" +
+				"\n - none: do not write/read processed dataset.\n" +
+				"(default: `run` - multirun copy in output folder)");
+		persistRoot.setArgName("persist");
 		options.addOption(persistRoot);
 
 		Option helpOption = new Option("h", "help", false, "Print this help message");
@@ -197,9 +202,25 @@ public class SimPathsMultiRun extends MultiRun {
 				popSize = Integer.parseInt(cmd.getOptionValue("p"));
 			}
 
-			if (cmd.hasOption("persistRootDatabase")) {
-				persist_root = true;
+			if (cmd.hasOption("P")) {
+				switch (cmd.getOptionValue("P")) {
+					case "root":
+						log.info("Persisting processed data to root folder");
+						persist_population = true;
+						persist_root = true;
+						break;
+					case "run":
+						log.info("Persisting processed data to run folder");
+						persist_population = true;
+						persist_root = false;
+						break;
+					case "none":
+						log.info("Not persisting processed data");
+						persist_population = false;
+				}
 			} else {
+				log.info("Persisting processed data to run folder");
+				persist_population = true;
 				persist_root = false;
 			}
 
@@ -375,6 +396,7 @@ public class SimPathsMultiRun extends MultiRun {
 	public void buildExperiment(SimulationEngine engine) {
 
 		SimPathsModel model = new SimPathsModel(Country.getCountryFromNameString(countryString), startYear);
+		if (persist_population) model.setPersistPopulation(true);
 		if (persist_root) model.setPersistDatabasePath("./input/input");
 		updateLocalParameters(model);
 		if (modelArgs != null)
