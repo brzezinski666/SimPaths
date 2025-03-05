@@ -202,8 +202,7 @@ public class SimPathsMultiRun extends MultiRun {
 				popSize = Integer.parseInt(cmd.getOptionValue("p"));
 			}
 
-			if (cmd.hasOption("P")) {
-				switch (cmd.getOptionValue("P")) {
+				switch (cmd.getOptionValue("P", "run")) {
 					case "root":
 						log.info("Persisting processed data to root folder");
 						persist_population = true;
@@ -218,12 +217,11 @@ public class SimPathsMultiRun extends MultiRun {
 						log.info("Not persisting processed data");
 						persist_population = false;
 						persist_root = false;
+					default:
+						System.out.println("Persist option `" + cmd.getOptionValue("P") + "` not recognised. Valid values: `none`, `root`, `run`. Persisting processed data to run folder");
+						persist_population = true;
+						persist_root = false;
 				}
-			} else {
-				log.info("Persisting processed data to run folder");
-				persist_population = true;
-				persist_root = false;
-			}
 
 			if (cmd.hasOption("f")) {
 				try {
