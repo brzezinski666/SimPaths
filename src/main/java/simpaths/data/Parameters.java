@@ -332,10 +332,10 @@ public class Parameters {
     private static boolean flagDefaultToTimeSeriesAverages;
     private static Double averageSavingReturns, averageDebtCostLow, averageDebtCostHigh;
     private static MultiKeyCoefficientMap upratingIndexMapRealGDP, upratingIndexMapInflation, socialCareProvisionTimeAdjustment,
-            partnershipTimeAdjustment, retirementTimeAdjustment, fertilityTimeAdjustment, studentsTimeAdjustment, utilityTimeAdjustmentSingleMales, utilityTimeAdjustmentSingleFemales,
+            partnershipTimeAdjustment, retirementTimeAdjustment, fertilityTimeAdjustment, disabilityTimeAdjustment, studentsTimeAdjustment, utilityTimeAdjustmentSingleMales, utilityTimeAdjustmentSingleFemales,
             utilityTimeAdjustmentCouples, upratingIndexMapRealWageGrowth, priceMapRealSavingReturns, priceMapRealDebtCostLow, priceMapRealDebtCostHigh,
-            wageRateFormalSocialCare, socialCarePolicy, partneredShare, retiredShare, studentShare, employedShareSingleMales, employedShareSingleFemales, employedShareCouples;
-    public static Map<Integer, Double> partnershipAlignAdjustment, fertilityAlignAdjustment, retirementAlignAdjustment, studentsAlignAdjustment;
+            wageRateFormalSocialCare, socialCarePolicy, partneredShare, retiredShare, disabledShare, studentShare, employedShareSingleMales, employedShareSingleFemales, employedShareCouples;
+    public static Map<Integer, Double> partnershipAlignAdjustment, fertilityAlignAdjustment, retirementAlignAdjustment, studentsAlignAdjustment, disabilityAlignAdjustment;
     public static MultiKeyMap upratingFactorsMap = new MultiKeyMap<>();
 
     //Education level projections
@@ -1032,7 +1032,8 @@ public class Parameters {
         //Health
         regHealthH1a = new GeneralisedOrderedRegression<>(RegressionType.GenOrderedLogit, Dhe.class, coeffCovarianceHealthH1a);
         regHealthH1b = new GeneralisedOrderedRegression<>(RegressionType.GenOrderedLogit, Dhe.class, coeffCovarianceHealthH1b);
-        regHealthH2b = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffCovarianceHealthH2b);
+        MultiKeyCoefficientMap coeffHealthH2bAppended = appendCoefficientMaps(coeffCovarianceHealthH2b, disabilityTimeAdjustment, "Year");
+        regHealthH2b = new BinomialRegression(RegressionType.Probit, Indicator.class, coeffHealthH2bAppended);
 
         //Education
         MultiKeyCoefficientMap coeffEducationE1aAppended = appendCoefficientMaps(coeffCovarianceEducationE1a, studentsTimeAdjustment, "Year");
@@ -1836,6 +1837,7 @@ public class Parameters {
    //     socialCareProvisionTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_care_adjustment", 1, 1);
         partnershipTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_cohabitation_adjustment", 1, 1);
         retirementTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_retirement_adjustment", 1, 1);
+        disabilityTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_disability_adjustment", 1, 1);
         studentsTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_students_adjustment", 1, 1);
         fertilityTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_fertility_adjustment", 1, 1);
         utilityTimeAdjustmentSingleMales = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_utility_adj_smales", 1, 1);
@@ -1851,6 +1853,7 @@ public class Parameters {
         socialCarePolicy = ExcelAssistant.loadCoefficientMap("input/policy parameters.xlsx", "social care", 1, 8);
         partneredShare = ExcelAssistant.loadCoefficientMap("input/policy parameters.xlsx", "partnership", 1, 1);
         retiredShare = ExcelAssistant.loadCoefficientMap("input/policy parameters.xlsx", "retirement", 1, 1);
+        disabledShare = ExcelAssistant.loadCoefficientMap("input/policy parameters.xlsx", "disability", 1, 1);
         studentShare = ExcelAssistant.loadCoefficientMap("input/policy parameters.xlsx", "students", 1, 1);
         employedShareSingleMales = ExcelAssistant.loadCoefficientMap("input/policy parameters.xlsx", "employment_smales", 1, 1);
         employedShareSingleFemales = ExcelAssistant.loadCoefficientMap("input/policy parameters.xlsx", "employment_sfemales", 1, 1);
@@ -1861,12 +1864,14 @@ public class Parameters {
     public static void instantiateAlignmentMaps() {
         partnershipAlignAdjustment = new HashMap<>();
         retirementAlignAdjustment = new HashMap<>();
+        disabilityAlignAdjustment = new HashMap<>();
         studentsAlignAdjustment = new HashMap<>();
         fertilityAlignAdjustment = new HashMap<>();
         for (int yy=startYear; yy<=endYear; yy++) {
             partnershipAlignAdjustment.put(yy,0.0);
             fertilityAlignAdjustment.put(yy,0.0);
             retirementAlignAdjustment.put(yy,0.0);
+            disabilityAlignAdjustment.put(yy,0.0);
             studentsAlignAdjustment.put(yy,0.0);
         }
     }
@@ -1946,6 +1951,9 @@ public class Parameters {
             case RetirementAdjustment -> {
                 map = retirementTimeAdjustment;
             }
+            case DisabilityAdjustment -> {
+                map = disabilityTimeAdjustment;
+            }
             case InSchoolAdjustment -> {
                 map = studentsTimeAdjustment;
             }
@@ -1971,6 +1979,9 @@ public class Parameters {
             }
             case Retirement -> {
                 map = retiredShare;
+            }
+            case Disability -> {
+                map = disabledShare;
             }
             case Students -> {
                 map = studentShare;
@@ -2605,6 +2616,12 @@ public class Parameters {
                     throw new RuntimeException("value undefined for retirementAlignAdjustment in year " + year);
                 return val;
             }
+            case DisabilityAlignment -> {
+                Double val = disabilityAlignAdjustment.get(year);
+                if (val==null)
+                    throw new RuntimeException("value undefined for disabilityAlignAdjustment in year " + year);
+                return val;
+            }
             default -> {
                 throw new RuntimeException("failed to identify alignment value type to get");
             }
@@ -2621,6 +2638,9 @@ public class Parameters {
             }
             case RetirementAlignment -> {
                 retirementAlignAdjustment.put(year, val);
+            }
+            case DisabilityAlignment -> {
+                disabilityAlignAdjustment.put(year, val);
             }
             default -> {
                 throw new RuntimeException("failed to identify alignment value type in set");

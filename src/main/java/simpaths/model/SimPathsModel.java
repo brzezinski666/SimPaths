@@ -158,6 +158,8 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
     //	@GUIparameter(description = "If checked, will align fertility")
     private boolean alignFertility = true;
     private boolean alignRetirement = false;
+
+    private boolean alignDisability = true;
     private boolean alignEducation = false; //Set to true to align level of education
 
     private boolean alignInSchool = false; //Set to true to align share of students among 16-29 age group
@@ -462,17 +464,18 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
         yearlySchedule.addCollectionEvent(persons, Person.Processes.InSchool);
 
         // In School alignment
-        addEventToAllYears(Processes.InSchoolAlignment);
-        addCollectionEventToAllYears(persons, Person.Processes.LeavingSchool);
+        yearlySchedule.addEvent(this, Processes.InSchoolAlignment);
+        yearlySchedule.addCollectionEvent(persons, Person.Processes.LeavingSchool);
 
         // Align the level of education if required
-        addEventToAllYears(Processes.EducationLevelAlignment);
+        yearlySchedule.addEvent(this, Processes.EducationLevelAlignment);
 
         // Homeownership status
         yearlySchedule.addCollectionEvent(benefitUnits, BenefitUnit.Processes.Homeownership);
 
         // HEALTH MODULE
         // Update Health - determine health (continuous) based on regression models: done here because health depends on education
+        yearlySchedule.addEvent(this, Processes.DisabilityAlignment);
         yearlySchedule.addCollectionEvent(persons, Person.Processes.Health);
 
         // HOUSEHOLD COMPOSITION MODULE: Decide whether to enter into a union (marry / cohabit), and then perform union matching (marriage) between a male and female
@@ -695,6 +698,7 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
         PopulationAlignment,
         CohabitationAlignment,
         RetirementAlignment,
+        DisabilityAlignment,
         // HealthAlignment,
         InSchoolAlignment,
         EducationLevelAlignment,
@@ -756,6 +760,12 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
                 if (alignRetirement) {
                     retirementAlignment();
                     if (commentsOn) log.info("Retirement alignment complete.");
+                }
+            }
+            case DisabilityAlignment -> {
+                if (alignDisability) {
+                    disabilityAlignment();
+                    if (commentsOn) log.info("Disability alignment complete.");
                 }
             }
 //			case HealthAlignment -> {
@@ -1435,6 +1445,18 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
         if (search.isTargetAltered()) {
             Parameters.putTimeSeriesValue(getYear(), search.getTarget()[0], TimeSeriesVariable.RetirementAdjustment); // If adjustment is altered from the initial value, update the map
             System.out.println("Retirement adjustment value was " + search.getTarget()[0]);
+        }
+    }
+
+    public void disabilityAlignment() {
+        DisabilityAlignment disabilityAlignment = new DisabilityAlignment(persons);
+        double disabilityAdjustment = Parameters.getTimeSeriesValue(getYear(), TimeSeriesVariable.DisabilityAdjustment);
+        RootSearch search = getRootSearch(disabilityAdjustment, disabilityAlignment, 5.0E-3, 5.0E-3, 2);
+
+        // update and exit
+        if (search.isTargetAltered()) {
+            Parameters.putTimeSeriesValue(getYear(), search.getTarget()[0], TimeSeriesVariable.DisabilityAdjustment); // If adjustment is altered from the initial value, update the map
+            System.out.println("Disability adjustment value was " + search.getTarget()[0]);
         }
     }
 
@@ -2447,6 +2469,13 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
         return alignRetirement;
     }
 
+    public boolean isAlignDisability() {
+        return alignDisability;
+    }
+
+    public void setAlignDisability(boolean alignDisability) {
+        this.alignDisability = alignDisability;
+    }
 
     public void setAlignRetirement(boolean alignRetirement) {
         this.alignRetirement = alignRetirement;
