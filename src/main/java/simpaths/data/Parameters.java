@@ -891,7 +891,7 @@ public class Parameters {
         int columnsPartnershipU1a = 12; //#
         int columnsPartnershipU1b = 30; //#
         int columnsPartnershipU2b = 33; //#
-        int columnsFertilityF1a = 7; //#
+        int columnsFertilityF1a = 6; //#
         int columnsFertilityF1b = 30; //#
         int columnsIncomeI3a_amount = 15; //#
         int columnsIncomeI3b_amount = 25; //#
@@ -899,8 +899,8 @@ public class Parameters {
         int columnsIncomeI3b_selection = 25; //#
         int columnsLeaveHomeP1a = 20; //#
         int columnsHomeownership = 33; //#
-        int columnsRetirementR1a = 21; //#
-        int columnsRetirementR1b = 25; //#
+        int columnsRetirementR1a = 23; //#
+        int columnsRetirementR1b = 29; //#
 
         //The Raw maps contain the estimates and covariance matrices, from which we bootstrap at the start of each simulation
 
