@@ -4694,7 +4694,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
     }
 
     public boolean isReceivesBenefitsFlagUC_L1() {
-        return receivesBenefitsFlagUC_L1;
+        return (null != receivesBenefitsFlagUC_L1) ? receivesBenefitsFlagUC_L1 : false;
     }
 
     public void setReceivesBenefitsFlagUC_L1(boolean receivesBenefitsFlagUC_L1) {
@@ -4710,7 +4710,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
     }
 
     public boolean isReceivesBenefitsFlagNonUC_L1() {
-        return receivesBenefitsFlagNonUC_L1;
+        return (null != receivesBenefitsFlagNonUC_L1) ? receivesBenefitsFlagNonUC_L1 : false;
     }
 
     public void setReceivesBenefitsFlagNonUC_L1(boolean receivesBenefitsFlagNonUC_L1) {
