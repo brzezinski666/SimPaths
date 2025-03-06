@@ -610,6 +610,8 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             labourSupplyWeekly = Labour.convertHoursToLabour(model.getInitialHoursWorkedWeekly().get(key.getId()).intValue()); // TODO: this can be simplified to obtain value from already initialised hours worked weekly variable? The entire database query on setup is redundant? See initialisation of the lag below.
         receivesBenefitsFlag_L1 = receivesBenefitsFlag;
         labourSupplyWeekly_L1 = Labour.convertHoursToLabour(l1_lhw);
+        receivesBenefitsFlagNonUC_L1 = receivesBenefitsFlagNonUC;
+        receivesBenefitsFlagUC_L1 = receivesBenefitsFlagUC;
 
         if(UnionMatchingMethod.SBAM.equals(model.getUnionMatchingMethod())) {
             updateAgeGroup();
