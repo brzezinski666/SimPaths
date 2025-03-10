@@ -72,7 +72,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
     @Enumerated(EnumType.STRING) private Indicator der;          // return to education
     @Enumerated(EnumType.STRING) private Les_c4 les_c4;      //Activity (employment) status
     @Enumerated(EnumType.STRING) private Les_c7_covid les_c7_covid; //Activity (employment) status used in the Covid-19 models
-    @Transient private Les_c4 les_c4_lag1;		//Lag(1) of activity_status
+    @Enumerated(EnumType.STRING) private Les_c4 les_c4_lag1;		//Lag(1) of activity_status
     @Transient private Les_c7_covid les_c7_covid_lag1;     //Lag(1) of 7-category activity status
     private Integer liwwh;                  //Work history in years (number of years in employment)
     @Enumerated(EnumType.STRING) private Indicator dlltsd;	//Long-term sick or disabled if = 1
@@ -141,8 +141,8 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
 //	age, education, civil status, number of children, etc. Hence, potential earnings
 //	is a separate process in the simulation, and it is computed for every adult
 //	individual in the simulated population, in each simulated period.
-    @Column(name="potential_earnings_hourly") private Double fullTimeHourlyEarningsPotential;		//Is hourly rate.  Initialised with value: ils_earns / (4.34 * lhw), where lhw is the weekly hours a person worked in EUROMOD input data
-    @Column(name="l1_potential_earnings_hourly") private Double L1_fullTimeHourlyEarningsPotential; // Lag(1) of potentialHourlyEarnings
+    @Column(name="obs_earnings_hourly") private Double fullTimeHourlyEarningsPotential;		//Is hourly rate.  Initialised with value: ils_earns / (4.34 * lhw), where lhw is the weekly hours a person worked in EUROMOD input data
+    @Column(name="l1_obs_earnings_hourly") private Double L1_fullTimeHourlyEarningsPotential; // Lag(1) of potentialHourlyEarnings
     @Transient private Series.Double yearlyEquivalisedDisposableIncomeSeries;
     private Double yearlyEquivalisedConsumption;
     @Transient private Series.Double yearlyEquivalisedConsumptionSeries;
