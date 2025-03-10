@@ -760,7 +760,7 @@ public class Parameters {
      * METHOD TO LOAD PARAMETERS FOR GIVEN COUNTRY
      *
      * @param country
-     * @param macroShockPopulationHigh
+     * @param macroShockPopulation
      */
     public static void loadParameters(Country country, int maxAgeModel, boolean enableIntertemporalOptimisations,
                                       boolean projectFormalChildcare, boolean projectSocialCare, boolean donorPoolAveraging1,
