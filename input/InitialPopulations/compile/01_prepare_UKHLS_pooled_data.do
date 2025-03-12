@@ -173,6 +173,23 @@ collapse (sum) inc_pp inc_tu inc_ma inc_fm inc_oth, by(swv pidp hidp)
 save "$dir_data\tmp_income", replace
 restore
 
+/******************************Benefits receipt *****************************/
+
+preserve
+* Generate UC benefit marker
+gen benefits_uc=(ficode==40)
+label var benefits_uc "Universal Credit indicator"
+
+
+keep hidp pidp swv benefits_uc
+collapse (max) benefits_uc, by(hidp swv)
+compress
+
+save "$dir_data/tmp_ucrcpt", replace
+restore
+
+
+
 //merge variables from the youth dataset 9-18 years old * 
 foreach w of global UKHLSwaves {
 
@@ -190,22 +207,6 @@ foreach w of global UKHLSwaves {
 		save "$dir_data\add_vars_ukhls_youth.dta", replace
 	}
 }
-
-/******************************Benefits receipt *****************************/
-
-preserve
-* Generate UC benefit marker
-gen benefits_uc=(ficode==40)
-label var benefits_uc "Universal Credit indicator"
-
-
-keep hidp pidp swv benefits_uc
-collapse (max) benefits_uc, by(hidp swv)
-compress
-
-save "$dir_data/tmp_ucrcpt", replace
-restore
-
 
 //merge variables from the youth dataset 9-18 years old * 
 
