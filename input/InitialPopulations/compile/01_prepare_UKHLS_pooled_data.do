@@ -191,6 +191,42 @@ foreach w of global UKHLSwaves {
 	}
 }
 
+/******************************Benefits receipt *****************************/
+
+preserve
+* Generate UC benefit marker
+gen benefits_uc=(ficode==40)
+label var benefits_uc "Universal Credit indicator"
+
+
+keep hidp pidp swv benefits_uc
+collapse (max) benefits_uc, by(hidp swv)
+compress
+
+save "$dir_data/tmp_ucrcpt", replace
+restore
+
+
+//merge variables from the youth dataset 9-18 years old * 
+
+foreach w of global UKHLSwaves {
+
+	// find the wave number
+	local waveno=strpos("abcdefghijklmnopqrstuvwxyz","`w'")
+
+	if (`waveno'>7 | mod(`waveno',2)==0) {
+		use pidp `w'_hidp `w'_ypsrhlth  using  `w'_youth.dta, clear
+		
+		gen swv = `waveno'
+		rename `w'_* *
+		if (`waveno'>2) {
+			append using "$dir_data\add_vars_ukhls_youth.dta"
+		}
+		save "$dir_data\add_vars_ukhls_youth.dta", replace
+	}
+}
+
+
 
 /**************************************************************************************
 * merge all datasets together 
@@ -198,6 +234,7 @@ foreach w of global UKHLSwaves {
 use "$dir_data\add_vars_ukhls.dta", clear
 merge 1:1 pidp hidp swv using "$dir_data\add_vars_ukhls_indresp.dta", keep(1 3) nogen
 merge m:1 hidp swv using "$dir_data\add_vars_ukhls_hhresp.dta", keep(1 3) nogen
+merge m:1 hidp swv using "$dir_data\tmp_ucrcpt", keep(1 3) nogen
 merge 1:1 pidp hidp swv using "$dir_data\tmp_income", keep(1 3) nogen
 merge 1:1 pidp hidp swv using "$dir_data\add_vars_ukhls_youth.dta", keep(1 3) nogen
 
