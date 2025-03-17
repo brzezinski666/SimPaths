@@ -2256,6 +2256,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Dehmf_c3_Low,
         Dehsp_c3_Low_L1,				//Partner's education == Low at lag(1)
         Dehsp_c3_Medium_L1,				//Partner's education == Medium at lag(1)
+        Deq5d,                          //EQ5D quality of life score
         Dgn,							//Gender: returns 1 if male
         Dgn_baseline,
         Dgn_Dag,
@@ -2935,6 +2936,9 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             }
             case Dehsp_c3_Low_L1 -> {
                 return (Education.Low.equals(dehsp_c3_lag1)) ? 1. : 0.;
+            }
+            case Deq5d -> {
+                return getDeq5d();
             }
             case Dhhtp_c4_CoupleChildren_L1 -> {
                 return (Dhhtp_c4.CoupleChildren.equals(getDhhtp_c4_lag1())) ? 1.0 : 0.0;
