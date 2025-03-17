@@ -1041,7 +1041,15 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
 
         double eq5dPrediction;
         eq5dPrediction = Parameters.getRegEQ5D().getScore(this, Person.DoublesVariables.class);
-        deq5d = eq5dPrediction > 1 ? 1.0 : eq5dPrediction;
+        if (eq5dPrediction > 1) {
+            deq5d = 1.0;
+        }
+        else if (eq5dPrediction < -0.594) {
+            deq5d = -0.594;
+        }
+        else {
+            deq5d = eq5dPrediction;
+        }
 
     }
 
