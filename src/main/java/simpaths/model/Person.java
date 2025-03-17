@@ -679,6 +679,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         HealthPCS2,
         LifeSatisfaction1,
         LifeSatisfaction2,
+        QolEQ5D,
         InSchool,
         LeavingSchool,
         PartnershipDissolution,
@@ -758,6 +759,9 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             }
             case HealthMentalHM1HM2Cases -> {
                 healthMentalHM1HM2Cases();
+            }
+            case QolEQ5D -> {
+                qolEQ5D();
             }
             case InSchool -> {
     //			log.debug("In Education for person " + this.getKey().getId());
@@ -1031,6 +1035,14 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             dlsPrediction = Parameters.getRegLifeSatisfaction2Females().getScore(this, Person.DoublesVariables.class);
             dls = constrainLifeSatisfactionEstimate(dlsPrediction + dls_temp);
         }
+    }
+
+    protected void qolEQ5D() {
+
+        double eq5dPrediction;
+        eq5dPrediction = Parameters.getRegEQ5D().getScore(this, Person.DoublesVariables.class);
+        deq5d = eq5dPrediction > 1 ? 1.0 : eq5dPrediction;
+
     }
 
     /*
