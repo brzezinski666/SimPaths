@@ -135,6 +135,9 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
     private Integer dls;      //life satisfaction - score 1-7
     @Transient private Double dls_temp;
     @Transient private Integer dls_lag1;      //life satisfaction - score 1-7 lag 1
+    @Column(name="deq5d")
+    private Double deq5d;
+
     @Column(name="dhh_owned") private Boolean dhhOwned; // Person is a homeowner, true / false
     @Transient private Boolean receivesBenefitsFlag_L1; // Lag(1) of whether person receives benefits
     @Transient private Boolean receivesBenefitsFlag; // Does person receive benefits
@@ -5122,4 +5125,12 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
     public boolean getToBePartnered() {return toBePartnered;}
 
     public static void setPersonIdCounter(long id) {personIdCounter=id;}
+
+    public Double getDeq5d() {
+        return deq5d;
+    }
+
+    public void setDeq5d(Double deq5d) {
+        this.deq5d = deq5d;
+    }
 }
