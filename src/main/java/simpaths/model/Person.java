@@ -2320,10 +2320,15 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Dhe_mcs_L1,                        //Mental well-being status lag(1)
         Dhe_mcs_sq,                     //MCS score squared
         Dhe_mcs_times_pcs,              //MCS times PCS
+        Dhe_mcs_c_times_pcs_c,          //Centralised MCS times PCS
+        Dhe_mcs_c,                      //MCS centralised by subtracting population mean
+        Dhe_mcs_c_sq,                   //Square of centralised MCS
         Dhe_pcs,                        //Physical well-being status
         Dhe_pcs_L1,                        //Physical well-being status lag(1)
         Dhe_pcs_sq,                     //PCS score squared
         Dhe_pcs_cb,                     //PCS score cubed
+        Dhe_pcs_c,                      //MCS centralised by subtracting population mean
+        Dhe_pcs_c_sq,                   //Square of centralised MCS
         Dhmghq_L1,
         Dlltsd,							//Long-term sick or disabled
         Dlltsd_L1,						//Long-term sick or disabled lag(1)
@@ -2891,8 +2896,17 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             case Dhe_mcs_sq -> {
                 return dhe_mcs * dhe_mcs;
             }
+            case Dhe_mcs_c -> {
+                return dhe_mcs - 51.5;
+            }
+            case Dhe_mcs_c_sq -> {
+                return Math.pow(dhe_mcs - 51.5, 2);
+            }
             case Dhe_mcs_times_pcs -> {
                 return dhe_mcs * dhe_pcs;
+            }
+            case Dhe_mcs_c_times_pcs_c -> {
+                return (dhe_mcs - 51.5) * (dhe_pcs - 49.9);
             }
             case Dhe_pcs -> {
                 return dhe_pcs;
@@ -2907,6 +2921,12 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             }
             case Dhe_pcs_cb -> {
                 return dhe_pcs * dhe_pcs * dhe_pcs;
+            }
+            case Dhe_pcs_c -> {
+                return dhe_pcs - 49.9;
+            }
+            case Dhe_pcs_c_sq -> {
+                return Math.pow(dhe_pcs - 49.9, 2);
             }
             case Dls -> {
                 return dls;
