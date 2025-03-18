@@ -32,7 +32,7 @@ public class PersonTest {
                 testPerson.setDhe_mcs(1.);
                 testPerson.setDhe_pcs(1.);
 
-                testPerson.qolEQ5D();
+                testPerson.onEvent(Person.Processes.QolEQ5D);
 
                 assertEquals(-0.594, testPerson.getDeq5d());
 
@@ -45,7 +45,7 @@ public class PersonTest {
                 testPerson.setDhe_mcs(100.);
                 testPerson.setDhe_pcs(100.);
 
-                testPerson.qolEQ5D();
+                testPerson.onEvent(Person.Processes.QolEQ5D);
 
                 assertEquals(1, testPerson.getDeq5d());
 
@@ -73,7 +73,7 @@ public class PersonTest {
                 testPerson.setDhe_mcs(1.);
                 testPerson.setDhe_pcs(1.);
 
-                testPerson.qolEQ5D();
+                testPerson.onEvent(Person.Processes.QolEQ5D);
 
                 assertEquals(-0.594, testPerson.getDeq5d());
 
@@ -85,7 +85,7 @@ public class PersonTest {
                 testPerson.setDhe_mcs(100.);
                 testPerson.setDhe_pcs(100.);
 
-                testPerson.qolEQ5D();
+                testPerson.onEvent(Person.Processes.QolEQ5D);
 
                 // The maximum possible value given by the Franks coefficients
                 assertEquals(0.9035601, testPerson.getDeq5d());
