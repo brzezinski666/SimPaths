@@ -851,7 +851,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
     //********************************************************
     // method to adjust for one year increment
     //********************************************************
-    private void aging() {
+    void aging() {
 
         // iterate years in cohabiting partnership
         Person partner = getPartner();
@@ -4151,6 +4151,15 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             val = dhe_pcs;
         }
         return val;
+    }
+
+
+    public void setDhe_mcs(Double dhe_mcs) {
+        this.dhe_mcs = dhe_mcs;
+    }
+
+    public void setDhe_pcs(Double dhe_pcs) {
+        this.dhe_pcs = dhe_pcs;
     }
 
     public void populateSocialCareReceipt(SocialCareReceiptState state) {
