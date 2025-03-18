@@ -1,15 +1,12 @@
 package simpaths.model;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.*;
 import simpaths.data.Parameters;
 import simpaths.model.enums.Country;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("Testing methods on a Person in absence of a Model")
+@DisplayName("Person methods in absence of a Model")
 public class PersonTest {
 
     Person testPerson = new Person(true);
@@ -20,34 +17,82 @@ public class PersonTest {
     }
 
     @Nested
-    @DisplayName("Testing EQ5D calculations")
+    @DisplayName("EQ5D calculations")
+    @TestMethodOrder(MethodOrderer.DisplayName.class)
     class Eq5dTests {
 
-        @Test
-        public void calculateEQ5Dlow() {
+        @Nested
+        @DisplayName("1. Lawrence and Fleishman coefficients")
+        class LawrenceCoefficients {
+
+            @Test
+            public void calculateEQ5Dlow() {
 
 
-            testPerson.setDhe_mcs(1.);
-            testPerson.setDhe_pcs(1.);
+                testPerson.setDhe_mcs(1.);
+                testPerson.setDhe_pcs(1.);
 
-            testPerson.qolEQ5D();
+                testPerson.qolEQ5D();
 
-            assertEquals(-0.594, testPerson.getDeq5d());
+                assertEquals(-0.594, testPerson.getDeq5d());
+
+            }
+
+            @Test
+            public void calculateEQ5Dhigh() {
+
+
+                testPerson.setDhe_mcs(100.);
+                testPerson.setDhe_pcs(100.);
+
+                testPerson.qolEQ5D();
+
+                assertEquals(1, testPerson.getDeq5d());
+
+            }
 
         }
-        @Test
-        public void calculateEQ5Dhigh() {
 
 
-            testPerson.setDhe_mcs(100.);
-            testPerson.setDhe_pcs(100.);
+        @Nested
+        @DisplayName("2. Franks coefficients")
+        class FranksCoefficients {
 
-            testPerson.qolEQ5D();
+            @BeforeAll
+            public static void setupFranksCoefficients() {
 
-            assertEquals(1, testPerson.getDeq5d());
+                Parameters.eq5dConversionParameters = "franks";
+
+                Parameters.loadParameters(Country.UK, 100, false, false, false, false, false, false, false, 2020, 2020, 2020, 1.,1., false, false);
+
+            }
+
+            @Test
+            public void calculateEQ5Dlow(){
+
+                testPerson.setDhe_mcs(1.);
+                testPerson.setDhe_pcs(1.);
+
+                testPerson.qolEQ5D();
+
+                assertEquals(-0.594, testPerson.getDeq5d());
+
+            }
+
+            @Test
+            public void calculateEQ5Dhigh(){
+
+                testPerson.setDhe_mcs(100.);
+                testPerson.setDhe_pcs(100.);
+
+                testPerson.qolEQ5D();
+
+                // The maximum possible value given by the Franks coefficients
+                assertEquals(0.9035601, testPerson.getDeq5d());
+
+            }
 
         }
-
     }
 
 
