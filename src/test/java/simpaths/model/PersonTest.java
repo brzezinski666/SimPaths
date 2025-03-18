@@ -18,7 +18,7 @@ public class PersonTest {
 
     @Nested
     @DisplayName("EQ5D calculations")
-    @TestMethodOrder(MethodOrderer.DisplayName.class)
+    @TestClassOrder(ClassOrderer.DisplayName.class)
     class Eq5dTests {
 
         @Nested
