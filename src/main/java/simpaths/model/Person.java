@@ -851,7 +851,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
     //********************************************************
     // method to adjust for one year increment
     //********************************************************
-    void aging() {
+    private void aging() {
 
         // iterate years in cohabiting partnership
         Person partner = getPartner();
