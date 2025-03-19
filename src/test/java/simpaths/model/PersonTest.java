@@ -12,7 +12,7 @@ public class PersonTest {
     static Person testPerson;
 
     @BeforeAll
-    static void setupParams() {
+    static void setup() {
         testPerson = new Person(true);
         Parameters.loadParameters(Country.UK, 100, false, false, false, false, false, false, false, 2020, 2020, 2020, 1.,1., false, false);
     }
