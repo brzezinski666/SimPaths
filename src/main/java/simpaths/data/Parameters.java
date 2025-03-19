@@ -1358,7 +1358,7 @@ public class Parameters {
         coeffCovarianceDLS2Males = ExcelAssistant.loadCoefficientMap("input/reg_health_wellbeing.xlsx", countryString + "_DLS2_Males", 1, columnsLifeSatisfaction2Males);
         coeffCovarianceDLS2Females = ExcelAssistant.loadCoefficientMap("input/reg_health_wellbeing.xlsx", countryString + "_DLS2_Females", 1, columnsLifeSatisfaction2Females);
 
-        coeffCovarianceEQ5D = ExcelAssistant.loadCoefficientMap("input/reg_eq5d.xlsx", countryString + "_EQ5D_" + eq5dConversionParameters, 1, columnsHealthEQ5D);
+        loadEQ5DParameters(countryString, columnsHealthEQ5D);
 
         //Life satisfaction
 
@@ -3343,5 +3343,13 @@ public class Parameters {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    public static void loadEQ5DParameters(String countryString, int columnsHealthEQ5D) {
+
+        coeffCovarianceEQ5D = ExcelAssistant.loadCoefficientMap("input/reg_eq5d.xlsx", countryString + "_EQ5D_" + eq5dConversionParameters, 1, columnsHealthEQ5D);
+
+        regHealthEQ5D = new LinearRegression(coeffCovarianceEQ5D);
+
     }
 }
