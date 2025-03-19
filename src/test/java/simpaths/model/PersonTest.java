@@ -19,11 +19,10 @@ public class PersonTest {
 
     @Nested
     @DisplayName("EQ5D process")
-    @TestClassOrder(ClassOrderer.DisplayName.class)
     class Eq5dTests {
 
         @Nested
-        @DisplayName("1. With default parameters")
+        @DisplayName("With default parameters")
         class WithDefaultParameters {
 
             @Test
@@ -58,7 +57,7 @@ public class PersonTest {
 
 
         @Nested
-        @DisplayName("2. With eq5dConversionParameters set to 'franks'")
+        @DisplayName("With eq5dConversionParameters set to 'franks'")
         class WithFranksParameters {
 
             @BeforeAll
