@@ -164,7 +164,7 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
 
     private boolean alignInSchool = false; //Set to true to align share of students among 16-29 age group
 
-    private boolean alignCohabitation = false; //Set to true to align share of couples (cohabiting individuals)
+    private boolean alignCohabitation = true; //Set to true to align share of couples (cohabiting individuals)
 
     private boolean alignEmployment = true; //Set to true to align employment share
 
