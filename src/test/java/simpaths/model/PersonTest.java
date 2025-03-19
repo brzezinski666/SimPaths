@@ -6,7 +6,7 @@ import simpaths.model.enums.Country;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("Person methods in absence of a Model")
+@DisplayName("Person class")
 public class PersonTest {
 
     static Person testPerson;
@@ -18,16 +18,17 @@ public class PersonTest {
     }
 
     @Nested
-    @DisplayName("EQ5D calculations")
+    @DisplayName("EQ5D process")
     @TestClassOrder(ClassOrderer.DisplayName.class)
     class Eq5dTests {
 
         @Nested
-        @DisplayName("1. Lawrence and Fleishman coefficients")
-        class LawrenceCoefficients {
+        @DisplayName("1. With default parameters")
+        class WithDefaultParameters {
 
             @Test
-            public void calculateEQ5Dlow() {
+            @DisplayName("Calculates low score correctly using Lawrence and Fleishman coefficients")
+            public void calculatesLowScoreCorrectly() {
 
 
                 testPerson.setDhe_mcs(1.);
@@ -40,7 +41,8 @@ public class PersonTest {
             }
 
             @Test
-            public void calculateEQ5Dhigh() {
+            @DisplayName("Calculates high score correctly using Lawrence and Fleishman coefficients")
+            public void calculatesHighScoreCorrectly()  {
 
 
                 testPerson.setDhe_mcs(100.);
@@ -56,8 +58,8 @@ public class PersonTest {
 
 
         @Nested
-        @DisplayName("2. Franks coefficients")
-        class FranksCoefficients {
+        @DisplayName("2. With eq5dConversionParameters set to 'franks'")
+        class WithFranksParameters {
 
             @BeforeAll
             public static void setupFranksCoefficients() {
@@ -69,7 +71,8 @@ public class PersonTest {
             }
 
             @Test
-            public void calculateEQ5Dlow(){
+            @DisplayName("Calculates low score correctly using Franks coefficients")
+            public void calculatesLowScoreCorrectly() {
 
                 testPerson.setDhe_mcs(1.);
                 testPerson.setDhe_pcs(1.);
@@ -81,7 +84,8 @@ public class PersonTest {
             }
 
             @Test
-            public void calculateEQ5Dhigh(){
+            @DisplayName("Calculates high score correctly using Franks coefficients")
+            public void calculatesHighScoreCorrectly(){
 
                 testPerson.setDhe_mcs(100.);
                 testPerson.setDhe_pcs(100.);
