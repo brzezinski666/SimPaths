@@ -9,10 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Person methods in absence of a Model")
 public class PersonTest {
 
-    Person testPerson = new Person(true);
+    static Person testPerson;
 
     @BeforeAll
     static void setupParams() {
+        testPerson = new Person(true);
         Parameters.loadParameters(Country.UK, 100, false, false, false, false, false, false, false, 2020, 2020, 2020, 1.,1., false, false);
     }
 
