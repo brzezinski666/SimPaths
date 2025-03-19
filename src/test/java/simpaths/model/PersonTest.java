@@ -65,8 +65,15 @@ public class PersonTest {
             public static void setupFranksCoefficients() {
 
                 Parameters.eq5dConversionParameters = "franks";
+                Parameters.loadEQ5DParameters("UK", 8);
 
-                Parameters.loadParameters(Country.UK, 100, false, false, false, false, false, false, false, 2020, 2020, 2020, 1.,1., false, false);
+            }
+
+            @AfterAll
+            public static void restoreDefaultCoefficients() {
+
+                Parameters.eq5dConversionParameters = "lawrence";
+                Parameters.loadEQ5DParameters("UK", 8);
 
             }
 
