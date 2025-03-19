@@ -1037,7 +1037,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         }
     }
 
-    protected void healthEQ5D() {
+    private void healthEQ5D() {
 
         double eq5dPrediction;
         eq5dPrediction = Parameters.getRegEQ5D().getScore(this, Person.DoublesVariables.class);
