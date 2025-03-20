@@ -135,6 +135,9 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
     private Integer dls;      //life satisfaction - score 1-7
     @Transient private Double dls_temp;
     @Transient private Integer dls_lag1;      //life satisfaction - score 1-7 lag 1
+    @Column(name="he_eq5d")
+    private Double he_eq5d;
+
     @Column(name="dhh_owned") private Boolean dhhOwned; // Person is a homeowner, true / false
     @Transient private Boolean receivesBenefitsFlag_L1; // Lag(1) of whether person receives benefits
     @Transient private Boolean receivesBenefitsFlag; // Does person receive benefits
@@ -667,6 +670,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Fertility,
         GiveBirth,
         Health,
+        HealthEQ5D,
         HealthMentalHM1, 				//Predict level of mental health on the GHQ-12 Likert scale (Step 1)
         HealthMentalHM2,				//Modify the prediction from Step 1 by applying increments / decrements for exposure
         HealthMentalHM1HM2Cases,		//Case-based prediction for psychological distress, Steps 1 and 2 together
@@ -755,6 +759,9 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             }
             case HealthMentalHM1HM2Cases -> {
                 healthMentalHM1HM2Cases();
+            }
+            case HealthEQ5D -> {
+                healthEQ5D();
             }
             case InSchool -> {
     //			log.debug("In Education for person " + this.getKey().getId());
@@ -1028,6 +1035,22 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             dlsPrediction = Parameters.getRegLifeSatisfaction2Females().getScore(this, Person.DoublesVariables.class);
             dls = constrainLifeSatisfactionEstimate(dlsPrediction + dls_temp);
         }
+    }
+
+    private void healthEQ5D() {
+
+        double eq5dPrediction;
+        eq5dPrediction = Parameters.getRegEQ5D().getScore(this, Person.DoublesVariables.class);
+        if (eq5dPrediction > 1) {
+            he_eq5d = 1.0;
+        }
+        else if (eq5dPrediction < -0.594) {
+            he_eq5d = -0.594;
+        }
+        else {
+            he_eq5d = eq5dPrediction;
+        }
+
     }
 
     /*
@@ -2253,6 +2276,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Dehmf_c3_Low,
         Dehsp_c3_Low_L1,				//Partner's education == Low at lag(1)
         Dehsp_c3_Medium_L1,				//Partner's education == Medium at lag(1)
+        He_eq5d,                          //EQ5D quality of life score
         Dgn,							//Gender: returns 1 if male
         Dgn_baseline,
         Dgn_Dag,
@@ -2294,8 +2318,17 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         Dls_L1,                            //Life satisfaction status lag(1)
         Dhe_mcs,                        //Mental well-being status
         Dhe_mcs_L1,                        //Mental well-being status lag(1)
+        Dhe_mcs_sq,                     //MCS score squared
+        Dhe_mcs_times_pcs,              //MCS times PCS
+        Dhe_mcs_c_times_pcs_c,          //Centralised MCS times PCS
+        Dhe_mcs_c,                      //MCS centralised by subtracting population mean
+        Dhe_mcs_c_sq,                   //Square of centralised MCS
         Dhe_pcs,                        //Physical well-being status
         Dhe_pcs_L1,                        //Physical well-being status lag(1)
+        Dhe_pcs_sq,                     //PCS score squared
+        Dhe_pcs_cb,                     //PCS score cubed
+        Dhe_pcs_c,                      //MCS centralised by subtracting population mean
+        Dhe_pcs_c_sq,                   //Square of centralised MCS
         Dhmghq_L1,
         Dlltsd,							//Long-term sick or disabled
         Dlltsd_L1,						//Long-term sick or disabled lag(1)
@@ -2860,6 +2893,26 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
                     return dhe_mcs_lag1;
                 } else return 0.;
             }
+            case Dhe_mcs_sq -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
+                return dhe_mcs * dhe_mcs;
+            }
+            case Dhe_mcs_c -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
+                return dhe_mcs - 51.5;
+            }
+            case Dhe_mcs_c_sq -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
+                return Math.pow(dhe_mcs - 51.5, 2);
+            }
+            case Dhe_mcs_times_pcs -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
+                return dhe_mcs * dhe_pcs;
+            }
+            case Dhe_mcs_c_times_pcs_c -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
+                return (dhe_mcs - 51.5) * (dhe_pcs - 49.9);
+            }
             case Dhe_pcs -> {
                 return dhe_pcs;
             }
@@ -2867,6 +2920,22 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
                 if (dhe_pcs_lag1 != null && dhe_pcs_lag1 >= 0.) {
                     return dhe_pcs_lag1;
                 } else return 0.;
+            }
+            case Dhe_pcs_sq -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
+                return dhe_pcs * dhe_pcs;
+            }
+            case Dhe_pcs_cb -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
+                return dhe_pcs * dhe_pcs * dhe_pcs;
+            }
+            case Dhe_pcs_c -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
+                return dhe_pcs - 49.9;
+            }
+            case Dhe_pcs_c_sq -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
+                return Math.pow(dhe_pcs - 49.9, 2);
             }
             case Dls -> {
                 return dls;
@@ -2932,6 +3001,9 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             }
             case Dehsp_c3_Low_L1 -> {
                 return (Education.Low.equals(dehsp_c3_lag1)) ? 1. : 0.;
+            }
+            case He_eq5d -> {
+                return getHe_eq5d();
             }
             case Dhhtp_c4_CoupleChildren_L1 -> {
                 return (Dhhtp_c4.CoupleChildren.equals(getDhhtp_c4_lag1())) ? 1.0 : 0.0;
@@ -4110,6 +4182,15 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         return val;
     }
 
+
+    public void setDhe_mcs(Double dhe_mcs) {
+        this.dhe_mcs = dhe_mcs;
+    }
+
+    public void setDhe_pcs(Double dhe_pcs) {
+        this.dhe_pcs = dhe_pcs;
+    }
+
     public void populateSocialCareReceipt(SocialCareReceiptState state) {
         if (SocialCareReceiptState.NoFormal.equals(state)) {
             needSocialCare = Indicator.True;
@@ -5122,4 +5203,12 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
     public boolean getToBePartnered() {return toBePartnered;}
 
     public static void setPersonIdCounter(long id) {personIdCounter=id;}
+
+    public Double getHe_eq5d() {
+        return he_eq5d;
+    }
+
+    public void setHe_eq5d(Double he_eq5d) {
+        this.he_eq5d = he_eq5d;
+    }
 }
