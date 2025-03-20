@@ -21,12 +21,13 @@ public class PersonTest {
     class Eq5dTests {
 
         @Nested
-        @DisplayName("With default parameters")
-        class WithDefaultParameters {
+        @DisplayName("With eq5dConversionParameters set to 'lawrence'")
+        class WithLawrenceParameters {
 
-            @BeforeAll
-            public static void setupDefaultCoefficients() {
+            @BeforeEach
+            public void setupLawrenceCoefficients() {
 
+                Parameters.eq5dConversionParameters = "lawrence";
                 Parameters.loadEQ5DParameters("UK", 8);
 
             }
@@ -66,21 +67,14 @@ public class PersonTest {
         @DisplayName("With eq5dConversionParameters set to 'franks'")
         class WithFranksParameters {
 
-            @BeforeAll
-            public static void setupFranksCoefficients() {
+            @BeforeEach
+            public void setupFranksCoefficients() {
 
                 Parameters.eq5dConversionParameters = "franks";
                 Parameters.loadEQ5DParameters("UK", 8);
 
             }
 
-            @AfterAll
-            public static void restoreDefaultCoefficients() {
-
-                Parameters.eq5dConversionParameters = "lawrence";
-                Parameters.loadEQ5DParameters("UK", 8);
-
-            }
 
             @Test
             @DisplayName("Calculates low score correctly using Franks coefficients")
