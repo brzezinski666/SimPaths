@@ -14,7 +14,6 @@ public class PersonTest {
     @BeforeAll
     static void setup() {
         testPerson = new Person(true);
-        Parameters.loadParameters(Country.UK, 100, false, false, false, false, false, false, false, 2020, 2020, 2020, 1.,1., false, false);
     }
 
     @Nested
@@ -24,6 +23,13 @@ public class PersonTest {
         @Nested
         @DisplayName("With default parameters")
         class WithDefaultParameters {
+
+            @BeforeAll
+            public static void setupDefaultCoefficients() {
+
+                Parameters.loadEQ5DParameters("UK", 8);
+
+            }
 
             @Test
             @DisplayName("Calculates low score correctly using Lawrence and Fleishman coefficients")
