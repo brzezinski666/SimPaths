@@ -2894,18 +2894,23 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
                 } else return 0.;
             }
             case Dhe_mcs_sq -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
                 return dhe_mcs * dhe_mcs;
             }
             case Dhe_mcs_c -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
                 return dhe_mcs - 51.5;
             }
             case Dhe_mcs_c_sq -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
                 return Math.pow(dhe_mcs - 51.5, 2);
             }
             case Dhe_mcs_times_pcs -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
                 return dhe_mcs * dhe_pcs;
             }
             case Dhe_mcs_c_times_pcs_c -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
                 return (dhe_mcs - 51.5) * (dhe_pcs - 49.9);
             }
             case Dhe_pcs -> {
@@ -2917,15 +2922,19 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
                 } else return 0.;
             }
             case Dhe_pcs_sq -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
                 return dhe_pcs * dhe_pcs;
             }
             case Dhe_pcs_cb -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
                 return dhe_pcs * dhe_pcs * dhe_pcs;
             }
             case Dhe_pcs_c -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
                 return dhe_pcs - 49.9;
             }
             case Dhe_pcs_c_sq -> {
+                // Used to calculate he_eq5d in regHealthEQ5D
                 return Math.pow(dhe_pcs - 49.9, 2);
             }
             case Dls -> {
