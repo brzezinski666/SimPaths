@@ -1075,13 +1075,13 @@ public class Parameters {
         int columnsLabourSupplyUtilityACMales = 19; //#
         int columnsLabourSupplyUtilityACFemales = 19; //#
         int columnsLabourSupplyUtilityCouples = 72; //#
-        int columnsHealthH1a = 29; //#
-        int columnsHealthH1b = 81; //#
+        int columnsHealthH1a = 26; //#
+        int columnsHealthH1b = 72; //#
         int columnsHealthH2b = 30; //#
         int columnsEducationE1a = 12; //#
         int columnsEducationE1b = 17; //#
-        int columnsEducationE2a = 18; //#
-        int columnsPartnershipU1a = 12; //#
+        int columnsEducationE2a = 16; //#
+        int columnsPartnershipU1a = 14; //#
         int columnsPartnershipU1b = 30; //#
         int columnsPartnershipU2b = 33; //#
         int columnsFertilityF1a = 6; //#
