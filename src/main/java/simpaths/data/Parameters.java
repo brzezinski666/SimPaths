@@ -333,9 +333,9 @@ public class Parameters {
     private static boolean flagDefaultToTimeSeriesAverages;
     private static Double averageSavingReturns, averageDebtCostLow, averageDebtCostHigh;
     private static MultiKeyCoefficientMap upratingIndexMapRealGDP, upratingIndexMapInflation, socialCareProvisionTimeAdjustment,
-            partnershipTimeAdjustment, retirementTimeAdjustment, fertilityTimeAdjustment, disabilityTimeAdjustment, studentsTimeAdjustment, utilityTimeAdjustmentSingleMales, utilityTimeAdjustmentSingleFemales,
+            partnershipTimeAdjustment, retirementTimeAdjustment, fertilityTimeAdjustment, disabilityTimeAdjustment, studentsTimeAdjustment, utilityTimeAdjustment, utilityTimeAdjustmentSingleMales, utilityTimeAdjustmentSingleFemales,
             utilityTimeAdjustmentCouples, upratingIndexMapRealWageGrowth, priceMapRealSavingReturns, priceMapRealDebtCostLow, priceMapRealDebtCostHigh,
-            wageRateFormalSocialCare, socialCarePolicy, partneredShare, retiredShare, disabledShare, studentShare, employedShareSingleMales, employedShareSingleFemales, employedShareCouples;
+            wageRateFormalSocialCare, socialCarePolicy, partneredShare, retiredShare, disabledShare, studentShare, employedShare, employedShareSingleMales, employedShareSingleFemales, employedShareCouples;
     public static Map<Integer, Double> partnershipAlignAdjustment, fertilityAlignAdjustment, retirementAlignAdjustment, studentsAlignAdjustment, disabilityAlignAdjustment;
     public static MultiKeyMap upratingFactorsMap = new MultiKeyMap<>();
 
@@ -769,7 +769,7 @@ public class Parameters {
                                       Integer timeTrendStops, int startYearModel, int endYearModel, double interestRateInnov1,
                                       double disposableIncomeFromLabourInnov1, boolean flagSuppressChildcareCosts1,
                                       boolean flagSuppressSocialCareCosts1, MacroScenarioPopulation macroShockPopulation,
-                                      MacroScenarioProductivity macroShockProductivity, MacroScenarioGreenPolicy macroShockGreenPolicy) {
+                                      MacroScenarioProductivity macroShockProductivity, MacroScenarioGreenPolicy macroShockGreenPolicy, boolean macroShocksOn) {
 
         // display a dialog box to let the user know what is happening
         System.out.println("Loading model parameters");
@@ -836,6 +836,7 @@ public class Parameters {
 
          */
             // Macro population switch
+        if (macroShocksOn) {
             switch (macroShockPopulation) {
                 case High:
                     populationProjections = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", "population_high", 3, 50);
@@ -853,6 +854,7 @@ public class Parameters {
                                     employedShareSingleMales = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_highpop_baseprod_green", 1, 1);
                                     employedShareSingleFemales = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_highpop_baseprod_green", 1, 1);
                                     employedShareCouples = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_highpop_baseprod_green", 1, 1);
+                                    employedShare = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_highpop_baseprod_green", 1, 1);
                                     break;
                                 case No:
                                 default:
@@ -883,6 +885,7 @@ public class Parameters {
                                     employedShareSingleMales = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_lowpop_baseprod_green", 1, 1);
                                     employedShareSingleFemales = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_lowpop_baseprod_green", 1, 1);
                                     employedShareCouples = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_lowpop_baseprod_green", 1, 1);
+                                    employedShare = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_lowpop_baseprod_green", 1, 1);
                                     break;
                                 case No:
                                 default:
@@ -914,6 +917,7 @@ public class Parameters {
                                     employedShareSingleMales = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_baseprod_green", 1, 1);
                                     employedShareSingleFemales = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_baseprod_green", 1, 1);
                                     employedShareCouples = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_baseprod_green", 1, 1);
+                                    employedShare = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_baseprod_green", 1, 1);
                                     break;
                                 case No:
                                 default:
@@ -924,6 +928,7 @@ public class Parameters {
                                     employedShareSingleMales = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_baseprod", 1, 1);
                                     employedShareSingleFemales = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_baseprod", 1, 1);
                                     employedShareCouples = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_baseprod", 1, 1);
+                                    employedShare = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_baseprod_green", 1, 1);
                                     break;
                             }
                             break;
@@ -937,6 +942,7 @@ public class Parameters {
                                     employedShareSingleMales = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_highprod_green", 1, 1);
                                     employedShareSingleFemales = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_highprod_green", 1, 1);
                                     employedShareCouples = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_highprod_green", 1, 1);
+                                    employedShare = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_baseprod_green", 1, 1);
                                     break;
                                 case No:
                                 default:
@@ -947,6 +953,7 @@ public class Parameters {
                                     employedShareSingleMales = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_highprod", 1, 1);
                                     employedShareSingleFemales = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_highprod", 1, 1);
                                     employedShareCouples = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_highprod", 1, 1);
+                                    employedShare = ExcelAssistant.loadCoefficientMap("input/scenario_macro_shocks.xlsx", country.toString() + "_emp_basepop_baseprod_green", 1, 1);
                                     break;
                             }
                             break;
@@ -957,6 +964,7 @@ public class Parameters {
                     }
                     break;
             }
+        }
 
 
         setMapBounds(MapBounds.Population, countryString);
@@ -1974,6 +1982,7 @@ public class Parameters {
         utilityTimeAdjustmentSingleMales = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_utility_adj_smales", 1, 1);
         utilityTimeAdjustmentSingleFemales = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_utility_adj_sfemales", 1, 1);
         utilityTimeAdjustmentCouples = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_utility_adj_couples", 1, 1);
+        utilityTimeAdjustment = ExcelAssistant.loadCoefficientMap("input/time_series_factor.xlsx", country.toString() + "_utility_adj_all", 1, 1);
 
         // rebase indices to base year defined by BASE_PRICE_YEAR
         rebaseIndexMap(TimeSeriesVariable.GDP);
@@ -2070,6 +2079,9 @@ public class Parameters {
             case FertilityAdjustment -> {
                 map = fertilityTimeAdjustment;
             }
+            case UtilityAdjustment -> {
+                map = utilityTimeAdjustment;
+            }
             case UtilityAdjustmentSingleMales -> {
                 map = utilityTimeAdjustmentSingleMales;
             }
@@ -2125,6 +2137,9 @@ public class Parameters {
             }
             case EmploymentCouples -> {
                 map = employedShareCouples;
+            }
+            case Employment -> {
+                map = employedShare;
             }
         }
 
