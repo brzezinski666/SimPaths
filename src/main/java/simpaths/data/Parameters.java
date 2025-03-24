@@ -483,6 +483,7 @@ public class Parameters {
     private static MultiKeyCoefficientMap coeffLabourSupplyUtilityMalesWithDependent; //For use with couples where only male is flexible in labour supply (so has a dependent)
     private static MultiKeyCoefficientMap coeffLabourSupplyUtilityFemalesWithDependent;
     private static MultiKeyCoefficientMap coeffLabourSupplyUtilityACMales; //Adult children, male
+
     private static MultiKeyCoefficientMap coeffLabourSupplyUtilityACFemales; //Adult children, female
     private static MultiKeyCoefficientMap coeffLabourSupplyUtilityCouples;
 
@@ -1019,11 +1020,11 @@ public class Parameters {
         int columnsLabourSupplyUtilityACFemales = 19; //#
         int columnsLabourSupplyUtilityCouples = 72; //#
         int columnsHealthH1a = 26; //#
-        int columnsHealthH1b = 72; //#
+        int columnsHealthH1b = 75; //#
         int columnsHealthH2b = 30; //#
         int columnsEducationE1a = 12; //#
         int columnsEducationE1b = 17; //#
-        int columnsEducationE2a = 16; //#
+        int columnsEducationE2a = 17; //#
         int columnsPartnershipU1a = 14; //#
         int columnsPartnershipU1b = 30; //#
         int columnsPartnershipU2b = 33; //#
@@ -2671,6 +2672,23 @@ public class Parameters {
     public static MultiKeyCoefficientMap getCoeffLabourSupplyUtilityMales() {
         return coeffLabourSupplyUtilityMales;
     }
+
+    public static MultiKeyCoefficientMap getCoeffLabourSupplyUtilityMalesWithDependent() {
+        return coeffLabourSupplyUtilityMalesWithDependent;
+    }
+
+    public static MultiKeyCoefficientMap getCoeffLabourSupplyUtilityFemalesWithDependent() {
+        return coeffLabourSupplyUtilityFemalesWithDependent;
+    }
+
+    public static MultiKeyCoefficientMap getCoeffLabourSupplyUtilityACMales() {
+        return coeffLabourSupplyUtilityACMales;
+    }
+
+    public static MultiKeyCoefficientMap getCoeffLabourSupplyUtilityACFemales() {
+        return coeffLabourSupplyUtilityACFemales;
+    }
+
 
     public static void setCoeffLabourSupplyUtilityMales(MultiKeyCoefficientMap coeffLabourSupplyUtilityMales) {
         Parameters.coeffLabourSupplyUtilityMales = coeffLabourSupplyUtilityMales;
