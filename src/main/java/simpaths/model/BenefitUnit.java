@@ -444,6 +444,32 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
         }
     }
 
+    public void setReceivesBenefitsFlagUCNonUC() {
+
+        // TO DO: this will require an additional test of whether UC is received or not - for now all receive UC if any ben
+        boolean receivesBenefitsFlag = (getBenefitsReceivedPerMonth() > 0);
+        boolean receivesBenefitsFlagUC = receivesBenefitsFlag & Parameters.UC_ROLLOUT;
+        Occupancy occupancy = getOccupancy();
+        switch (occupancy) {
+            case Couple -> {
+                getMale().setReceivesBenefitsFlagUC(receivesBenefitsFlagUC);
+                getMale().setReceivesBenefitsFlagNonUC(receivesBenefitsFlag & !receivesBenefitsFlagUC);
+                getFemale().setReceivesBenefitsFlagUC(receivesBenefitsFlagUC);
+                getFemale().setReceivesBenefitsFlagNonUC(receivesBenefitsFlag & !receivesBenefitsFlagUC);
+            }
+            case Single_Male -> {
+                getMale().setReceivesBenefitsFlagUC(receivesBenefitsFlagUC);
+                getMale().setReceivesBenefitsFlagNonUC(receivesBenefitsFlag & !receivesBenefitsFlagUC);
+            }
+            case Single_Female -> {
+                getFemale().setReceivesBenefitsFlagUC(receivesBenefitsFlagUC);
+                getFemale().setReceivesBenefitsFlagNonUC(receivesBenefitsFlag & !receivesBenefitsFlagUC);
+            }
+            default ->
+                throw new IllegalStateException("Benefit Unit with the following ID has no recognised occupancy: " + getKey().getId());
+        }
+    }
+
     /*
     updateDisposableIncomeIfNotAtRiskOfWork process is used to calculate disposable income for benefit units in which no individual is at risk of work, and which therefore do not enter the updateLabourSupply process.
     There are two cases to consider: i) single benefit units, ii) couples where no individual is at risk of work
