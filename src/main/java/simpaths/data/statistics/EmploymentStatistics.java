@@ -1,7 +1,10 @@
 package simpaths.data.statistics;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
 
+import microsim.data.db.PanelEntityKey;
 import microsim.statistics.CrossSection;
 import microsim.statistics.IDoubleSource;
 import microsim.statistics.functions.MeanArrayFunction;
@@ -10,9 +13,11 @@ import simpaths.model.SimPathsModel;
 import simpaths.model.enums.Les_c4;
 import simpaths.model.Person;
 
-
+@Entity
 public class EmploymentStatistics {
 
+    @Id
+    private PanelEntityKey key = new PanelEntityKey(1L);
 
     @Column(name= "EmpToNotEmp")
     private double EmpToNotEmp;         // Proportion of employed people becoming unemployed
@@ -54,7 +59,7 @@ public class EmploymentStatistics {
         MeanArrayFunction isNotEmpToEmp = new MeanArrayFunction(personsNotEmpToEmp);
         isNotEmpToEmp.applyFunction();
         setNotEmpToEmp(isNotEmpToEmp.getDoubleValue(IDoubleSource.Variables.Default));
-        
+
         MeanArrayFunction isEmpToNotEmp = new MeanArrayFunction(personsEmpToNotEmp);
         isEmpToNotEmp.applyFunction();
         setEmpToNotEmp(isEmpToNotEmp.getDoubleValue(IDoubleSource.Variables.Default));
