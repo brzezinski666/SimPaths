@@ -2,7 +2,12 @@ package simpaths.integrationtest;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Comparator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,7 +19,7 @@ public class RunSimPathsIT {
     @Test
     @DisplayName("Initial database setup runs successfully")
     @Order(1)
-    void testRunSetupStep() {
+    void testRunSetup() {
         runCommand(
             "java", "-jar", "singlerun.jar",
             "-c", "UK",
@@ -37,7 +42,7 @@ public class RunSimPathsIT {
     @Test
     @DisplayName("Simulation runs successfully")
     @Order(3)
-    void testRunModel() {
+    void testRunSimulation() {
         runCommand(
             "java", "-jar", "multirun.jar",
             "-p", "5000",
@@ -47,6 +52,52 @@ public class RunSimPathsIT {
             "-n", "2",
             "-g", "false"
         );
+    }
+
+    @Test
+    @DisplayName("Simulation runs successfully")
+    @Order(4)
+    void testVerifySimulationOutput() throws IOException {
+        Path outputDir = Paths.get("output");
+
+        Path latestOutputDir = Files.list(outputDir)
+                .filter(Files::isDirectory)
+                .max(Comparator.comparingLong(p -> p.toFile().lastModified()))
+                .get();
+
+        Path statisticsFile = latestOutputDir.resolve("csv/Statistics1.csv");
+        assertTrue(Files.exists(statisticsFile), "Expected output file is missing: " + statisticsFile);
+
+        Path expectedFile = Paths.get("src/test/java/simpaths/integrationtest/expected/Statistics1.csv");
+        assertEquals(-1, Files.mismatch(statisticsFile, expectedFile), fileMismatchMessage(statisticsFile, expectedFile));
+    }
+
+    String fileMismatchMessage(Path actualOutput, Path expectedOutput) {
+        return String.format("""
+
+            The actual output from the integration test does not match the expected output.
+
+            The most recent output file
+
+                %s
+
+            was compared to the expected output file
+
+                %s
+            
+            and differences were found.
+
+            IF THIS IS EXPECTED - for example, if you have changed substantive processes within the model
+            or the structure of the output, please:
+
+            1. Verify that the output is correct and as expected.
+
+            2. Replace the expected output file with the new output file:
+                cp %s %s
+
+            3. Commit this change to Git, so that the changes are visible in your pull request and this test passes.
+
+            """, actualOutput, expectedOutput, actualOutput, expectedOutput);
     }
 
     private void runCommand(String... args) {
