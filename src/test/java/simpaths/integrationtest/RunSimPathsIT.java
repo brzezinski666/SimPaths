@@ -1,4 +1,4 @@
-package simpaths;
+package simpaths.integrationtest;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,11 +6,15 @@ import java.io.InputStreamReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
-public class RunSimpathsIT {
+public class RunSimPathsIT {
     @Test
-    void testEndToEnd() {
+    @DisplayName("Initial database setup runs successfully")
+    @Order(1)
+    void testRunSetupStep() {
         runCommand(
             "java", "-jar", "singlerun.jar",
             "-c", "UK",
@@ -19,11 +23,21 @@ public class RunSimpathsIT {
             "-g", "false",
             "--rewrite-policy-schedule"
         );
+    }
 
+    @Test
+    @DisplayName("Database and configuration files are created")
+    @Order(2)
+    void testVerifySetupOutput() {
         assertFileExists("input/input.mv.db");
         assertFileExists("input/EUROMODpolicySchedule.xlsx");
         assertFileExists("input/DatabaseCountryYear.xlsx");
+    }
 
+    @Test
+    @DisplayName("Simulation runs successfully")
+    @Order(3)
+    void testRunModel() {
         runCommand(
             "java", "-jar", "multirun.jar",
             "-p", "5000",
