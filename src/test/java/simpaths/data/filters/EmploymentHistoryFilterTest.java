@@ -78,11 +78,10 @@ class EmploymentHistoryFilterTest {
         CrossSection.Integer personsPreviouslyUnemployed = new CrossSection.Integer(testPopulation, Person.class, "getEmployed_Lag1", true);
         personsPreviouslyUnemployed.setFilter(employmentHistoryUnemployed);
 
-        CountArrayFunction nPrevouslyUnemployed = new CountArrayFunction(personsPreviouslyUnemployed);
-        nPrevouslyUnemployed.applyFunction();
+        CountArrayFunction nPreviouslyUnemployed = new CountArrayFunction(personsPreviouslyUnemployed);
+        nPreviouslyUnemployed.applyFunction();
 
-        assertEquals(4, nPrevouslyUnemployed.getIntValue(IIntSource.Variables.Default));
-
+        assertEquals(4, nPreviouslyUnemployed.getIntValue(IIntSource.Variables.Default));
     }
 
 }
