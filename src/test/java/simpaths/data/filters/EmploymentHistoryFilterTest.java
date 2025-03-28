@@ -22,9 +22,10 @@ class EmploymentHistoryFilterTest {
     private static List<Person> testPopulation;
 
     private static Person createTestPerson(
+            int id,
             Les_c4 les_c4_lag1
     ) {
-        Person testPerson = new Person(true);
+        Person testPerson = new Person(true, id, 100);
         testPerson.setLes_c4_lag1(les_c4_lag1);
 
         return testPerson;
@@ -35,24 +36,24 @@ class EmploymentHistoryFilterTest {
 
         testPopulation = Arrays.asList(
                 // Eight with employed history
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
+                createTestPerson(1, Les_c4.EmployedOrSelfEmployed),
+                createTestPerson(2, Les_c4.EmployedOrSelfEmployed),
+                createTestPerson(3, Les_c4.EmployedOrSelfEmployed),
+                createTestPerson(4, Les_c4.EmployedOrSelfEmployed),
+                createTestPerson(5, Les_c4.EmployedOrSelfEmployed),
+                createTestPerson(6, Les_c4.EmployedOrSelfEmployed),
+                createTestPerson(7, Les_c4.EmployedOrSelfEmployed),
+                createTestPerson(8, Les_c4.EmployedOrSelfEmployed),
                 // Four with not employed history
-                createTestPerson(Les_c4.NotEmployed),
-                createTestPerson(Les_c4.NotEmployed),
-                createTestPerson(Les_c4.NotEmployed),
-                createTestPerson(Les_c4.NotEmployed),
+                createTestPerson(9, Les_c4.NotEmployed),
+                createTestPerson(10, Les_c4.NotEmployed),
+                createTestPerson(11, Les_c4.NotEmployed),
+                createTestPerson(12, Les_c4.NotEmployed),
                 // Ignore all rest as should be filtered out
-                createTestPerson(Les_c4.Student),
-                createTestPerson(Les_c4.Retired),
-                createTestPerson(Les_c4.Retired),
-                createTestPerson(Les_c4.Student)
+                createTestPerson(13, Les_c4.Student),
+                createTestPerson(14, Les_c4.Retired),
+                createTestPerson(15, Les_c4.Retired),
+                createTestPerson(16, Les_c4.Student)
         );
     }
 

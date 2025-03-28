@@ -13,7 +13,7 @@ public class PersonTest {
 
     @BeforeAll
     static void setup() {
-        testPerson = new Person(true);
+        testPerson = new Person(true, 1, 100);
     }
 
     @Nested
