@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -65,39 +66,53 @@ public class RunSimPathsIT {
                 .max(Comparator.comparingLong(p -> p.toFile().lastModified()))
                 .get();
 
-        Path statisticsFile = latestOutputDir.resolve("csv/Statistics1.csv");
-        assertTrue(Files.exists(statisticsFile), "Expected output file is missing: " + statisticsFile);
-
+        Path actualFile = latestOutputDir.resolve("csv/Statistics1.csv");
         Path expectedFile = Paths.get("src/test/java/simpaths/integrationtest/expected/Statistics1.csv");
-        assertEquals(-1, Files.mismatch(statisticsFile, expectedFile), fileMismatchMessage(statisticsFile, expectedFile));
+
+        assertTrue(Files.exists(actualFile), "Expected output file is missing: " + actualFile);
+
+        assertEquals(-1, Files.mismatch(actualFile, expectedFile), fileMismatchMessage(actualFile, expectedFile));
     }
 
-    String fileMismatchMessage(Path actualOutput, Path expectedOutput) {
+    String fileMismatchMessage(Path actualFile, Path expectedFile) throws IOException {
+        List<String> actualLines = Files.readAllLines(actualFile);
+        List<String> expectedLines = Files.readAllLines(expectedFile);
+        int maxLines = Math.max(expectedLines.size(), actualLines.size());
+
+        StringBuilder differences = new StringBuilder();
+        for (int i = 0; i < maxLines; i++) {
+            String expectedLine = (i < expectedLines.size()) ? expectedLines.get(i) : "<MISSING>";
+            String actualLine = (i < actualLines.size()) ? actualLines.get(i) : "<EXTRA>";
+
+            if (!expectedLine.equals(actualLine)) {
+                differences.append(String.format("""
+                    Line %d:
+                    Expected: %s
+                    Actual  : %s
+                    """,
+                            i + 1, expectedLine, actualLine));
+            }
+        }
+
         return String.format("""
 
             The actual output from the integration test does not match the expected output.
 
-            The most recent output file
+            Actual output file  : %s
+            Expected output file: %s
 
-                %s
+            Differences:
 
-            was compared to the expected output file
-
-                %s
-            
-            and differences were found.
-
+            %s
             IF THIS IS EXPECTED - for example, if you have changed substantive processes within the model
             or the structure of the output, please:
 
             1. Verify that the output is correct and as expected.
-
             2. Replace the expected output file with the new output file:
                 cp %s %s
-
             3. Commit this change to Git, so that the changes are visible in your pull request and this test passes.
 
-            """, actualOutput, expectedOutput, actualOutput, expectedOutput);
+            """, actualFile, expectedFile, differences, actualFile, expectedFile);
     }
 
     private void runCommand(String... args) {
