@@ -49,7 +49,7 @@ public class RunSimPathsIT {
     void testRunSimulation() {
         runCommand(
             "java", "-jar", "multirun.jar",
-            "-p", "5000",
+            "-p", "20000",
             "-s", "2019",
             "-e", "2022",
             "-r", "100",
@@ -69,11 +69,22 @@ public class RunSimPathsIT {
                 .max(Comparator.comparingLong(p -> p.toFile().lastModified()))
                 .get();
 
-        Path actualFile = latestOutputDir.resolve("csv/Statistics1.csv");
-        Path expectedFile = Paths.get("src/test/java/simpaths/integrationtest/expected/Statistics1.csv");
+        compareFiles(
+            latestOutputDir.resolve("csv/Statistics1.csv"),
+            Paths.get("src/test/java/simpaths/integrationtest/expected/Statistics1.csv")
+        );
+        compareFiles(
+            latestOutputDir.resolve("csv/Statistics21.csv"),
+            Paths.get("src/test/java/simpaths/integrationtest/expected/Statistics21.csv")
+        );
+        compareFiles(
+            latestOutputDir.resolve("csv/Statistics31.csv"),
+            Paths.get("src/test/java/simpaths/integrationtest/expected/Statistics31.csv")
+        );
+    }
 
+    void compareFiles(Path actualFile, Path expectedFile) throws IOException {
         assertTrue(Files.exists(actualFile), "Expected output file is missing: " + actualFile);
-
         assertEquals(-1, Files.mismatch(actualFile, expectedFile), fileMismatchMessage(actualFile, expectedFile));
     }
 
