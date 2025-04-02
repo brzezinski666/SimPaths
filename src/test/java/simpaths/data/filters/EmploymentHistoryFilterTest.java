@@ -1,12 +1,9 @@
 package simpaths.data.filters;
 
-import microsim.statistics.CrossSection;
-import microsim.statistics.IDoubleSource;
-import microsim.statistics.IIntSource;
-import microsim.statistics.functions.MeanArrayFunction;
-import microsim.statistics.functions.CountArrayFunction;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import simpaths.model.Person;
 import simpaths.model.enums.Les_c4;
 
@@ -19,8 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Test filtering by employment history")
 class EmploymentHistoryFilterTest {
 
-    private static List<Person> testPopulation;
-
     private static Person createTestPerson(
             Les_c4 les_c4_lag1
     ) {
@@ -30,58 +25,69 @@ class EmploymentHistoryFilterTest {
         return testPerson;
     }
 
-    @BeforeAll
-    public static void setupTestPopulation() {
+    public static class PersonTestData {
+        final Les_c4 les_c4_lag1;
+        final boolean isFilteredEmployed;
+        final boolean isFilteredUnemployed;
 
-        testPopulation = Arrays.asList(
+        PersonTestData(Les_c4 les_c4_lag1, boolean isFilteredEmployed, boolean isFilteredUnemployed) {
+            this.les_c4_lag1 = les_c4_lag1;
+            this.isFilteredEmployed = isFilteredEmployed;
+            this.isFilteredUnemployed = isFilteredUnemployed;
+        }
+    }
+
+    private static final List<PersonTestData> TEST_SCENARIOS = Arrays.asList(
                 // Eight with employed history
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
-                createTestPerson(Les_c4.EmployedOrSelfEmployed),
+                new PersonTestData(Les_c4.EmployedOrSelfEmployed, true, false),
+                new PersonTestData(Les_c4.EmployedOrSelfEmployed, true, false),
+                new PersonTestData(Les_c4.EmployedOrSelfEmployed, true, false),
+                new PersonTestData(Les_c4.EmployedOrSelfEmployed, true, false),
+                new PersonTestData(Les_c4.EmployedOrSelfEmployed, true, false),
+                new PersonTestData(Les_c4.EmployedOrSelfEmployed, true, false),
+                new PersonTestData(Les_c4.EmployedOrSelfEmployed, true, false),
+                new PersonTestData(Les_c4.EmployedOrSelfEmployed, true, false),
                 // Four with not employed history
-                createTestPerson(Les_c4.NotEmployed),
-                createTestPerson(Les_c4.NotEmployed),
-                createTestPerson(Les_c4.NotEmployed),
-                createTestPerson(Les_c4.NotEmployed),
+                new PersonTestData(Les_c4.NotEmployed, false, true),
+                new PersonTestData(Les_c4.NotEmployed, false, true),
+                new PersonTestData(Les_c4.NotEmployed, false, true),
+                new PersonTestData(Les_c4.NotEmployed, false, true),
                 // Ignore all rest as should be filtered out
-                createTestPerson(Les_c4.Student),
-                createTestPerson(Les_c4.Retired),
-                createTestPerson(Les_c4.Retired),
-                createTestPerson(Les_c4.Student)
-        );
-    }
+                new PersonTestData(Les_c4.Student, false, false),
+                new PersonTestData(Les_c4.Retired, false, false),
+                new PersonTestData(Les_c4.Retired, false, false),
+                new PersonTestData(Les_c4.Student, false, false)
+    );
 
-    @Test
+
+    @ParameterizedTest
+    @MethodSource("getPreviousEmploymentScenarios")
     @DisplayName("Testing filtering previously employed")
-    public void populationPreviouslyEmployed() {
+    public void populationPreviouslyEmployed(PersonTestData testData) {
 
-        EmploymentHistoryFilter employmentHistoryEmployed = new EmploymentHistoryFilter(Les_c4.EmployedOrSelfEmployed);
-        CrossSection.Integer personsPreviouslyEmployed = new CrossSection.Integer(testPopulation, Person.class, "getEmployed_Lag1", true);
-        personsPreviouslyEmployed.setFilter(employmentHistoryEmployed);
+        Person testPerson = createTestPerson(testData.les_c4_lag1);
 
-        CountArrayFunction nPreviouslyEmployed = new CountArrayFunction(personsPreviouslyEmployed);
-        nPreviouslyEmployed.applyFunction();
+        EmploymentHistoryFilter employmentHistoryUnemployed = new EmploymentHistoryFilter(Les_c4.EmployedOrSelfEmployed);
 
-        assertEquals(8, nPreviouslyEmployed.getIntValue(IIntSource.Variables.Default));
+        assertEquals(testData.isFilteredEmployed, employmentHistoryUnemployed.isFiltered(testPerson));
+
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("getPreviousEmploymentScenarios")
     @DisplayName("Testing filtering previously unemployed")
-    public void populationPreviouslyUnemployed() {
+    public void populationPreviouslyUnemployed(PersonTestData testData) {
+
+        Person testPerson = createTestPerson(testData.les_c4_lag1);
 
         EmploymentHistoryFilter employmentHistoryUnemployed = new EmploymentHistoryFilter(Les_c4.NotEmployed);
-        CrossSection.Integer personsPreviouslyUnemployed = new CrossSection.Integer(testPopulation, Person.class, "getEmployed_Lag1", true);
-        personsPreviouslyUnemployed.setFilter(employmentHistoryUnemployed);
 
-        CountArrayFunction nPreviouslyUnemployed = new CountArrayFunction(personsPreviouslyUnemployed);
-        nPreviouslyUnemployed.applyFunction();
+        assertEquals(testData.isFilteredUnemployed, employmentHistoryUnemployed.isFiltered(testPerson));
+    }
 
-        assertEquals(4, nPreviouslyUnemployed.getIntValue(IIntSource.Variables.Default));
+    private static Stream<Arguments> getPreviousEmploymentScenarios() {
+        return TEST_SCENARIOS.stream()
+                .map(Arguments::of);
     }
 
 }
