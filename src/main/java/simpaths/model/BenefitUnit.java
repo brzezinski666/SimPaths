@@ -129,12 +129,6 @@ public class BenefitUnit implements EventListener, IDoubleSource, Weight, Compar
         }
     }
 
-    public BenefitUnit(boolean testModel, long id) {
-        model = null;
-        key  = new PanelEntityKey(id);
-        collector = null;
-    }
-
     // USED BY EXPECTATIONS OBJECT TO INTERACT WITH REGRESSION MODELS
     public BenefitUnit(BenefitUnit originalBenefitUnit, boolean regressionModel) {
 
