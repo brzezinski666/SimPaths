@@ -82,7 +82,7 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
     private Integer popSize = 170000;
 
     @GUIparameter(description = "Simulation first year [valid range 2011-2019]")
-    private Integer startYear = 2011;
+    private Integer startYear = 2019;
 
     @GUIparameter(description = "Simulation ends at year")
     private Integer endYear = 2040;
@@ -158,7 +158,7 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
 
     //	@GUIparameter(description = "If checked, will align fertility")
     private boolean alignFertility = true;
-    private boolean alignRetirement = false;
+    private boolean alignRetirement = true;
 
     private boolean alignDisability = true;
     private boolean alignEducation = false; //Set to true to align level of education
@@ -301,7 +301,7 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
     private MacroScenarioGreenPolicy macroShockGreenPolicy = MacroScenarioGreenPolicy.No;
 
     @GUIparameter(description = "macro shocks: on")
-    private boolean macroShocksOn = true;
+    private boolean macroShocksOn = false;
 
     RandomGenerator cohabitInnov;
     Random initialiseInnov1;
@@ -1499,7 +1499,7 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
                 persons, benefitUnits, coefficientMaps, regressorsToModify, initialUtilityAdjustment
         );
 
-        RootSearch search = getRootSearch(initialUtilityAdjustment, activityAlignment, 1.0E-2, 1.0E-2, 10);
+        RootSearch search = getRootSearch(initialUtilityAdjustment, activityAlignment, 1.0E-2, 1.0E-2, 1);
 
         if (search.isTargetAltered()) {
             double newAdjustment = search.getTarget()[0];
