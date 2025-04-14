@@ -48,10 +48,10 @@ public class EmploymentStatistics {
         EmploymentHistoryFilter employmentHistoryUnemployed = new EmploymentHistoryFilter(Les_c4.NotEmployed);
 
 
-        // Entering employment prevalence
+        // Entering employment transition rate
         CrossSection.Integer personsNotEmpToEmp = new CrossSection.Integer(model.getPersons(), Person.class, "getEmployed", true);
         personsNotEmpToEmp.setFilter(employmentHistoryUnemployed);
-        // Entering unemployment prevalence
+        // Entering not employed transition rate
         CrossSection.Integer personsEmpToNotEmp = new CrossSection.Integer(model.getPersons(), Person.class, "getNonwork", true);
         personsEmpToNotEmp.setFilter(employmentHistoryEmployed);
 
