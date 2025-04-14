@@ -378,6 +378,40 @@ public class SimPathsMultiRun extends MultiRun {
 		}
 	}
 
+	// Specifically for updating parameters when no object called - i.e. Parameters.java
+	public static void updateParameters(Map<String, Object> parameter_args) {
+
+		for (Map.Entry<String, Object> entry : parameter_args.entrySet()) {
+			String key = entry.getKey();
+			Object value = entry.getValue();
+
+			switch (key) {
+				default:
+					try {
+						Field field = Parameters.class.getDeclaredField(key);
+						field.setAccessible(true);
+
+						// Determine the field type
+						Class<?> fieldType = field.getType();
+
+						// Convert the YAML value to the field type
+						Object convertedValue = convertToType(value, fieldType);
+
+						// Set the field value
+						field.set(Parameters.class, convertedValue);
+
+						field.setAccessible(false);
+					} catch (NoSuchFieldException | IllegalAccessException e) {
+						// Handle exceptions if the field is not found or inaccessible
+						e.printStackTrace();
+					}
+
+			}
+
+		}
+
+	}
+
 	private static Object convertToType(Object value, Class<?> targetType) {
 		// Convert the YAML value to the target type
 		if (int.class.equals(targetType)) {
