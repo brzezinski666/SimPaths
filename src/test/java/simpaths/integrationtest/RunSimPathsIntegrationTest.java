@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class RunSimPathsIT {
+public class RunSimPathsIntegrationTest {
     @Test
     @DisplayName("Initial database setup runs successfully")
     @Order(1)
