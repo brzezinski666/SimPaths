@@ -788,6 +788,15 @@ replace lhw = ceil(lhw)
 la var lhw "Hours worked per week"
 //fre lhw 
 
+// Lag(1) of hours of work
+xtset // check if xtset correct 
+gen l1_lhw = l1.lhw
+
+replace l1_lhw = lhw if l1.les_c4 == 1 & les_c4 == 1 & missing(l1_lhw) // replace lagged value with current value if employed last period and this period
+replace l1_lhw = lhw if les_c4 == 1 & missing(l1_lhw) // replace lagged value with current value if above not successful 
+replace l1_lhw = 0 if l1.les_c4 != 1 // replace lagged value with zero if not compatible with lagged employment state
+replace l1_lhw = 0 if les_c4 != 1 & missing(l1_lhw) // replace with zero if not working and l1_lhw still missing
+
 
 /*****************************Number of children*******************************/
 //Number of children aged 0-2 (Checked against manually generating count of children 0-2 per HH - same numbers, but nch02_dv distinguishes missing and 0)
@@ -1473,7 +1482,7 @@ replace dwt = 0 if missing(dwt)
 keep ivfio idhh idperson idpartner idfather idmother dct drgn1 dwt dnc02 dnc dgn dgnsp dag dagsq dhe dhesp dcpst  ///
 	ded deh_c3 der dehsp_c3 dehm_c3 dehf_c3 dehmf_c3 dcpen dcpyy dcpex dcpagdf dlltsd dlrtrd drtren dlftphm dhhtp_c4 dhm dhm_ghq dimlwt disclwt ///
 	dimxwt dhhwt jbhrs jshrs j2hrs jbstat les_c3 les_c4 lessp_c3 lessp_c4 lesdf_c4 ydses_c5 month scghq2_dv ///
-	ypnbihs_dv yptciihs_dv yplgrs_dv ynbcpdf_dv ypncp ypnoab swv sedex ssscp sprfm sedag stm dagsp lhw pno ppno hgbioad1 hgbioad2 der adultchildflag ///
+	ypnbihs_dv yptciihs_dv yplgrs_dv ynbcpdf_dv ypncp ypnoab swv sedex ssscp sprfm sedag stm dagsp lhw l1_lhw pno ppno hgbioad1 hgbioad2 der adultchildflag ///
         econ_benefits econ_benefits_nonuc econ_benefits_uc ///
 	sedcsmpl sedrsmpl scedsmpl dhh_owned dukfr dchpd dagpns dagpns_sp CPI lesnr_c2 dlltsd_sp ypnoab_lvl *_flag  Int_Date dhe_mcs dhe_pcs dls dot unemp 
 
@@ -1484,7 +1493,7 @@ sort swv idhh idperson
 foreach var in idhh idperson idpartner idfather idmother dct drgn1 dwt dnc02 dnc dgn dgnsp dag dagsq dhe dhesp dcpst ///
 	ded deh_c3 der dehsp_c3 dehm_c3 dehf_c3 dehmf_c3 dcpen dcpyy dcpex dlltsd dlrtrd drtren dlftphm dhhtp_c4 dhm dhm_ghq ///
 	jbhrs jshrs j2hrs jbstat les_c3 les_c4 lessp_c3 lessp_c4 lesdf_c4 ydses_c5 scghq2_dv ///
-	ypnbihs_dv yptciihs_dv yplgrs_dv swv sedex ssscp sprfm sedag stm dagsp lhw pno ppno hgbioad1 hgbioad2 der dhh_owned ///
+	ypnbihs_dv yptciihs_dv yplgrs_dv swv sedex ssscp sprfm sedag stm dagsp lhw l1_lhw pno ppno hgbioad1 hgbioad2 der dhh_owned ///
         econ_benefits econ_benefits_nonuc econ_benefits_uc ///
 	scghq2_dv_miss_flag dchpd dagpns dagpns_sp CPI lesnr_c2 dlltsd_sp ypnoab_lvl *_flag dhe_mcs dhe_pcs dls dot unemp {
 		qui recode `var' (-9/-1=-9) (.=-9) 
