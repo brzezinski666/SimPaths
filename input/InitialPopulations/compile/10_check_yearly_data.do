@@ -368,7 +368,7 @@ cap erase "$dir_data/population_initial_fs_UK_sumstats.txt"
 cap log close            
    
   
-/*
+
 *************************************************************
 *clean up new initial populations - keep only required vars * 
 *************************************************************
