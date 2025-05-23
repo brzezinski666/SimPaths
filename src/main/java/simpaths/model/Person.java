@@ -1,30 +1,28 @@
 package simpaths.model;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.*;
-
 import jakarta.persistence.*;
-
-import microsim.data.db.PanelEntityKey;
-import simpaths.data.ManagerRegressions;
-import simpaths.data.MultiValEvent;
-import simpaths.data.RegressionName;
-import simpaths.data.filters.FertileFilter;
-import simpaths.model.decisions.Axis;
-import simpaths.model.enums.*;
-import microsim.statistics.Series;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.log4j.Logger;
-
-import simpaths.data.Parameters;
-import simpaths.model.decisions.DecisionParams;
 import microsim.agent.Weight;
+import microsim.data.db.PanelEntityKey;
 import microsim.engine.SimulationEngine;
 import microsim.event.EventListener;
 import microsim.statistics.IDoubleSource;
 import microsim.statistics.IIntSource;
+import microsim.statistics.Series;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.log4j.Logger;
+import simpaths.data.ManagerRegressions;
+import simpaths.data.MultiValEvent;
+import simpaths.data.Parameters;
+import simpaths.data.RegressionName;
+import simpaths.data.filters.FertileFilter;
+import simpaths.model.decisions.Axis;
+import simpaths.model.decisions.DecisionParams;
+import simpaths.model.enums.*;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.*;
 
 import static simpaths.data.Parameters.getUnemploymentRateByGenderEducationAgeYear;
 
@@ -145,6 +143,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
     @Enumerated(EnumType.STRING) private Labour labourSupplyWeekly;			//Number of hours of labour supplied each week
     @Transient private Labour labourSupplyWeekly_L1; // Lag(1) (previous year's value) of weekly labour supply
     private Integer hoursWorkedWeekly;
+    private Integer l1_lhw; // Lag(1) of hours worked weekly - use to initialise labour supply weekly_L1 (TODO)
 
 //	Potential earnings is the gross hourly wage an individual can earn while working
 //	and is estimated, for each individual, on the basis of observable characteristics as
@@ -492,6 +491,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
 
         dhesp_lag1 = originalPerson.dhesp_lag1;
         hoursWorkedWeekly = originalPerson.hoursWorkedWeekly;
+        l1_lhw = originalPerson.l1_lhw;
         labourSupplyWeekly = originalPerson.getLabourSupplyWeekly();
         double[] sampleDifferentials = setMarriageTargets();
         desiredAgeDiff = Objects.requireNonNullElseGet(originalPerson.desiredAgeDiff, () -> sampleDifferentials[0]);
@@ -605,7 +605,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         if (labourSupplyWeekly==null)
             labourSupplyWeekly = Labour.convertHoursToLabour(model.getInitialHoursWorkedWeekly().get(key.getId()).intValue());
         receivesBenefitsFlag_L1 = receivesBenefitsFlag;
-        labourSupplyWeekly_L1 = getLabourSupplyWeekly();
+        labourSupplyWeekly_L1 = getLabourSupplyWeekly(); // TODO: this should be based on now initialised l1_lhw
 
         if(UnionMatchingMethod.SBAM.equals(model.getUnionMatchingMethod())) {
             updateAgeGroup();
