@@ -483,14 +483,9 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             dhe_pcs_lag1 = originalPerson.dhe_pcs;
         }
 
-        if (originalPerson.labourSupplyWeekly_L1 != null) {
-            labourSupplyWeekly_L1 = originalPerson.labourSupplyWeekly_L1;
-        } else {
-            labourSupplyWeekly_L1 = originalPerson.getLabourSupplyWeekly();
-        }
-
+        labourSupplyWeekly_L1 = Labour.convertHoursToLabour(originalPerson.l1_lhw);
         dhesp_lag1 = originalPerson.dhesp_lag1;
-        hoursWorkedWeekly = originalPerson.hoursWorkedWeekly;
+        hoursWorkedWeekly = originalPerson.getLabourSupplyHoursWeekly();
         l1_lhw = originalPerson.l1_lhw;
         labourSupplyWeekly = originalPerson.getLabourSupplyWeekly();
         double[] sampleDifferentials = setMarriageTargets();
@@ -603,9 +598,9 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
     public void setAdditionalFieldsInInitialPopulation() {
 
         if (labourSupplyWeekly==null)
-            labourSupplyWeekly = Labour.convertHoursToLabour(model.getInitialHoursWorkedWeekly().get(key.getId()).intValue());
+            labourSupplyWeekly = Labour.convertHoursToLabour(model.getInitialHoursWorkedWeekly().get(key.getId()).intValue()); // TODO: this can be simplified to obtain value from already initialised hours worked weekly variable? The entire database query on setup is redundant? See initialisation of the lag below.
         receivesBenefitsFlag_L1 = receivesBenefitsFlag;
-        labourSupplyWeekly_L1 = getLabourSupplyWeekly(); // TODO: this should be based on now initialised l1_lhw
+        labourSupplyWeekly_L1 = Labour.convertHoursToLabour(l1_lhw);
 
         if(UnionMatchingMethod.SBAM.equals(model.getUnionMatchingMethod())) {
             updateAgeGroup();
