@@ -483,9 +483,14 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             dhe_pcs_lag1 = originalPerson.dhe_pcs;
         }
 
-        labourSupplyWeekly_L1 = Labour.convertHoursToLabour(originalPerson.l1_lhw);
+        if (originalPerson.l1_lhw != null) {
+            labourSupplyWeekly_L1 = Labour.convertHoursToLabour(originalPerson.l1_lhw);
+        } else {
+            labourSupplyWeekly_L1 = null; // Update only if value know; null values handled by getter. Should throw an exception if required before initialised in the simulation.
+        }
+
         dhesp_lag1 = originalPerson.dhesp_lag1;
-        hoursWorkedWeekly = originalPerson.getLabourSupplyHoursWeekly();
+        hoursWorkedWeekly = originalPerson.hoursWorkedWeekly;
         l1_lhw = originalPerson.l1_lhw;
         labourSupplyWeekly = originalPerson.getLabourSupplyWeekly();
         double[] sampleDifferentials = setMarriageTargets();
