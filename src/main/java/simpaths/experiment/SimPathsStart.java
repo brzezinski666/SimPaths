@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JInternalFrame;
@@ -105,8 +106,16 @@ public class SimPathsStart implements ExperimentBuilder {
 		engine.setExperimentBuilder(experimentBuilder);
 		engine.setup();
 
-		if (!showGui)
+		if (!showGui) {
 			engine.startSimulation();
+			while (engine.getRunningStatus()) try {
+				TimeUnit.SECONDS.sleep(10);
+			} catch (InterruptedException e) {
+				System.err.println("Interrupted while waiting for simulation to complete.");
+				return;
+			}
+			System.out.println("Simulation complete.");
+		}
 	}
 
 	private static boolean parseCommandLineArgs(String[] args) {
