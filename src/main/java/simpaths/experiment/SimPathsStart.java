@@ -94,6 +94,7 @@ public class SimPathsStart implements ExperimentBuilder {
 		startYear = Integer.parseInt(valueYear);
 
 		// start the JAS-mine simulation engine
+		System.out.println("Starting simulation...");
 		final SimulationEngine engine = SimulationEngine.getInstance();
 		MicrosimShell gui = null;
 		if (showGui) {
@@ -103,6 +104,9 @@ public class SimPathsStart implements ExperimentBuilder {
 		SimPathsStart experimentBuilder = new SimPathsStart();
 		engine.setExperimentBuilder(experimentBuilder);
 		engine.setup();
+
+		if (!showGui)
+			engine.startSimulation();
 	}
 
 	private static boolean parseCommandLineArgs(String[] args) {
