@@ -43,6 +43,28 @@ jobs:
     - name: Run integration tests
       run: mvn verify
 
+  run-simpaths-start:
+    needs: build
+    runs-on: [ ubuntu-latest ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 19
+        uses: actions/setup-java@v4
+        with:
+          java-version: '19'
+          distribution: 'temurin'
+      - uses: actions/download-artifact@v4
+        with:
+          name: simpaths_jars
+          path: .
+      - name: Do one full Setup and Run with SimPathsStart (mimicking GUI run)
+        run: java -jar singlerun.jar -c UK -s 2017 -g false --rewrite-policy-schedule
+      - name: Check input db exists
+        id: check_file
+        uses: thebinaryfelix/check-file-existence-action@1.0.0
+        with:
+          files: 'input/input.mv.db, input/EUROMODpolicySchedule.xlsx, input/DatabaseCountryYear.xlsx'
+
   run-simpaths-persist-root:
     needs: build
     runs-on: [ ubuntu-latest ]
