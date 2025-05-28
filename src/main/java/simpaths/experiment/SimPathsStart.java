@@ -217,7 +217,7 @@ public class SimPathsStart implements ExperimentBuilder {
 
 		engine.addSimulationManager(model);
 		engine.addSimulationManager(collector);
-		engine.addSimulationManager(observer);
+		if (showGui) engine.addSimulationManager(observer);
 
 		model.setCollector(collector);
 	}
