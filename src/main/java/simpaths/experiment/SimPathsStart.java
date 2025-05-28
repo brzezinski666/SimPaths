@@ -47,7 +47,8 @@ public class SimPathsStart implements ExperimentBuilder {
 
 	private static boolean showGui = true;  // Show GUI by default
 
-	private static boolean setupOnly = false;
+	private static boolean doSetup = true;
+	private static boolean doRun = true;
 
 	private static boolean rewritePolicySchedule = false;
 
@@ -70,13 +71,13 @@ public class SimPathsStart implements ExperimentBuilder {
 			runGUIdialog();
 		} else {
 			try {
-				runGUIlessSetup(4);
+				if (doSetup) runGUIlessSetup(4);
 			} catch (FileNotFoundException f) {
 				System.err.println(f.getMessage());
 			};
 		}
 
-		if (setupOnly) {
+		if (!doRun) {
 			System.out.println("Setup complete, exiting.");
 			return;
 		}
@@ -115,8 +116,11 @@ public class SimPathsStart implements ExperimentBuilder {
 		startYearOption.setArgName("year");
 		options.addOption(startYearOption);
 
-		Option setupOption = new Option("Setup", "Setup only");
+		Option setupOption = new Option("Setup", "Setup only (no run)");
 		options.addOption(setupOption);
+
+		Option runOption = new Option("Run", "Run only (no setup)");
+		options.addOption(runOption);
 
 		Option rewritePolicyScheduleOption = new Option("r", "rewrite-policy-schedule",false, "Re-write policy schedule from detected policy files");
 		options.addOption(rewritePolicyScheduleOption);
@@ -134,6 +138,10 @@ public class SimPathsStart implements ExperimentBuilder {
 
 		try {
 			CommandLine cmd = parser.parse(options, args);
+
+			if(cmd.hasOption("Setup") && cmd.hasOption("Run")) {
+				throw new ParseException("'Run only' and 'Setup only' options cannot be used together.");
+			}
 
 			if (cmd.hasOption("h")) {
 				printHelpMessage(formatter, options);
@@ -157,7 +165,13 @@ public class SimPathsStart implements ExperimentBuilder {
 			}
 
 			if (cmd.hasOption("Setup")) {
-				setupOnly = true;
+				doSetup = true;
+				doRun = false;
+			}
+
+			if (cmd.hasOption("Run")) {
+				doRun = true;
+				doSetup = false;
 			}
 
 			if (cmd.hasOption("r")) {
