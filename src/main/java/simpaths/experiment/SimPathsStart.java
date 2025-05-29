@@ -108,13 +108,18 @@ public class SimPathsStart implements ExperimentBuilder {
 
 		if (!showGui) {
 			engine.startSimulation();
-			while (engine.getRunningStatus()) try {
-				TimeUnit.SECONDS.sleep(10);
-			} catch (InterruptedException e) {
-				System.err.println("Interrupted while waiting for simulation to complete.");
-				return;
+			try {
+				while (engine.getRunningStatus()) {
+					try {
+						TimeUnit.SECONDS.sleep(10);
+					} catch (InterruptedException e) {
+						System.err.println("Interrupted while waiting for simulation to complete.");
+						return;
+					}
+				}
+			} finally {
+				engine.quit();
 			}
-			engine.quit();
 		}
 	}
 
