@@ -3321,7 +3321,7 @@ public class Parameters {
 
         // Detect if data available; set to testing data if not
         Collection<File> testList = FileUtils.listFiles(new File(Parameters.getInputDirectoryInitialPopulations()), new String[]{"csv"}, false);
-        if (testList.size()==0)
+        if (testList.isEmpty())
             Parameters.setTrainingFlag(true);
 
         // populate new database for starting data
