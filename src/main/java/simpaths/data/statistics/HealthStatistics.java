@@ -24,12 +24,6 @@ public class HealthStatistics {
     @Id
     private PanelEntityKey key = new PanelEntityKey(1L);
 
-    @Column(name = "n_claiming_UC")
-    private double nClaimingUC;
-
-    @Column(name = "n_claiming_legacy_benefits")
-    private double nClaimingLegacyBenefits;
-
     @Column(name = "gender")
     private String gender;
 
@@ -118,14 +112,6 @@ public class HealthStatistics {
     //N
     @Column(name = "N")
     private int N;
-
-    public void setnClaimingUC(double nClaimingUC) {
-        this.nClaimingUC = nClaimingUC;
-    }
-
-    public void setnClaimingLegacyBenefits(double nClaimingLegacyBenefits) {
-        this.nClaimingLegacyBenefits = nClaimingLegacyBenefits;
-    }
 
     public void setGender(String gender) {
         this.gender = gender;
@@ -246,23 +232,6 @@ public class HealthStatistics {
 
         // set gender
         setGender(gender_s);
-
-        // Number claiming UC
-
-        CrossSection.Double personsUC = new CrossSection.Double(model.getPersons(), Person.DoublesVariables.D_Econ_benefits_UC);
-        personsUC.setFilter(ageGroupFilter);
-
-        SumArrayFunction.Double n_claiming_uc_f = new SumArrayFunction.Double(personsUC);
-        n_claiming_uc_f.applyFunction();
-        setnClaimingUC(n_claiming_uc_f.getDoubleValue(IDoubleSource.Variables.Default));
-        // Number claiming Legacy Benefits
-
-        CrossSection.Double personsLB = new CrossSection.Double(model.getPersons(), Person.DoublesVariables.D_Econ_benefits_NonUC);
-        personsLB.setFilter(ageGroupFilter);
-
-        SumArrayFunction.Double n_claiming_lb_f = new SumArrayFunction.Double(personsLB);
-        n_claiming_lb_f.applyFunction();
-        setnClaimingLegacyBenefits(n_claiming_lb_f.getDoubleValue(IDoubleSource.Variables.Default));
 
         // dhm score
         CrossSection.Double personsDhm = new CrossSection.Double(model.getPersons(), Person.DoublesVariables.Dhm); // Get cross section of simulated individuals and their mental health using the IDoubleSource interface implemented by Person class.
