@@ -1908,8 +1908,14 @@ public class Parameters {
 
     public static TreeMap<Integer, String> calculateEUROMODpolicySchedule(Country country) {
         //Load current values for policy description and initiation year
-        MultiKeyCoefficientMap currentEUROMODpolicySchedule = ExcelAssistant.loadCoefficientMap("input" + File.separator + EUROMODpolicyScheduleFilename + ".xlsx", country.toString(), 1, 3);
-        TreeMap<Integer, String> newEUROMODpolicySchedule = new TreeMap<>();
+        MultiKeyCoefficientMap currentEUROMODpolicySchedule;
+
+        if (trainingFlag) {
+            currentEUROMODpolicySchedule = ExcelAssistant.loadCoefficientMap("input" + File.separator + "EUOROMODoutput" + File.separator + "training" + File.separator + EUROMODpolicyScheduleFilename + ".xlsx", country.toString(), 1, 3);
+        } else {
+            currentEUROMODpolicySchedule = ExcelAssistant.loadCoefficientMap("input" + File.separator + EUROMODpolicyScheduleFilename + ".xlsx", country.toString(), 1, 3);
+        }
+            TreeMap<Integer, String> newEUROMODpolicySchedule = new TreeMap<>();
 
         for(Object o: currentEUROMODpolicySchedule.keySet()) {
             MultiKey k = (MultiKey)o;
