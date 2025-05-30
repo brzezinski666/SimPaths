@@ -1911,7 +1911,7 @@ public class Parameters {
         MultiKeyCoefficientMap currentEUROMODpolicySchedule;
 
         if (trainingFlag) {
-            currentEUROMODpolicySchedule = ExcelAssistant.loadCoefficientMap("input" + File.separator + "EUOROMODoutput" + File.separator + "training" + File.separator + EUROMODpolicyScheduleFilename + ".xlsx", country.toString(), 1, 3);
+            currentEUROMODpolicySchedule = ExcelAssistant.loadCoefficientMap("input" + File.separator + "EUROMODoutput" + File.separator + "training" + File.separator + EUROMODpolicyScheduleFilename + ".xlsx", country.toString(), 1, 3);
         } else {
             currentEUROMODpolicySchedule = ExcelAssistant.loadCoefficientMap("input" + File.separator + EUROMODpolicyScheduleFilename + ".xlsx", country.toString(), 1, 3);
         }
