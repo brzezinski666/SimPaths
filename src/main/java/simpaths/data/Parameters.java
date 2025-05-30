@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.util.*;
 
 // import plug-in packages
+import org.apache.commons.io.FileUtils;
 import simpaths.data.startingpop.DataParser;
 import simpaths.model.AnnuityRates;
 import simpaths.model.enums.*;
@@ -3317,6 +3318,11 @@ public class Parameters {
         // remove database file if it exists
         String filePath = "./input" + File.separator + "input.mv.db";
         safeDelete(filePath);
+
+        // Detect if data available; set to testing data if not
+        Collection<File> testList = FileUtils.listFiles(new File(Parameters.getInputDirectoryInitialPopulations()), new String[]{"csv"}, false);
+        if (testList.size()==0)
+            Parameters.setTrainingFlag(true);
 
         // populate new database for starting data
         DataParser.databaseFromCSV(country, executeWithGui); // Initial database tables
