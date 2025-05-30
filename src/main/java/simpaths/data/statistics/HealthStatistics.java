@@ -318,7 +318,8 @@ public class HealthStatistics {
         SumArrayFunction.Double wellbys = new SumArrayFunction.Double(personsDls);
         wellbys.applyFunction();
 
-        setWellbys(wellbys.getDoubleValue(IDoubleSource.Variables.Default) * 11 / 7);
+        final double WELLBEING_MEASURE_ADJUSTMENT = (double) 11 / 7;
+        setWellbys(wellbys.getDoubleValue(IDoubleSource.Variables.Default) * WELLBEING_MEASURE_ADJUSTMENT);
 
         // count
         CrossSection.Integer n_persons = new CrossSection.Integer(model.getPersons(), Person.class, "getPersonCount", true);
