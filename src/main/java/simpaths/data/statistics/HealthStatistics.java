@@ -318,7 +318,7 @@ public class HealthStatistics {
         SumArrayFunction.Double wellbys = new SumArrayFunction.Double(personsDls);
         wellbys.applyFunction();
 
-        final double WELLBEING_MEASURE_ADJUSTMENT = (double) 11 / 7;
+
         setWellbys(wellbys.getDoubleValue(IDoubleSource.Variables.Default) * WELLBEING_MEASURE_ADJUSTMENT);
 
         // count
