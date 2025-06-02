@@ -12,6 +12,7 @@ import microsim.statistics.functions.CountArrayFunction;
 import microsim.statistics.functions.MeanArrayFunction;
 import microsim.statistics.functions.PercentileArrayFunction;
 import microsim.statistics.functions.SumArrayFunction;
+import simpaths.data.filters.AgeGenderCSfilter;
 import simpaths.data.filters.AgeGroupCSfilter;
 import simpaths.model.Person;
 import simpaths.model.SimPathsModel;
@@ -232,14 +233,20 @@ public class HealthStatistics {
     public void update(SimPathsModel model, String gender_s) {
 
 
-        AgeGroupCSfilter ageGroupFilter = new AgeGroupCSfilter(18, 65);
+        AgeGenderCSfilter ageGenderCSfilter;
+
+        if (gender_s.equals("Total")) {
+            ageGenderCSfilter = new AgeGenderCSfilter(18, 65);
+        } else {
+            ageGenderCSfilter = new AgeGenderCSfilter(18, 65, Gender.valueOf(gender_s));
+        }
 
         // set gender
         setGender(gender_s);
 
         // dhm score
         CrossSection.Double personsDhm = new CrossSection.Double(model.getPersons(), Person.DoublesVariables.Dhm); // Get cross section of simulated individuals and their mental health using the IDoubleSource interface implemented by Person class.
-        personsDhm.setFilter(ageGroupFilter);
+        personsDhm.setFilter(ageGenderCSfilter);
 
 
         MeanArrayFunction dhm_mean_f = new MeanArrayFunction(personsDhm); // Create MeanArrayFunction
@@ -257,7 +264,7 @@ public class HealthStatistics {
 
         // mcs score
         CrossSection.Double personsMCS = new CrossSection.Double(model.getPersons(), Person.DoublesVariables.Dhe_mcs);
-        personsMCS.setFilter(ageGroupFilter);
+        personsMCS.setFilter(ageGenderCSfilter);
 
 
         MeanArrayFunction dhe_mcs_mean_f = new MeanArrayFunction(personsMCS); // Create MeanArrayFunction
@@ -275,7 +282,7 @@ public class HealthStatistics {
 
         // pcs score
         CrossSection.Double personsPCS = new CrossSection.Double(model.getPersons(), Person.DoublesVariables.Dhe_pcs);
-        personsPCS.setFilter(ageGroupFilter);
+        personsPCS.setFilter(ageGenderCSfilter);
 
 
         MeanArrayFunction dhe_pcs_mean_f = new MeanArrayFunction(personsPCS); // Create MeanArrayFunction
@@ -293,7 +300,7 @@ public class HealthStatistics {
 
         // Life Satisfaction score
         CrossSection.Double personsDls = new CrossSection.Double(model.getPersons(), Person.DoublesVariables.Dls);
-        personsDls.setFilter(ageGroupFilter);
+        personsDls.setFilter(ageGenderCSfilter);
 
 
         MeanArrayFunction dls_mean_f = new MeanArrayFunction(personsDls); // Create MeanArrayFunction
@@ -311,7 +318,7 @@ public class HealthStatistics {
 
         // QALYS as sum of EQ5D
         CrossSection.Double personEQ5D = new CrossSection.Double(model.getPersons(), Person.DoublesVariables.He_eq5d);
-        personEQ5D.setFilter(ageGroupFilter);
+        personEQ5D.setFilter(ageGenderCSfilter);
 
         SumArrayFunction.Double qalys = new SumArrayFunction.Double(personEQ5D);
         qalys.applyFunction();
@@ -327,7 +334,7 @@ public class HealthStatistics {
 
         // count
         CrossSection.Integer n_persons = new CrossSection.Integer(model.getPersons(), Person.class, "getPersonCount", true);
-        n_persons.setFilter(ageGroupFilter);
+        n_persons.setFilter(ageGenderCSfilter);
 
         SumArrayFunction.Integer count_f = new SumArrayFunction.Integer(n_persons);
         count_f.applyFunction();
