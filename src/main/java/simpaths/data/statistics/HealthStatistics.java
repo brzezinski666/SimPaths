@@ -7,18 +7,13 @@ import jakarta.persistence.Transient;
 import microsim.data.db.PanelEntityKey;
 import microsim.statistics.CrossSection;
 import microsim.statistics.IDoubleSource;
-import microsim.statistics.IIntSource;
-import microsim.statistics.functions.CountArrayFunction;
 import microsim.statistics.functions.MeanArrayFunction;
 import microsim.statistics.functions.PercentileArrayFunction;
 import microsim.statistics.functions.SumArrayFunction;
 import simpaths.data.filters.AgeGenderCSfilter;
-import simpaths.data.filters.AgeGroupCSfilter;
 import simpaths.model.Person;
 import simpaths.model.SimPathsModel;
 import simpaths.model.enums.Gender;
-import simpaths.data.filters.GenderCSfilter;
-import simpaths.data.filters.MaleAgeGroupCSfilter;
 
 @Entity
 public class HealthStatistics {
