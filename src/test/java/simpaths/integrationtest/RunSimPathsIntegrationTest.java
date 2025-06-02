@@ -54,7 +54,6 @@ public class RunSimPathsIntegrationTest {
             "-e", "2022",
             "-r", "100",
             "-n", "2",
-            "-P", "root",
             "-g", "false"
         );
     }
@@ -81,6 +80,10 @@ public class RunSimPathsIntegrationTest {
         compareFiles(
             latestOutputDir.resolve("csv/Statistics31.csv"),
             Paths.get("src/test/java/simpaths/integrationtest/expected/Statistics31.csv")
+        );
+        compareFiles(
+            latestOutputDir.resolve("csv/HealthStatistics1.csv"),
+            Paths.get("src/test/java/simpaths/integrationtest/expected/HealthStatistics1.csv")
         );
     }
 
