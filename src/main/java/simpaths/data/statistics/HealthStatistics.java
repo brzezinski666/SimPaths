@@ -3,6 +3,7 @@ package simpaths.data.statistics;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import microsim.data.db.PanelEntityKey;
 import microsim.statistics.CrossSection;
 import microsim.statistics.IDoubleSource;
@@ -112,6 +113,9 @@ public class HealthStatistics {
     //N
     @Column(name = "N")
     private int N;
+
+    @Transient
+    final static double WELLBEING_MEASURE_ADJUSTMENT = (double) 11 / 7;
 
     public void setGender(String gender) {
         this.gender = gender;
