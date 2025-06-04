@@ -218,6 +218,7 @@ public class SimPathsMultiRun extends MultiRun {
 						log.info("Not persisting processed data");
 						persist_population = false;
 						persist_root = false;
+						break;
 					default:
 						System.out.println("Persist option `" + cmd.getOptionValue("P") + "` not recognised. Valid values: `none`, `root`, `run`. Persisting processed data to run folder");
 						persist_population = true;
