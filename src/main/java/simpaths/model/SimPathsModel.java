@@ -90,7 +90,7 @@ public class SimPathsModel extends AbstractSimulationManager implements EventLis
     private boolean flagUpdateCountry = false;  // set to true if switch between countries
 
     @GUIparameter(description = "Simulated population size (base year)")
-    private Integer popSize = 170000;
+    private Integer popSize = 50000;
 
     @GUIparameter(description = "Simulation first year [valid range 2011-2019]")
     private Integer startYear = 2011;
