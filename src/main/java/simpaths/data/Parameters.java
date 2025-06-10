@@ -210,7 +210,7 @@ public class Parameters {
     public static final int HOURS_IN_WEEK = 24 * 7; //This is used to calculate leisure in labour supply
     //Is it possible for people to start going to the labour module (e.g. age 17) while they are living with parents (until age 18)?
     //Cannot see how its possible if it is the household that decides how much labour to supply.  If someone finishes school at 17, they need to leave home before they can enter the labour market.  So set age for finishing school and leaving home to 18.
-    public static final int MAX_LABOUR_HOURS_IN_WEEK = 48;
+    public static final int MAX_LABOUR_HOURS_IN_WEEK = 60;
     public static final boolean USE_CONTINUOUS_LABOUR_SUPPLY_HOURS = true; // If true, a random number of hours of weekly labour supply within each bracket will be generated. Otherwise, each discrete choice of labour supply corresponds to a fixed number of hours of labour supply, which is the same for all persons
     public static int maxAge;										// maximum age possible in simulation
     public static final int AGE_TO_BECOME_RESPONSIBLE = 18;			// Age become reference person of own benefit unit
@@ -229,7 +229,7 @@ public class Parameters {
     public static AnnuityRates annuityRates;
     public static final int MIN_HOURS_FULL_TIME_EMPLOYED = 25;	// used to distinguish full-time from part-time employment (needs to be consistent with Labour enum)
     public static final double MIN_HOURLY_WAGE_RATE = 0.0;
-    public static final double MAX_HOURLY_WAGE_RATE = 150.0;
+    public static final double MAX_HOURLY_WAGE_RATE = 75.0;
     public static final double MAX_HOURS_WEEKLY_FORMAL_CARE = 150.0;
     public static final double MAX_HOURS_WEEKLY_INFORMAL_CARE = 16 * 7;
     public static final double CHILDCARE_COST_EARNINGS_CAP = 0.5;  // maximum share of earnings payable as childcare (for benefit units with some earnings)
