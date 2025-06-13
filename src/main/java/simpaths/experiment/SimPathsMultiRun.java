@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import simpaths.data.Parameters;
+import simpaths.data.XLSXfileWriter;
 import simpaths.model.SimPathsModel;
 import microsim.data.MultiKeyCoefficientMap;
 import microsim.data.excel.ExcelAssistant;
@@ -91,12 +92,21 @@ public class SimPathsMultiRun extends MultiRun {
 		if (innovationArgs!=null)
 			updateLocalParameters(innovationArgs);
 
+		parseYamlConfig(args);
+
 		// Parse command line arguments to override defaults
 		if (!parseCommandLineArgs(args)) {
 			// If parseCommandLineArgs returns false (indicating help option is provided), exit main
 			return;
 		}
 		country = Country.getCountryFromNameString(countryString);
+
+		//Save the last selected country and year to Excel to use in the model
+		String[] columnNames = {"Country", "Year"};
+		Object[][] data = new Object[1][columnNames.length];
+		data[0][0] = country.toString();
+		data[0][1] = startYear;
+		XLSXfileWriter.createXLSX(Parameters.INPUT_DIRECTORY, Parameters.DatabaseCountryYearFilename, "Data", columnNames, data);
 
 		if (flagDatabaseSetup) {
 
