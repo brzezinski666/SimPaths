@@ -1297,7 +1297,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
         // IMPORTANT ensure each "if" returns true/false or toLeaveSchool value
 
         // Innovation for education decisions
-        double labourInnov = innovations.getDoubleDraw(24);
+        double eduInnov = innovations.getDoubleDraw(24);
 
         // Check if the individual is eligible for education transitions
         if (Les_c4.Retired.equals(les_c4) ||
@@ -1327,7 +1327,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             // Follow process E1a
             double score = Parameters.getRegEducationE1a().getScore(this, Person.DoublesVariables.class);
             double prob = Parameters.getRegEducationE1a().getProbability(score + probitAdjustment);
-            toLeaveSchool = (labourInnov >= prob); // Stay in school if event is false, leave otherwise
+            toLeaveSchool = (eduInnov >= prob); // Stay in school if event is false, leave otherwise
             //Ded and Les_c4 remain the same if toLeaveSchool = false, no need to respecify them
             //if toLeaveSchool = false, then Ded and Les_c4 are modified in the leavingSchool() method
         }
@@ -1339,7 +1339,7 @@ public class Person implements EventListener, IDoubleSource, IIntSource, Weight,
             double score = Parameters.getRegEducationE1b().getScore(this, Person.DoublesVariables.class);
             double prob = Parameters.getRegEducationE1b().getProbability(score + probitAdjustment);
 
-            if (labourInnov < prob) {
+            if (eduInnov < prob) {
                 // Remain or become a student
                 setLes_c4(Les_c4.Student);
                 setDer(Indicator.True);
